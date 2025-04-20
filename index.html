@@ -6,6 +6,8 @@
   <title>Kangaroo</title>
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/12648/12648857.png" type="image/png" />
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -108,9 +110,10 @@
 </head>
 <body>
 
-  <!-- Background Music -->
-  <audio id="bgMusic" loop muted>
-    <source src="https://www.dropbox.com/scl/fi/djydj9d49zel14lrjuh9h/Armin-van-Buuren-feat.-Sharon-den-Adel-In-And-Out-Of-Love-Official-Music-Video-3.mp3?raw=1" type="audio/mpeg">
+  <!-- Background music that plays on click -->
+  <audio id="bg-audio" autoplay loop muted>
+    <source src="https://dl.dropboxusercontent.com/s/djydj9d49zel14lrjuh9h/Armin-van-Buuren-feat.-Sharon-den-Adel-In-And-Out-Of-Love-Official-Music-Video-3.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
   </audio>
 
   <h1>Kangaroo</h1>
@@ -129,24 +132,6 @@ Script is not available yet. Please try again later — the website is still und
   </footer>
 
   <script>
-    document.body.addEventListener('click', () => {
-      const audio = document.getElementById("bgMusic");
-      if (!audio) {
-        console.error("Audio element not found!");
-        return;
-      }
-
-      // Try playing the audio and unmuting
-      audio.muted = false;
-
-      // Attempt to play the audio
-      audio.play().then(() => {
-        console.log("Background music is playing!");
-      }).catch(error => {
-        console.error("Failed to play audio:", error);
-      });
-    });
-
     function copyScript() {
       const text = document.getElementById("scriptBox");
       text.select();
@@ -193,6 +178,14 @@ Script is not available yet. Please try again later — the website is still und
     }
 
     type();
+
+    // Play audio on click
+    document.addEventListener("click", () => {
+      const audio = document.getElementById("bg-audio");
+      audio.muted = false;  // Unmute
+      audio.volume = 1;     // Set volume to 100%
+      audio.play().catch(err => console.log("Audio play error:", err));
+    }, { once: true });
   </script>
 
 </body>
