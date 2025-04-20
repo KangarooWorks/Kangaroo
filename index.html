@@ -6,8 +6,6 @@
   <title>Kangaroo</title>
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/12648/12648857.png" type="image/png" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -110,9 +108,9 @@
 </head>
 <body>
 
-  <!-- Autoplaying background music -->
-  <audio autoplay loop>
-    <source src="Armin van Buuren feat. Sharon den Adel - In And Out Of Love (Official Music Video) (1).mp3" type="audio/mpeg">
+  <!-- Background Music -->
+  <audio id="bgMusic" loop muted>
+    <source src="https://www.dropbox.com/scl/fi/djydj9d49zel14lrjuh9h/Armin-van-Buuren-feat.-Sharon-den-Adel-In-And-Out-Of-Love-Official-Music-Video-3.mp3?raw=1" type="audio/mpeg">
   </audio>
 
   <h1>Kangaroo</h1>
@@ -120,7 +118,7 @@
 
   <div class="glow-box">
     <textarea id="scriptBox" readonly>
-loadstring(game:HttpGet("https://your-hosting.com/kangaroo.lua"))()
+Script is not available yet. Please try again later — the website is still under development.
     </textarea>
     <button class="button" onclick="copyScript()">📋 Copy Script</button>
   </div>
@@ -131,6 +129,13 @@ loadstring(game:HttpGet("https://your-hosting.com/kangaroo.lua"))()
   </footer>
 
   <script>
+    // Unmute the music on any user interaction (click anywhere on the page)
+    document.body.addEventListener('click', () => {
+      const audio = document.getElementById("bgMusic");
+      audio.muted = false; // Unmute the audio
+      audio.play(); // Start the music
+    });
+
     function copyScript() {
       const text = document.getElementById("scriptBox");
       text.select();
