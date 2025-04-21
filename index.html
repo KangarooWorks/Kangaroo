@@ -1,12 +1,13 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kangaroo</title>
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/12648/12648857.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-a1KAv+TRJtEbgIBcMiXFx0YHTkeXEjk1PXydn+iKeU3QaXapcMyHLGoZpK5+NgmAc8gOXmzojH3Mf8JCNBN5fQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -14,15 +15,15 @@
     }
 
     body {
-      background: linear-gradient(145deg, #1f002b, #000);
+      background: radial-gradient(ellipse at top, #101010, #000);
       color: #fff;
       font-family: 'Orbitron', sans-serif;
-      min-height: 100vh;
-      padding: 60px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      animation: fadeInWebsite 1.2s ease-in-out;
+      padding: 60px 20px;
+      min-height: 100vh;
+      overflow: hidden;
     }
 
     h1 {
@@ -35,21 +36,20 @@
 
     .typewriter {
       font-size: 1.2rem;
-      color: #ccc;
+      color: #aaa;
       height: 30px;
       margin-bottom: 40px;
       animation: fadeIn 1.5s ease-in-out;
     }
 
     .glow-box {
-      background: rgba(48, 0, 84, 0.4);
-      border: 2px solid #a855f7;
-      border-radius: 16px;
+      background: #161616;
+      border: 2px solid #6b21a8;
+      border-radius: 12px;
       padding: 25px;
       width: 90%;
       max-width: 600px;
-      box-shadow: 0 0 25px #a855f760;
-      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px #a855f740;
       animation: slideUp 1.5s ease-in-out;
       margin-bottom: 20px;
     }
@@ -88,7 +88,7 @@
     footer {
       margin-top: 40px;
       font-size: 0.8rem;
-      color: #888;
+      color: #777;
       text-align: center;
     }
 
@@ -99,33 +99,24 @@
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInWebsite {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.6; }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
+  <!-- Background music -->
   <audio id="bg-audio" autoplay loop>
     <source src="https://github.com/KangarooWorks/mp4/blob/main/Armin%20van%20Buuren%20feat.%20Sharon%20den%20Adel%20-%20In%20And%20Out%20Of%20Love%20(Official%20Music%20Video).mp3?raw=true" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
-  <h1><i class="fas fa-code"></i> Kangaroo | Greenville</h1>
+  <h1>Kangaroo | Greenville</h1>
   <div class="typewriter" id="typewriter"></div>
 
   <div class="glow-box">
@@ -136,7 +127,8 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/KangarooWorks/Greenvi
   </div>
 
   <footer>
-    Made with 💜 by Kangaroo Team • <a href="https://discord.gg/uhWxVgr56Z" target="_blank">Join Discord</a>
+    Made with 💜 by Kangaroo Team • 
+    <a href="https://discord.gg/uhWxVgr56Z" target="_blank">Join Discord</a>
   </footer>
 
   <script>
@@ -187,12 +179,14 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/KangarooWorks/Greenvi
 
     type();
 
+    // Play background music when the user clicks anywhere on the page
     document.addEventListener("click", () => {
       const audio = document.getElementById("bg-audio");
-      audio.muted = false;
-      audio.volume = 1;
+      audio.muted = false;  // Unmute the audio after click
+      audio.volume = 1;     // Set the volume to maximum
       audio.play().catch(err => console.log("Audio play error:", err));
     }, { once: true });
   </script>
+
 </body>
 </html>
