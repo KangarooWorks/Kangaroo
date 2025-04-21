@@ -121,8 +121,8 @@
 
   <div class="glow-box">
     <textarea id="scriptBox" readonly>
-Script is not available yet. Please try again later — the website is still under development.
-    </textarea>
+loadstring(game:HttpGet("https://raw.githubusercontent.com/KangarooWorks/Greenvillie/refs/heads/main/Kangaroo"))()    
+</textarea>
     <button class="button" onclick="copyScript()">📋 Copy Script</button>
   </div>
 
@@ -136,7 +136,7 @@ Script is not available yet. Please try again later — the website is still und
       const text = document.getElementById("scriptBox");
       text.select();
       document.execCommand("copy");
-      alert("✅ Script copied!");
+      alert("Script copied!");
     }
 
     const phrases = [
