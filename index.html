@@ -235,7 +235,7 @@
             background: var(--bg-light);
             box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            transition: right 0.3s;
+            transition: right 0.3s ease-in-out;
             padding: 15px;
             display: flex;
             flex-direction: column;
@@ -482,6 +482,28 @@
             left: 0;
             color: var(--primary);
         }
+        .prompt-examples {
+            margin-top: 15px;
+        }
+        .prompt-category {
+            margin-bottom: 15px;
+        }
+        .prompt-category-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+        .prompt-item {
+            padding: 8px;
+            border-radius: 6px;
+            background: rgba(108, 99, 255, 0.1);
+            margin-bottom: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .prompt-item:hover {
+            background: rgba(108, 99, 255, 0.2);
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -501,6 +523,29 @@
             .menu {
                 width: 85%;
                 right: -85%;
+            }
+        }
+        @media (min-width: 768px) {
+            .container {
+                max-width: 750px;
+                margin: 0 auto;
+            }
+            header {
+                padding: 15px 20px;
+            }
+            .chat-container {
+                padding: 15px 20px;
+            }
+            .input-area {
+                padding: 15px 20px;
+            }
+            .message {
+                max-width: 80%;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 900px;
             }
         }
     </style>
@@ -578,6 +623,10 @@
                     <span class="material-icons menu-item-icon">settings</span>
                     <span class="menu-item-text">Settings</span>
                 </div>
+                <div class="menu-item" id="menu-prompts">
+                    <span class="material-icons menu-item-icon">lightbulb</span>
+                    <span class="menu-item-text">Prompt Examples</span>
+                </div>
                 <div class="menu-item" id="menu-about">
                     <span class="material-icons menu-item-icon">info</span>
                     <span class="menu-item-text">About Us</span>
@@ -626,6 +675,47 @@
             <div class="menu-item" id="clear-history">
                 <span class="material-icons menu-item-icon">delete</span>
                 <span class="menu-item-text">Clear History</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prompt Examples Menu -->
+    <div class="menu" id="prompts-menu">
+        <div class="menu-header">
+            <div class="menu-title">Prompt Examples</div>
+            <button class="close-menu" id="close-prompts-menu">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+        <div class="menu-content">
+            <div class="prompt-examples">
+                <div class="prompt-category">
+                    <div class="prompt-category-title">Technology</div>
+                    <div class="prompt-item">Explain quantum computing in simple terms</div>
+                    <div class="prompt-item">What's the difference between React and Vue?</div>
+                    <div class="prompt-item">How does blockchain technology work?</div>
+                </div>
+                
+                <div class="prompt-category">
+                    <div class="prompt-category-title">Science</div>
+                    <div class="prompt-item">Describe the process of photosynthesis</div>
+                    <div class="prompt-item">What are black holes and how do they form?</div>
+                    <div class="prompt-item">Explain the theory of relativity</div>
+                </div>
+                
+                <div class="prompt-category">
+                    <div class="prompt-category-title">Business</div>
+                    <div class="prompt-item">How to create a successful business plan?</div>
+                    <div class="prompt-item">What are the key principles of digital marketing?</div>
+                    <div class="prompt-item">Explain SWOT analysis with examples</div>
+                </div>
+                
+                <div class="prompt-category">
+                    <div class="prompt-category-title">Creative</div>
+                    <div class="prompt-item">Write a short poem about the ocean</div>
+                    <div class="prompt-item">Generate ideas for a sci-fi story</div>
+                    <div class="prompt-item">Suggest creative names for a coffee shop</div>
+                </div>
             </div>
         </div>
     </div>
@@ -685,6 +775,7 @@
                 <li>Science explanations (physics, chemistry, biology)</li>
                 <li>Business and finance topics</li>
                 <li>General knowledge questions</li>
+                <li>Creative writing prompts</li>
                 <li>And much more!</li>
             </ul>
             
@@ -693,6 +784,7 @@
                 <div class="update-log-item">Version 1.0.0 (Beta) - Initial release with 20,000+ knowledge base</div>
                 <div class="update-log-item">Added chat history and export features</div>
                 <div class="update-log-item">Improved mobile responsiveness</div>
+                <div class="update-log-item">Added prompt examples library</div>
             </div>
         </div>
         <div class="modal-footer">
@@ -715,6 +807,7 @@
             <ul style="padding-left: 20px; margin-bottom: 15px;">
                 <li><strong>20,000+ Knowledge Base:</strong> Answers on many topics</li>
                 <li><strong>Chat History:</strong> View and manage past conversations</li>
+                <li><strong>Prompt Examples:</strong> Get inspiration for questions to ask</li>
                 <li><strong>Dark Mode:</strong> Easier on your eyes at night</li>
                 <li><strong>Export Chats:</strong> Save your conversations</li>
             </ul>
@@ -722,8 +815,9 @@
             <h4 style="margin-top: 15px; margin-bottom: 8px;">Tips</h4>
             <ul style="padding-left: 20px;">
                 <li>Be specific with your questions for better answers</li>
-                <li>Try different phrasings if you don't get the answer you need</li>
+                <li>Check the Prompt Examples for inspiration</li>
                 <li>Use the chat history to revisit important information</li>
+                <li>Try different phrasings if you don't get the answer you need</li>
             </ul>
         </div>
         <div class="modal-footer">
@@ -817,7 +911,10 @@
         const closeMainMenu = document.getElementById('close-main-menu');
         const historyMenu = document.getElementById('history-menu');
         const closeHistoryMenu = document.getElementById('close-history-menu');
+        const promptsMenu = document.getElementById('prompts-menu');
+        const closePromptsMenu = document.getElementById('close-prompts-menu');
         const menuChatHistory = document.getElementById('menu-chat-history');
+        const menuPrompts = document.getElementById('menu-prompts');
         const historyList = document.getElementById('history-list');
         const exportChats = document.getElementById('export-chats');
         const clearHistory = document.getElementById('clear-history');
@@ -848,6 +945,7 @@
         const confirmUpdate = document.getElementById('confirm-update');
         const updateMessage = document.getElementById('update-message');
         const checkUpdates = document.getElementById('check-updates');
+        const promptItems = document.querySelectorAll('.prompt-item');
 
         // App State
         let currentChatId = Date.now().toString();
@@ -908,15 +1006,36 @@
             historyMenu.style.right = '0';
         });
 
+        menuPrompts.addEventListener('click', () => {
+            mainMenu.style.right = '-300px';
+            promptsMenu.style.right = '0';
+        });
+
         closeHistoryMenu.addEventListener('click', () => {
             historyMenu.style.right = '-300px';
+            overlay.classList.remove('active');
+        });
+
+        closePromptsMenu.addEventListener('click', () => {
+            promptsMenu.style.right = '-300px';
             overlay.classList.remove('active');
         });
 
         overlay.addEventListener('click', () => {
             mainMenu.style.right = '-300px';
             historyMenu.style.right = '-300px';
+            promptsMenu.style.right = '-300px';
             overlay.classList.remove('active');
+        });
+
+        // Prompt Examples
+        promptItems.forEach(item => {
+            item.addEventListener('click', () => {
+                userInput.value = item.textContent;
+                promptsMenu.style.right = '-300px';
+                overlay.classList.remove('active');
+                userInput.focus();
+            });
         });
 
         // New Chat
