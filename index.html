@@ -84,6 +84,7 @@
       gap: 15px;
       padding: 10px 0;
       border-bottom: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
     }
 
     .result-item img {
@@ -106,6 +107,8 @@
       color: var(--text-light);
       background: none;
       border: none;
+      padding: 5px;
+      cursor: pointer;
     }
 
     .like-btn.liked {
@@ -150,6 +153,7 @@
       border: none;
       color: var(--text);
       font-size: 1.2rem;
+      cursor: pointer;
     }
 
     .play-btn {
@@ -231,8 +235,6 @@
     const nowPlayingTitle = document.getElementById('nowPlayingTitle');
     const nowPlayingArtist = document.getElementById('nowPlayingArtist');
     const playBtn = document.getElementById('playBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
     const tabs = document.querySelectorAll('.tab');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -251,9 +253,26 @@
         playerVars: {
           'autoplay': 1,
           'controls': 0
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
         }
       });
     };
+
+    function onPlayerReady(event) {
+      console.log('Player is ready');
+      updateLikedSongs();
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      } else if (event.data === YT.PlayerState.PAUSED) {
+        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+      }
+    }
 
     // Search YouTube
     async function searchYouTube(query) {
@@ -299,8 +318,15 @@
           </button>
         `;
         
-        item.addEventListener('click', () => playTrack(index));
+        // Click anywhere on item to play
+        item.addEventListener('click', (e) => {
+          // Don't play if clicking the like button
+          if (!e.target.closest('.like-btn')) {
+            playTrack(index);
+          }
+        });
         
+        // Like button click handler
         const likeBtn = item.querySelector('.like-btn');
         likeBtn.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -329,7 +355,6 @@
       nowPlayingImg.src = track.thumbnail;
       nowPlayingTitle.textContent = track.title;
       nowPlayingArtist.textContent = track.artist;
-      playBtn.innerHTML = '<i class="fas fa-pause"></i>';
     }
 
     // Toggle like for a song
@@ -346,6 +371,7 @@
         button.innerHTML = '<i class="far fa-heart"></i>';
       }
       
+      // Save to localStorage
       localStorage.setItem('likedSongs', JSON.stringify(likedSongs));
       updateLikedSongs();
     }
@@ -384,6 +410,12 @@
           }
         });
         
+        const likeBtn = item.querySelector('.like-btn');
+        likeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleLike(track, likeBtn);
+        });
+        
         likedSongsContainer.appendChild(item);
       });
     }
@@ -398,10 +430,8 @@
     playBtn.addEventListener('click', () => {
       if (player.getPlayerState() === YT.PlayerState.PLAYING) {
         player.pauseVideo();
-        playBtn.innerHTML = '<i class="fas fa-play"></i>';
       } else {
         player.playVideo();
-        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
       }
     });
 
@@ -412,12 +442,15 @@
         
         tabContents.forEach(content => content.classList.remove('active'));
         document.getElementById(`${tab.dataset.tab}-content`).classList.add('active');
+        
+        if (tab.dataset.tab === 'liked') {
+          updateLikedSongs();
+        }
       });
     });
 
     // Initialize
     initPlayer();
-    updateLikedSongs();
   </script>
 </body>
 </html>
