@@ -3,190 +3,144 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kangaroo</title>
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/12648/12648857.png" type="image/png" />
+  <title>Harmony - YouTube Music Player</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      background: radial-gradient(ellipse at top, #101010, #000);
-      color: #fff;
-      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 20px;
-      min-height: 100vh;
-      overflow: hidden;
     }
 
-    h1 {
-      font-size: 2.8rem;
-      color: #a855f7;
-      margin-bottom: 8px;
-      text-shadow: 0 0 10px #a855f7;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    .typewriter {
-      font-size: 1.2rem;
-      color: #aaa;
-      height: 30px;
-      margin-bottom: 40px;
-      animation: fadeIn 1.5s ease-in-out;
-    }
-
-    .glow-box {
-      background: #161616;
-      border: 2px solid #6b21a8;
-      border-radius: 12px;
-      padding: 25px;
-      width: 90%;
-      max-width: 600px;
-      box-shadow: 0 0 25px #a855f740;
-      animation: slideUp 1.5s ease-in-out;
-      margin-bottom: 20px;
-    }
-
-    textarea {
+    header {
       width: 100%;
-      height: 140px;
-      background: #0a0a0a;
-      border: none;
-      color: #fff;
-      font-family: monospace;
-      font-size: 0.95rem;
-      padding: 12px;
-      border-radius: 8px;
-      resize: none;
-      outline: none;
+      padding: 20px;
+      background-color: #1e1e1e;
+      display: flex;
+      justify-content: center;
     }
 
-    .button {
-      margin-top: 15px;
-      padding: 12px 25px;
+    #searchForm {
+      display: flex;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    #searchInput {
+      flex: 1;
+      padding: 10px;
+      font-size: 1em;
       border: none;
-      background: #9333ea;
-      color: #fff;
-      border-radius: 8px;
-      font-size: 1rem;
+      border-radius: 4px 0 0 4px;
+    }
+
+    #searchBtn {
+      padding: 10px 20px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
       cursor: pointer;
-      transition: all 0.3s ease;
     }
 
-    .button:hover {
-      background: #a855f7;
-      box-shadow: 0 0 15px #a855f7;
+    #player {
+      margin-top: 30px;
+      width: 90%;
+      max-width: 720px;
+      aspect-ratio: 16 / 9;
     }
 
-    footer {
-      margin-top: 40px;
-      font-size: 0.8rem;
-      color: #777;
-      text-align: center;
+    #controls {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
     }
 
-    footer a {
-      color: #a855f7;
-      text-decoration: none;
+    .control-btn {
+      font-size: 1.5em;
+      cursor: pointer;
+      color: white;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .control-btn:hover {
+      color: #e91e63;
     }
   </style>
+  <script src="https://kit.fontawesome.com/a2d9d5c54a.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <header>
+    <form id="searchForm">
+      <input type="text" id="searchInput" placeholder="Search for a song..." />
+      <button id="searchBtn" type="submit"><i class="fas fa-search"></i></button>
+    </form>
+  </header>
 
-  <!-- Background music -->
-  <audio id="bg-audio" autoplay loop>
-    <source src="https://github.com/KangarooWorks/mp4/blob/main/Armin%20van%20Buuren%20feat.%20Sharon%20den%20Adel%20-%20In%20And%20Out%20Of%20Love%20(Official%20Music%20Video).mp3?raw=true" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+  <div id="player"></div>
 
-  <h1>Kangaroo | Greenville</h1>
-  <div class="typewriter" id="typewriter"></div>
-
-  <div class="glow-box">
-    <textarea id="scriptBox" readonly>
-loadstring(game:HttpGet("https://raw.githubusercontent.com/KangarooWorks/Greenvillie/refs/heads/main/Kangaroo"))()
-</textarea>
-    <button class="button" onclick="copyScript()">📋 Copy Script</button>
+  <div id="controls">
+    <i class="fas fa-play control-btn" id="playBtn"></i>
+    <i class="fas fa-pause control-btn" id="pauseBtn"></i>
+    <i class="fas fa-sync-alt control-btn" id="loopBtn"></i>
   </div>
 
-  <footer>
-    Made with 💜 by Kangaroo Team • 
-    <a href="https://discord.gg/uhWxVgr56Z" target="_blank">Join Discord</a>
-  </footer>
-
   <script>
-    function copyScript() {
-      const text = document.getElementById("scriptBox");
-      text.select();
-      document.execCommand("copy");
-      alert("Script copied!");
+    let player;
+    let loop = false;
+    const apiKey = "AIzaSyBmpBJ7bU38l7gDWiv2BCSyC7A5ItNYhWg";
+
+    // Load the IFrame Player API code
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: '',
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
     }
 
-    const phrases = [
-      "Kangaroo",
-      "Greenville Auto-Farm Script",
-      "Made for Simplicity & Speed",
-      "No BS. Just Results.",
-      "Earn Money Fast and Safe",
-      "Fully Unpatched - Anti-Cheat Resistant",
-      "Safe for All Accounts, Zero Risk",
-      "Works Across All Devices",
-      "Trusted by Thousands of Users",
-      "Fast Execution & Reliable Performance",
-      "Boost Your In-Game Earnings Easily",
-      "Bypass Detection & Farm Freely",
-      "Automated Farming with Human-Like Precision",
-      "No Manual Effort Required — Plug & Profit",
-      "Tested and Updated Daily for Stability"
-    ];
-
-    const typewriter = document.getElementById("typewriter");
-    let currentPhrase = 0, currentChar = 0, isDeleting = false;
-
-    function type() {
-      let displayText = phrases[currentPhrase].substring(0, currentChar);
-      typewriter.textContent = displayText;
-
-      if (!isDeleting && currentChar < phrases[currentPhrase].length) {
-        currentChar++;
-        setTimeout(type, 160);
-      } else if (isDeleting && currentChar > 0) {
-        currentChar--;
-        setTimeout(type, 60);
-      } else {
-        isDeleting = !isDeleting;
-        if (!isDeleting) currentPhrase = (currentPhrase + 1) % phrases.length;
-        setTimeout(type, 1600);
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.ENDED && loop) {
+        player.seekTo(0);
+        player.playVideo();
       }
     }
 
-    type();
+    document.getElementById('searchForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const query = document.getElementById('searchInput').value;
+      const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${apiKey}&maxResults=1`;
 
-    // Play background music when the user clicks anywhere on the page
-    document.addEventListener("click", () => {
-      const audio = document.getElementById("bg-audio");
-      audio.muted = false;  // Unmute the audio after click
-      audio.volume = 1;     // Set the volume to maximum
-      audio.play().catch(err => console.log("Audio play error:", err));
-    }, { once: true });
+      const res = await fetch(searchUrl);
+      const data = await res.json();
+      if (data.items.length > 0) {
+        const videoId = data.items[0].id.videoId;
+        player.loadVideoById(videoId);
+      }
+    });
+
+    document.getElementById('playBtn').addEventListener('click', () => {
+      player.playVideo();
+    });
+
+    document.getElementById('pauseBtn').addEventListener('click', () => {
+      player.pauseVideo();
+    });
+
+    document.getElementById('loopBtn').addEventListener('click', () => {
+      loop = !loop;
+      document.getElementById('loopBtn').style.color = loop ? '#e91e63' : 'white';
+    });
   </script>
-
 </body>
 </html>
