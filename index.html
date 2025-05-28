@@ -223,6 +223,9 @@
       margin-left: auto;
       color: var(--text-light);
       padding: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
     }
 
     .like-btn.liked {
@@ -300,6 +303,7 @@
       color: var(--text);
       font-size: 1.2rem;
       padding: 5px 10px;
+      cursor: pointer;
     }
 
     .main-controls {
@@ -363,6 +367,7 @@
       color: var(--text);
       font-size: 1.2rem;
       margin-right: 10px;
+      cursor: pointer;
     }
 
     .search-input-container {
@@ -377,6 +382,21 @@
       border: none;
       border-radius: 25px;
       color: var(--text);
+    }
+
+    /* Loading spinner */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     /* Responsive Design */
@@ -427,21 +447,6 @@
       .play-btn {
         font-size: 2rem;
       }
-    }
-
-    /* Animations */
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top-color: var(--primary);
-      animation: spin 1s ease-in-out infinite;
     }
   </style>
 </head>
@@ -532,10 +537,10 @@
         </div>
         <div class="settings-item">
           <h3>Change Log</h3>
-          <p>• Initial release with YouTube integration<br>
-             • Mobile-friendly design<br>
-             • Liked songs tracking<br>
-             • Playlist support</p>
+          <p>• Fixed search and playback issues<br>
+             • Persistent liked songs<br>
+             • Improved mobile experience<br>
+             • Better error handling</p>
         </div>
         <div class="settings-item">
           <h3>Appearance</h3>
@@ -631,13 +636,26 @@
     const tabs = document.querySelectorAll('.tab');
     const tabContents = document.querySelectorAll('.tab-content');
 
-    // Load the IFrame Player API code
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(tag);
+    // Initialize the app
+    function initApp() {
+      loadLikedSongs();
+      updateRecentPlays();
+      updateLikedSongs();
+      updatePlaylists();
+      setupEventListeners();
+      loadYouTubePlayer();
+    }
 
-    // Initialize YouTube player
-    function onYouTubeIframeAPIReady() {
+    // Load YouTube Player API
+    function loadYouTubePlayer() {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
+    // YouTube Player API callback
+    window.onYouTubeIframeAPIReady = function() {
       player = new YT.Player('player', {
         height: '0',
         width: '0',
@@ -653,14 +671,13 @@
           'onStateChange': onPlayerStateChange
         }
       });
-    }
+    };
 
     // Player ready callback
     function onPlayerReady(event) {
       console.log('Player is ready');
-      updateRecentPlays();
-      updateLikedSongs();
-      updatePlaylists();
+      // Set initial volume
+      player.setVolume(70);
     }
 
     // Player state change callback
@@ -669,12 +686,15 @@
         case YT.PlayerState.PLAYING:
           isPlaying = true;
           playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+          startProgressUpdate();
           break;
         case YT.PlayerState.PAUSED:
           isPlaying = false;
           playBtn.innerHTML = '<i class="fas fa-play"></i>';
+          stopProgressUpdate();
           break;
         case YT.PlayerState.ENDED:
+          stopProgressUpdate();
           if (loop) {
             player.seekTo(0);
             player.playVideo();
@@ -685,14 +705,92 @@
       }
     }
 
-    // Search functionality
-    async function searchYouTube(query) {
-      if (!query) return;
+    // Start progress update interval
+    function startProgressUpdate() {
+      stopProgressUpdate();
+      updateProgress();
+      progressInterval = setInterval(updateProgress, 1000);
+    }
+
+    // Stop progress update interval
+    function stopProgressUpdate() {
+      if (progressInterval) {
+        clearInterval(progressInterval);
+      }
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      if (!player || typeof player.getCurrentTime !== 'function') return;
       
+      const currentTime = player.getCurrentTime();
+      const duration = player.getDuration();
+      
+      if (duration > 0) {
+        const progressPercent = (currentTime / duration) * 100;
+        progressBar.style.width = `${progressPercent}%`;
+      }
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+      // Search functionality
+      mobileSearchBtn.addEventListener('click', openSearchOverlay);
+      searchBackBtn.addEventListener('click', closeSearchOverlay);
+      mobileSearchInput.addEventListener('input', handleSearchInput);
+      overlaySearchInput.addEventListener('input', handleSearchInput);
+
+      // Player controls
+      playBtn.addEventListener('click', togglePlayPause);
+      prevBtn.addEventListener('click', playPreviousTrack);
+      nextBtn.addEventListener('click', playNextTrack);
+      loopBtn.addEventListener('click', toggleLoop);
+      shuffleBtn.addEventListener('click', toggleShuffle);
+
+      // Navigation
+      tabs.forEach(tab => tab.addEventListener('click', switchTab));
+      sidebarItems.forEach(item => item.addEventListener('click', switchTab));
+    }
+
+    // Open search overlay (mobile)
+    function openSearchOverlay() {
+      searchOverlay.style.display = 'flex';
+      overlaySearchInput.focus();
+      mobileSearchInput.value = '';
+      mobileSearchResults.innerHTML = '';
+    }
+
+    // Close search overlay (mobile)
+    function closeSearchOverlay() {
+      searchOverlay.style.display = 'none';
+    }
+
+    // Handle search input
+    function handleSearchInput(e) {
+      const query = e.target.value.trim();
+      if (query.length > 2) {
+        searchYouTube(query);
+      } else {
+        clearSearchResults(e.target.id === 'overlaySearchInput' ? overlaySearchResults : mobileSearchResults);
+      }
+    }
+
+    // Clear search results
+    function clearSearchResults(container) {
+      container.innerHTML = '';
+    }
+
+    // Search YouTube for music
+    async function searchYouTube(query) {
       try {
+        showLoadingIndicator();
+        
         const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query + " music")}&key=${apiKey}&maxResults=10`;
-        const res = await fetch(searchUrl);
-        const data = await res.json();
+        const response = await fetch(searchUrl);
+        
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const data = await response.json();
         
         if (data.items && data.items.length > 0) {
           currentPlaylist = data.items.map(item => ({
@@ -702,25 +800,38 @@
             thumbnail: item.snippet.thumbnails.medium.url
           }));
           
-          displaySearchResults(currentPlaylist, mobileSearchResults);
-          displaySearchResults(currentPlaylist, overlaySearchResults);
+          displaySearchResults(currentPlaylist);
         } else {
           showNoResults();
         }
       } catch (error) {
         console.error('Search error:', error);
-        showNoResults();
+        showError("Failed to search. Please try again.");
       }
     }
 
+    // Show loading indicator
+    function showLoadingIndicator() {
+      mobileSearchResults.innerHTML = '<div class="loading" style="margin: 20px auto;"></div>';
+      overlaySearchResults.innerHTML = '<div class="loading" style="margin: 20px auto;"></div>';
+    }
+
+    // Show no results message
+    function showNoResults() {
+      mobileSearchResults.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-light)">No results found</p>';
+      overlaySearchResults.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-light)">No results found</p>';
+    }
+
+    // Show error message
+    function showError(message) {
+      mobileSearchResults.innerHTML = `<p style="text-align: center; padding: 20px; color: var(--primary)">${message}</p>`;
+      overlaySearchResults.innerHTML = `<p style="text-align: center; padding: 20px; color: var(--primary)">${message}</p>`;
+    }
+
     // Display search results
-    function displaySearchResults(results, container) {
-      container.innerHTML = '';
-      
-      if (results.length === 0) {
-        container.innerHTML = '<p>No results found</p>';
-        return;
-      }
+    function displaySearchResults(results) {
+      mobileSearchResults.innerHTML = '';
+      overlaySearchResults.innerHTML = '';
       
       results.forEach((result, index) => {
         const isLiked = likedSongs.some(song => song.id === result.id);
@@ -746,7 +857,8 @@
           toggleLike(result, likeBtn);
         });
         
-        container.appendChild(item);
+        mobileSearchResults.appendChild(item.cloneNode(true));
+        overlaySearchResults.appendChild(item);
       });
     }
 
@@ -757,19 +869,26 @@
       currentTrackIndex = index;
       const track = currentPlaylist[index];
       
+      if (!player || typeof player.loadVideoById !== 'function') {
+        console.error('YouTube player not ready');
+        return;
+      }
+      
       player.loadVideoById(track.id);
       player.playVideo();
       
       // Update now playing info
-      nowPlayingImg.src = track.thumbnail;
-      nowPlayingTitle.textContent = track.title;
-      nowPlayingArtist.textContent = track.artist;
+      updateNowPlaying(track);
       
       // Add to recent plays
       addToRecentPlays(track);
-      
-      // Close search overlay if open
-      searchOverlay.style.display = 'none';
+    }
+
+    // Update now playing info
+    function updateNowPlaying(track) {
+      nowPlayingImg.src = track.thumbnail;
+      nowPlayingTitle.textContent = track.title;
+      nowPlayingArtist.textContent = track.artist;
     }
 
     // Add to recent plays
@@ -797,7 +916,7 @@
       recentPlaysContainer.innerHTML = '';
       
       if (recentPlays.length === 0) {
-        recentPlaysContainer.innerHTML = '<p>No recent plays</p>';
+        recentPlaysContainer.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-light)">No recent plays</p>';
         return;
       }
       
@@ -850,12 +969,20 @@
       updateLikedSongs();
     }
 
+    // Load liked songs from localStorage
+    function loadLikedSongs() {
+      const storedLikes = localStorage.getItem('likedSongs');
+      if (storedLikes) {
+        likedSongs = JSON.parse(storedLikes);
+      }
+    }
+
     // Update liked songs display
     function updateLikedSongs() {
       likedSongsContainer.innerHTML = '';
       
       if (likedSongs.length === 0) {
-        likedSongsContainer.innerHTML = '<p>No liked songs yet</p>';
+        likedSongsContainer.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-light)">No liked songs yet</p>';
         return;
       }
       
@@ -899,7 +1026,7 @@
       playlistsContainer.innerHTML = '';
       
       if (playlists.length === 0) {
-        playlistsContainer.innerHTML = '<p>No playlists yet</p>';
+        playlistsContainer.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-light)">No playlists yet</p>';
         return;
       }
       
@@ -923,7 +1050,11 @@
       if (currentPlaylist.length === 0) return;
       
       if (shuffle) {
-        playTrack(Math.floor(Math.random() * currentPlaylist.length));
+        let nextIndex;
+        do {
+          nextIndex = Math.floor(Math.random() * currentPlaylist.length);
+        } while (nextIndex === currentTrackIndex && currentPlaylist.length > 1);
+        playTrack(nextIndex);
       } else {
         const nextIndex = (currentTrackIndex + 1) % currentPlaylist.length;
         playTrack(nextIndex);
@@ -943,39 +1074,19 @@
         if (prevIndex < 0) prevIndex = currentPlaylist.length - 1;
         
         if (shuffle) {
-          playTrack(Math.floor(Math.random() * currentPlaylist.length));
+          let newIndex;
+          do {
+            newIndex = Math.floor(Math.random() * currentPlaylist.length);
+          } while (newIndex === currentTrackIndex && currentPlaylist.length > 1);
+          playTrack(newIndex);
         } else {
           playTrack(prevIndex);
         }
       }
     }
 
-    // Show no results message
-    function showNoResults() {
-      mobileSearchResults.innerHTML = '<p>No results found</p>';
-      overlaySearchResults.innerHTML = '<p>No results found</p>';
-    }
-
-    // Event listeners
-    mobileSearchBtn.addEventListener('click', () => {
-      searchOverlay.style.display = 'flex';
-      overlaySearchInput.focus();
-    });
-
-    searchBackBtn.addEventListener('click', () => {
-      searchOverlay.style.display = 'none';
-    });
-
-    mobileSearchInput.addEventListener('input', (e) => {
-      searchYouTube(e.target.value);
-    });
-
-    overlaySearchInput.addEventListener('input', (e) => {
-      searchYouTube(e.target.value);
-    });
-
-    // Play/pause button
-    playBtn.addEventListener('click', () => {
+    // Toggle play/pause
+    function togglePlayPause() {
       if (currentTrackIndex === -1 && currentPlaylist.length > 0) {
         playTrack(0);
       } else if (isPlaying) {
@@ -983,75 +1094,40 @@
       } else {
         player.playVideo();
       }
-    });
+    }
 
-    // Loop button
-    loopBtn.addEventListener('click', () => {
+    // Toggle loop
+    function toggleLoop() {
       loop = !loop;
       loopBtn.style.color = loop ? 'var(--primary)' : 'var(--text)';
-    });
+    }
 
-    // Shuffle button
-    shuffleBtn.addEventListener('click', () => {
+    // Toggle shuffle
+    function toggleShuffle() {
       shuffle = !shuffle;
       shuffleBtn.style.color = shuffle ? 'var(--primary)' : 'var(--text)';
-    });
+    }
 
-    // Previous track button
-    prevBtn.addEventListener('click', playPreviousTrack);
-
-    // Next track button
-    nextBtn.addEventListener('click', playNextTrack);
-
-    // Tab switching
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        
-        tabContents.forEach(content => content.classList.remove('active'));
-        document.getElementById(`${tab.dataset.tab}-content`).classList.add('active');
-      });
-    });
-
-    // Sidebar item switching (desktop)
-    sidebarItems.forEach(item => {
-      item.addEventListener('click', () => {
-        sidebarItems.forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-        
-        tabContents.forEach(content => content.classList.remove('active'));
-        document.getElementById(`${item.dataset.tab}-content`).classList.add('active');
-      });
-    });
-
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      if (e.target.tagName === 'INPUT') return;
+    // Switch tabs
+    function switchTab(e) {
+      const tabName = this.dataset.tab;
       
-      switch (e.code) {
-        case 'Space':
-          e.preventDefault();
-          if (isPlaying) {
-            player.pauseVideo();
-          } else {
-            player.playVideo();
-          }
-          break;
-        case 'ArrowRight':
-          player.seekTo(player.getCurrentTime() + 5);
-          break;
-        case 'ArrowLeft':
-          player.seekTo(player.getCurrentTime() - 5);
-          break;
-        case 'KeyN':
-          playNextTrack();
-          break;
-        case 'KeyP':
-          playPreviousTrack();
-          break;
+      // Update active tab
+      if (this.classList.contains('tab')) {
+        tabs.forEach(tab => tab.classList.remove('active'));
+        this.classList.add('active');
+      } else if (this.classList.contains('sidebar-item')) {
+        sidebarItems.forEach(item => item.classList.remove('active'));
+        this.classList.add('active');
       }
-    });
+      
+      // Update active content
+      tabContents.forEach(content => content.classList.remove('active'));
+      document.getElementById(`${tabName}-content`).classList.add('active');
+    }
+
+    // Initialize the app when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
 </html>
