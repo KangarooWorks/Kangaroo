@@ -391,6 +391,10 @@
       color: var(--primary);
     }
 
+    .like-btn.liked i {
+      color: var(--accent);
+    }
+
     .play-button {
       position: absolute;
       bottom: 1.5rem;
@@ -1018,6 +1022,22 @@
           
           <div class="log-card">
             <div class="log-header">
+              <span class="log-version">v3.4</span>
+              <span class="log-date">May 31, 2025</span>
+            </div>
+            <h3 class="log-title">Bug Fixes & Enhancements</h3>
+            <ul class="log-features">
+              <li>Fixed like button functionality</li>
+              <li>Fixed favorite button functionality</li>
+              <li>Improved track information storage</li>
+              <li>Enhanced player controls responsiveness</li>
+              <li>Fixed history playback issues</li>
+              <li>Optimized state management</li>
+            </ul>
+          </div>
+          
+          <div class="log-card">
+            <div class="log-header">
               <span class="log-version">v3.3</span>
               <span class="log-date">May 30, 2025</span>
             </div>
@@ -1045,22 +1065,6 @@
               <li>Optimized song title display in player and cards</li>
               <li>Added proper ellipsis for long song titles</li>
               <li>Fixed mobile layout issues with player controls</li>
-            </ul>
-          </div>
-          
-          <div class="log-card">
-            <div class="log-header">
-              <span class="log-version">v3.1</span>
-              <span class="log-date">May 29, 2025</span>
-            </div>
-            <h3 class="log-title">UI Enhancement Update</h3>
-            <ul class="log-features">
-              <li>Added custom scrollbars for all content areas</li>
-              <li>Improved text sizing for song titles on all devices</li>
-              <li>Fixed icon positioning for mobile layouts</li>
-              <li>Enhanced responsive design for better mobile experience</li>
-              <li>Optimized player controls for touch devices</li>
-              <li>Improved spacing and typography throughout the app</li>
             </ul>
           </div>
         </div>
@@ -1294,6 +1298,7 @@
       
       searchResults.forEach((result, index) => {
         const isFavorite = favorites.some(fav => fav.id === result.id);
+        const isLiked = likedSongs.some(song => song.id === result.id);
         
         const card = document.createElement('div');
         card.className = 'result-card';
@@ -1301,7 +1306,10 @@
         
         card.innerHTML = `
           <div class="card-actions">
-            <div class="action-btn favorite-btn ${isFavorite ? 'favorited' : ''}" data-id="${result.id}">
+            <div class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-id="${result.id}" title="Like">
+              <i class="fas fa-thumbs-up"></i>
+            </div>
+            <div class="action-btn favorite-btn ${isFavorite ? 'favorited' : ''}" data-id="${result.id}" title="Add to Favorites">
               <i class="fas fa-heart"></i>
             </div>
           </div>
@@ -1323,6 +1331,12 @@
         favBtn.addEventListener('click', function(e) {
           e.stopPropagation();
           toggleFavorite(result, this);
+        });
+        
+        const likeBtn = card.querySelector('.like-btn');
+        likeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleLike(result, this);
         });
         
         container.appendChild(card);
@@ -1347,13 +1361,18 @@
       }
       
       favorites.forEach((fav, index) => {
+        const isLiked = likedSongs.some(song => song.id === fav.id);
+        
         const card = document.createElement('div');
         card.className = 'result-card';
         card.dataset.id = fav.id;
         
         card.innerHTML = `
           <div class="card-actions">
-            <div class="action-btn favorite-btn favorited" data-id="${fav.id}">
+            <div class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-id="${fav.id}" title="Like">
+              <i class="fas fa-thumbs-up"></i>
+            </div>
+            <div class="action-btn favorite-btn favorited" data-id="${fav.id}" title="Remove from Favorites">
               <i class="fas fa-heart"></i>
             </div>
           </div>
@@ -1375,6 +1394,12 @@
         favBtn.addEventListener('click', function(e) {
           e.stopPropagation();
           toggleFavorite(fav, this);
+        });
+        
+        const likeBtn = card.querySelector('.like-btn');
+        likeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleLike(fav, this);
         });
         
         container.appendChild(card);
@@ -1631,21 +1656,33 @@
     }
     
     // Like System
+    function toggleLike(track, button) {
+      const index = likedSongs.findIndex(song => song.id === track.id);
+      
+      if (index === -1) {
+        // Add to likes
+        likedSongs.push(track);
+        if (button) button.classList.add('liked');
+      } else {
+        // Remove from likes
+        likedSongs.splice(index, 1);
+        if (button) button.classList.remove('liked');
+      }
+      
+      // Update now playing if it's the current track
+      if (currentTrack && currentTrack.id === track.id) {
+        document.getElementById('nowPlayingLikeBtn').classList.toggle('liked', index === -1);
+      }
+      
+      // Update localStorage
+      localStorage.setItem('harmonyLikes', JSON.stringify(likedSongs));
+    }
+    
     function toggleCurrentLike() {
       if (!currentTrack) return;
       
       const btn = document.getElementById('nowPlayingLikeBtn');
-      const index = likedSongs.findIndex(song => song.id === currentTrack.id);
-      
-      if (index === -1) {
-        likedSongs.push(currentTrack);
-        btn.classList.add('liked');
-      } else {
-        likedSongs.splice(index, 1);
-        btn.classList.remove('liked');
-      }
-      
-      localStorage.setItem('harmonyLikes', JSON.stringify(likedSongs));
+      toggleLike(currentTrack, btn);
     }
     
     // History System
