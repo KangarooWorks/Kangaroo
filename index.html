@@ -1456,7 +1456,21 @@
       const favIndex = favorites.findIndex(fav => fav.id === id);
       if (favIndex !== -1) {
         const track = favorites[favIndex];
-        playTrackById(track.id);
+        currentTrackIndex = -1;
+        currentTrack = track;
+        updateNowPlaying();
+        player.loadVideoById(id);
+        return;
+      }
+      
+      // Try to find in history
+      const historyIndex = history.findIndex(item => item.id === id);
+      if (historyIndex !== -1) {
+        const track = history[historyIndex];
+        currentTrackIndex = -1;
+        currentTrack = track;
+        updateNowPlaying();
+        player.loadVideoById(id);
         return;
       }
       
@@ -1636,6 +1650,14 @@
     
     // History System
     function addToHistory(track) {
+      // Make sure we're storing a complete track object
+      const historyTrack = {
+        id: track.id,
+        title: track.title,
+        channel: track.channel,
+        thumbnail: track.thumbnail || `https://i.ytimg.com/vi/${track.id}/hqdefault.jpg`
+      };
+      
       // Remove if already exists to prevent duplicates
       const index = history.findIndex(item => item.id === track.id);
       if (index !== -1) {
@@ -1643,7 +1665,7 @@
       }
       
       // Add to the beginning
-      history.unshift(track);
+      history.unshift(historyTrack);
       
       // Keep only last 50 items
       if (history.length > 50) {
