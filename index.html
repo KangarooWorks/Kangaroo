@@ -312,6 +312,7 @@
       transform: scale(1.05);
     }
 
+    /* Fixed title display */
     .result-title {
       font-size: 1.1rem;
       font-weight: 600;
@@ -321,7 +322,9 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
       line-height: 1.4;
-      min-height: 3.2em;
+      min-height: 2.8em;
+      max-height: 3.2em;
+      text-overflow: ellipsis;
     }
 
     .result-channel {
@@ -331,6 +334,7 @@
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .card-actions {
@@ -434,14 +438,17 @@
       flex-shrink: 0;
       transition: var(--transition);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      background: #333; /* Fallback color */
     }
 
     .now-playing-info {
       display: flex;
       flex-direction: column;
       min-width: 0;
+      overflow: hidden;
     }
 
+    /* Fixed song title display */
     .now-playing-title {
       font-size: 1.1rem;
       font-weight: 600;
@@ -449,6 +456,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     .now-playing-artist {
@@ -457,6 +465,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     .player-center {
@@ -801,6 +810,12 @@
       .results-container {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       }
+      
+      /* Improved text display for mobile */
+      .result-title {
+        font-size: 1rem;
+        min-height: 2.8em;
+      }
     }
 
     @media (max-width: 768px) {
@@ -829,11 +844,6 @@
         position: absolute;
         right: 1rem;
         top: 1rem;
-      }
-      
-      .result-title {
-        font-size: 1rem;
-        min-height: 2.8em;
       }
       
       .log-card {
@@ -885,6 +895,11 @@
       .tab-content {
         padding: 1.5rem 1rem;
       }
+      
+      .result-title {
+        font-size: 0.95rem;
+        min-height: 2.6em;
+      }
     }
   </style>
 </head>
@@ -924,7 +939,7 @@
       <div class="now-playing-preview" style="padding: 1.5rem; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05);">
         <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--light); font-weight: 500;">Now Playing</h3>
         <div class="now-playing">
-          <img src="" alt="Now Playing" class="now-playing-image" id="sidebarNowPlayingImage" style="width: 50px; height: 50px;">
+          <img src="" alt="Now Playing" class="now-playing-image" id="sidebarNowPlayingImage" style="width: 50px; height: 50px; background: #333;">
           <div class="now-playing-info">
             <div class="now-playing-title" id="sidebarNowPlayingTitle" style="font-size: 0.95rem;">Not Playing</div>
             <div class="now-playing-artist" id="sidebarNowPlayingArtist" style="font-size: 0.8rem;">Search for a song</div>
@@ -973,6 +988,22 @@
           
           <div class="log-card">
             <div class="log-header">
+              <span class="log-version">v3.2</span>
+              <span class="log-date">May 29, 2025</span>
+            </div>
+            <h3 class="log-title">Display Fixes Update</h3>
+            <ul class="log-features">
+              <li>Fixed song name and thumbnail display issues</li>
+              <li>Improved text truncation for all devices</li>
+              <li>Enhanced responsive design for mobile screens</li>
+              <li>Optimized song title display in player and cards</li>
+              <li>Added proper ellipsis for long song titles</li>
+              <li>Fixed mobile layout issues with player controls</li>
+            </ul>
+          </div>
+          
+          <div class="log-card">
+            <div class="log-header">
               <span class="log-version">v3.1</span>
               <span class="log-date">May 29, 2025</span>
             </div>
@@ -1015,36 +1046,6 @@
               <li>Integrated like functionality for tracks</li>
               <li>Created premium update logs section</li>
               <li>Added empty states for all tabs</li>
-            </ul>
-          </div>
-          
-          <div class="log-card">
-            <div class="log-header">
-              <span class="log-version">v2.0</span>
-              <span class="log-date">May 29, 2025</span>
-            </div>
-            <h3 class="log-title">Player Enhancements</h3>
-            <ul class="log-features">
-              <li>Improved buffering experience with visual indicators</li>
-              <li>Added progress bar with seek functionality</li>
-              <li>Implemented next/previous track controls</li>
-              <li>Enhanced responsive design for mobile devices</li>
-              <li>Added visual feedback for play/pause states</li>
-            </ul>
-          </div>
-          
-          <div class="log-card">
-            <div class="log-header">
-              <span class="log-version">v1.0</span>
-              <span class="log-date">May 29, 2025</span>
-            </div>
-            <h3 class="log-title">Initial Release</h3>
-            <ul class="log-features">
-              <li>YouTube music player integration</li>
-              <li>Search functionality with instant results</li>
-              <li>Modern dark UI theme</li>
-              <li>Now playing section with track information</li>
-              <li>Basic play/pause controls</li>
             </ul>
           </div>
         </div>
@@ -1232,9 +1233,29 @@
           }));
           
           displaySearchResults();
+        } else {
+          // No results found
+          const container = document.getElementById('resultsContainer');
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-music"></i>
+              <h3>No results found</h3>
+              <p>Try a different search term</p>
+            </div>
+          `;
+          document.getElementById('searchResults').classList.add('active');
         }
       } catch (error) {
         console.error('Search error:', error);
+        const container = document.getElementById('resultsContainer');
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-circle"></i>
+            <h3>Search Error</h3>
+            <p>Failed to fetch results. Please try again later.</p>
+          </div>
+        `;
+        document.getElementById('searchResults').classList.add('active');
       } finally {
         document.getElementById('spinnerContainer').style.display = 'none';
       }
@@ -1252,6 +1273,7 @@
             <p>Try a different search term</p>
           </div>
         `;
+        document.getElementById('searchResults').classList.add('active');
         return;
       }
       
@@ -1268,7 +1290,7 @@
               <i class="fas fa-heart"></i>
             </div>
           </div>
-          <img src="${result.thumbnail}" alt="${result.title}" class="result-image">
+          <img src="${result.thumbnail}" alt="${result.title}" class="result-image" onerror="this.src='https://i.ytimg.com/vi/${result.id}/hqdefault.jpg'">
           <h3 class="result-title">${result.title}</h3>
           <p class="result-channel">${result.channel}</p>
           <div class="play-button">
@@ -1320,7 +1342,7 @@
               <i class="fas fa-heart"></i>
             </div>
           </div>
-          <img src="${fav.thumbnail}" alt="${fav.title}" class="result-image">
+          <img src="${fav.thumbnail}" alt="${fav.title}" class="result-image" onerror="this.src='https://i.ytimg.com/vi/${fav.id}/hqdefault.jpg'">
           <h3 class="result-title">${fav.title}</h3>
           <p class="result-channel">${fav.channel}</p>
           <div class="play-button">
@@ -1366,7 +1388,7 @@
         card.dataset.id = item.id;
         
         card.innerHTML = `
-          <img src="${item.thumbnail}" alt="${item.title}" class="result-image">
+          <img src="${item.thumbnail}" alt="${item.title}" class="result-image" onerror="this.src='https://i.ytimg.com/vi/${item.id}/hqdefault.jpg'">
           <h3 class="result-title">${item.title}</h3>
           <p class="result-channel">${item.channel}</p>
           <div class="play-button">
@@ -1431,7 +1453,7 @@
         id: id,
         title: 'Unknown Track',
         channel: 'Unknown Artist',
-        thumbnail: ''
+        thumbnail: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
       };
       
       updateNowPlaying();
@@ -1441,9 +1463,15 @@
     function updateNowPlaying() {
       if (!currentTrack) return;
       
-      document.getElementById('nowPlayingImage').src = currentTrack.thumbnail;
+      // Set image with fallback
+      const nowPlayingImage = document.getElementById('nowPlayingImage');
+      nowPlayingImage.src = currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`;
+      nowPlayingImage.onerror = function() {
+        this.src = 'https://i.ytimg.com/vi/' + currentTrack.id + '/hqdefault.jpg';
+      };
+      
       document.getElementById('nowPlayingTitle').textContent = currentTrack.title;
-      document.getElementById('nowPlayingArtist').textContent = currentTrack.channel;
+      document.getElementById('nowPlayingArtist').textContent = currentTrack.channel || 'Unknown Artist';
       
       // Update favorite button state
       const isFavorite = favorites.some(fav => fav.id === currentTrack.id);
@@ -1460,9 +1488,14 @@
     function updateSidebarNowPlaying() {
       if (!currentTrack) return;
       
-      document.getElementById('sidebarNowPlayingImage').src = currentTrack.thumbnail;
+      const sidebarImage = document.getElementById('sidebarNowPlayingImage');
+      sidebarImage.src = currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`;
+      sidebarImage.onerror = function() {
+        this.src = 'https://i.ytimg.com/vi/' + currentTrack.id + '/hqdefault.jpg';
+      };
+      
       document.getElementById('sidebarNowPlayingTitle').textContent = currentTrack.title;
-      document.getElementById('sidebarNowPlayingArtist').textContent = currentTrack.channel;
+      document.getElementById('sidebarNowPlayingArtist').textContent = currentTrack.channel || 'Unknown Artist';
     }
 
     function togglePlayPause() {
