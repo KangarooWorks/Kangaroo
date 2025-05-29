@@ -15,7 +15,7 @@
       --light: #ffffff;
       --gray: #aaaaaa;
       --gray-dark: #606060;
-      --transition: all 0.2s ease;
+      --transition: all 0.3s ease;
     }
 
     * {
@@ -37,7 +37,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem;
+      padding: 1rem 1.5rem;
       background-color: var(--dark);
       position: sticky;
       top: 0;
@@ -54,26 +54,47 @@
       gap: 0.5rem;
     }
 
+    .logo i {
+      font-size: 1.3rem;
+    }
+
     .search-container {
       position: relative;
       flex: 1;
       max-width: 600px;
-      margin: 0 1rem;
+      margin: 0 1.5rem;
     }
 
     .search-input {
       width: 100%;
-      padding: 0.7rem 1rem 0.7rem 2.5rem;
-      border-radius: 20px;
+      padding: 0.8rem 1rem 0.8rem 3rem;
+      border-radius: 25px;
       border: 1px solid var(--gray-dark);
       background-color: var(--darker);
       color: var(--light);
-      font-size: 0.9rem;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background-color: var(--darkest);
+      box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      font-size: 1rem;
     }
 
     .main-container {
       flex: 1;
-      padding: 1rem;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
       overflow-y: auto;
@@ -88,26 +109,96 @@
       display: block;
     }
 
+    .results-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--light);
+      font-weight: 500;
+    }
+
     .results-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
     }
 
     .result-card {
       background-color: var(--darker);
-      border-radius: 8px;
-      padding: 0.8rem;
+      border-radius: 10px;
+      padding: 1rem;
+      transition: var(--transition);
       cursor: pointer;
       position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .result-card:hover {
+      background-color: var(--gray-dark);
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
 
     .result-image {
       width: 100%;
       aspect-ratio: 16/9;
-      border-radius: 5px;
-      margin-bottom: 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
       object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .result-card:hover .result-image {
+      transform: scale(1.03);
+    }
+
+    .result-title {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.3;
+    }
+
+    .result-channel {
+      font-size: 0.8rem;
+      color: var(--gray);
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .play-button {
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: var(--transition);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+    }
+
+    .result-card:hover .play-button {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .play-button i {
+      color: var(--light);
+      font-size: 1rem;
+      margin-left: 2px;
     }
 
     .player-controls {
@@ -115,27 +206,54 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 80px;
+      height: 90px;
       background-color: var(--darker);
       border-top: 1px solid var(--darkest);
       display: flex;
       align-items: center;
-      padding: 0 1rem;
+      padding: 0 1.5rem;
       z-index: 100;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
     }
 
     .now-playing {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      width: 40%;
+      gap: 1rem;
+      width: 30%;
+      min-width: 0;
     }
 
     .now-playing-image {
-      width: 50px;
-      height: 50px;
-      border-radius: 5px;
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
       object-fit: cover;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .now-playing-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .now-playing-title {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .now-playing-artist {
+      font-size: 0.85rem;
+      color: var(--gray);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .player-center {
@@ -143,39 +261,71 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-width: 500px;
+      max-width: 600px;
     }
 
     .player-buttons {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
+      gap: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .player-button {
+      color: var(--gray);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .player-button:hover {
+      color: var(--light);
+      transform: scale(1.1);
     }
 
     .player-button.play-pause {
       background-color: var(--primary);
       color: var(--light);
-      width: 36px;
-      height: 36px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 1rem;
+      transition: all 0.2s ease, transform 0.1s ease;
+    }
+
+    .player-button.play-pause:hover {
+      transform: scale(1.1);
+      background-color: var(--primary-dark);
+    }
+
+    .player-button.play-pause:active {
+      transform: scale(0.95);
     }
 
     .player-progress {
       width: 100%;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.8rem;
+    }
+
+    .progress-time {
+      font-size: 0.8rem;
+      color: var(--gray);
+      min-width: 40px;
     }
 
     .progress-bar {
       flex: 1;
-      height: 3px;
+      height: 4px;
       background-color: var(--gray-dark);
+      border-radius: 2px;
+      cursor: pointer;
       position: relative;
+      transition: height 0.2s ease;
     }
 
     .progress-fill {
@@ -185,9 +335,32 @@
       height: 100%;
       width: 0;
       background-color: var(--primary);
+      border-radius: 2px;
+      transition: width 0.1s linear;
     }
 
-    /* Loading Spinner - SIMPLIFIED */
+    .progress-handle {
+      position: absolute;
+      top: 50%;
+      right: -6px;
+      width: 12px;
+      height: 12px;
+      background-color: var(--light);
+      border-radius: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .progress-bar:hover {
+      height: 6px;
+    }
+
+    .progress-bar:hover .progress-handle,
+    .progress-bar:active .progress-handle {
+      opacity: 1;
+    }
+
     .spinner-container {
       display: none;
       position: fixed;
@@ -213,6 +386,37 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem;
+      }
+      
+      .search-container {
+        margin: 0 1rem;
+      }
+      
+      .search-input {
+        padding: 0.7rem 1rem 0.7rem 2.5rem;
+      }
+      
+      .search-icon {
+        left: 1rem;
+      }
+      
+      .now-playing {
+        width: 60%;
+      }
+      
+      .now-playing-image {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .player-buttons {
+        gap: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -224,12 +428,13 @@
     
     <div class="search-container">
       <i class="fas fa-search search-icon"></i>
-      <input type="text" class="search-input" placeholder="Search for songs..." id="searchInput">
+      <input type="text" class="search-input" placeholder="Search for songs..." id="searchInput" autocomplete="off">
     </div>
   </header>
   
   <div class="main-container">
     <div class="search-results" id="searchResults">
+      <h2 class="results-title">Search Results</h2>
       <div class="results-container" id="resultsContainer"></div>
     </div>
   </div>
@@ -258,6 +463,7 @@
         <span class="progress-time" id="currentTime">0:00</span>
         <div class="progress-bar" id="progressBar">
           <div class="progress-fill" id="progressFill"></div>
+          <div class="progress-handle"></div>
         </div>
         <span class="progress-time" id="duration">0:00</span>
       </div>
@@ -272,6 +478,7 @@
     let currentTrack = null;
     let searchResults = [];
     let currentTrackIndex = -1;
+    let progressInterval;
 
     document.addEventListener('DOMContentLoaded', function() {
       initYouTubePlayer();
@@ -291,6 +498,10 @@
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
+          },
+          playerVars: {
+            autoplay: 1,
+            controls: 0
           }
         });
       };
@@ -303,11 +514,20 @@
     function onPlayerStateChange(event) {
       const spinner = document.getElementById('spinnerContainer');
       
-      // Hide spinner in these cases
+      // Hide spinner when playing or paused
       if (event.data === YT.PlayerState.PLAYING || 
           event.data === YT.PlayerState.PAUSED ||
           event.data === YT.PlayerState.ENDED) {
         spinner.style.display = 'none';
+        
+        // Start progress timer when playing
+        if (event.data === YT.PlayerState.PLAYING) {
+          startProgressTimer();
+          updatePlayPauseButton(true);
+        } else if (event.data === YT.PlayerState.PAUSED) {
+          clearInterval(progressInterval);
+          updatePlayPauseButton(false);
+        }
       }
       
       // Show spinner only when buffering
@@ -329,25 +549,35 @@
         const percent = e.offsetX / this.offsetWidth;
         seekTo(percent);
       });
+      
+      // Click anywhere to hide spinner if stuck
+      document.addEventListener('click', function() {
+        if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
+          document.getElementById('spinnerContainer').style.display = 'none';
+        }
+      });
     }
 
     async function searchYouTube(query) {
       if (!query.trim()) return;
       
       document.getElementById('spinnerContainer').style.display = 'flex';
+      document.getElementById('searchResults').classList.remove('active');
       
       try {
-        const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${encodeURIComponent(query)}&type=video&key=${apiKey}`);
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q=${encodeURIComponent(query + " song")}&type=video&key=${apiKey}`);
         const data = await response.json();
         
-        searchResults = data.items.map(item => ({
-          id: item.id.videoId,
-          title: item.snippet.title,
-          channel: item.snippet.channelTitle,
-          thumbnail: item.snippet.thumbnails.medium.url
-        }));
-        
-        displaySearchResults();
+        if (data.items && data.items.length > 0) {
+          searchResults = data.items.map(item => ({
+            id: item.id.videoId,
+            title: item.snippet.title.replace(/&#39;/g, "'").replace(/&quot;/g, '"'),
+            channel: item.snippet.channelTitle,
+            thumbnail: item.snippet.thumbnails.medium ? item.snippet.thumbnails.medium.url : item.snippet.thumbnails.default.url
+          }));
+          
+          displaySearchResults();
+        }
       } catch (error) {
         console.error('Search error:', error);
       } finally {
@@ -362,10 +592,15 @@
       searchResults.forEach((result, index) => {
         const card = document.createElement('div');
         card.className = 'result-card';
+        card.dataset.index = index;
+        
         card.innerHTML = `
-          <img src="${result.thumbnail}" class="result-image">
+          <img src="${result.thumbnail}" alt="${result.title}" class="result-image">
           <h3 class="result-title">${result.title}</h3>
           <p class="result-channel">${result.channel}</p>
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
         `;
         
         card.addEventListener('click', () => playTrack(index));
@@ -378,25 +613,41 @@
     function playTrack(index) {
       if (index < 0 || index >= searchResults.length) return;
       
+      document.getElementById('spinnerContainer').style.display = 'flex';
+      
       currentTrackIndex = index;
       currentTrack = searchResults[index];
       
+      // Update now playing info
       document.getElementById('nowPlayingImage').src = currentTrack.thumbnail;
       document.getElementById('nowPlayingTitle').textContent = currentTrack.title;
       document.getElementById('nowPlayingArtist').textContent = currentTrack.channel;
       
-      // Show spinner only when loading new track
-      document.getElementById('spinnerContainer').style.display = 'flex';
       player.loadVideoById(currentTrack.id);
     }
 
     function togglePlayPause() {
-      if (!currentTrack) return;
+      if (!currentTrack) {
+        if (searchResults.length > 0) playTrack(0);
+        return;
+      }
       
       if (player.getPlayerState() === YT.PlayerState.PLAYING) {
         player.pauseVideo();
       } else {
         player.playVideo();
+      }
+    }
+
+    function updatePlayPauseButton(playing) {
+      const playBtn = document.getElementById('playBtn');
+      
+      if (playing) {
+        playBtn.classList.remove('fa-play');
+        playBtn.classList.add('fa-pause');
+      } else {
+        playBtn.classList.remove('fa-pause');
+        playBtn.classList.add('fa-play');
       }
     }
 
@@ -412,10 +663,32 @@
       playTrack(prevIndex);
     }
 
+    function startProgressTimer() {
+      clearInterval(progressInterval);
+      
+      progressInterval = setInterval(() => {
+        if (!currentTrack || !player.getCurrentTime) return;
+        
+        const currentTime = player.getCurrentTime();
+        const duration = player.getDuration();
+        const percent = (currentTime / duration) * 100;
+        
+        document.getElementById('progressFill').style.width = `${percent}%`;
+        document.getElementById('currentTime').textContent = formatTime(currentTime);
+        document.getElementById('duration').textContent = formatTime(duration);
+      }, 1000);
+    }
+
     function seekTo(percent) {
       if (!player.seekTo) return;
       const duration = player.getDuration();
       player.seekTo(duration * percent);
+    }
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
   </script>
 </body>
