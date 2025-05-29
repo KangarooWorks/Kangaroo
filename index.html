@@ -34,7 +34,6 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
     }
 
     /* Custom Scrollbar */
@@ -61,7 +60,7 @@
     .app-container {
       display: flex;
       flex: 1;
-      overflow: hidden;
+      min-height: 100vh;
     }
 
     /* Premium Sidebar */
@@ -165,11 +164,11 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
       margin-left: var(--sidebar-width);
       background: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center;
       background-size: cover;
       position: relative;
+      min-height: 100vh;
     }
 
     .main-content::before {
@@ -262,6 +261,7 @@
       display: none;
       position: relative;
       z-index: 1;
+      height: calc(100vh - 180px);
     }
 
     .tab-content.active {
@@ -292,6 +292,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 1.5rem;
+      padding-bottom: 2rem;
     }
 
     .result-card {
@@ -657,6 +658,7 @@
       margin: 0 auto;
       overflow-y: auto;
       max-height: calc(100vh - 180px);
+      padding-bottom: 2rem;
     }
 
     .log-card {
@@ -886,6 +888,7 @@
       
       .tab-content {
         padding: 1.2rem;
+        height: calc(100vh - 150px);
       }
     }
 
@@ -923,6 +926,7 @@
       
       .tab-content {
         padding: 1rem;
+        height: calc(100vh - 140px);
       }
       
       .result-title {
@@ -1022,6 +1026,22 @@
           
           <div class="log-card">
             <div class="log-header">
+              <span class="log-version">v3.5</span>
+              <span class="log-date">June 1, 2025</span>
+            </div>
+            <h3 class="log-title">Scrolling Fixes Update</h3>
+            <ul class="log-features">
+              <li>Fixed scrolling issues on mobile and desktop</li>
+              <li>Improved content container heights</li>
+              <li>Added proper padding to all scrollable areas</li>
+              <li>Optimized tab content overflow behavior</li>
+              <li>Fixed player controls positioning</li>
+              <li>Enhanced overall scrolling experience</li>
+            </ul>
+          </div>
+          
+          <div class="log-card">
+            <div class="log-header">
               <span class="log-version">v3.4</span>
               <span class="log-date">May 31, 2025</span>
             </div>
@@ -1033,38 +1053,6 @@
               <li>Enhanced player controls responsiveness</li>
               <li>Fixed history playback issues</li>
               <li>Optimized state management</li>
-            </ul>
-          </div>
-          
-          <div class="log-card">
-            <div class="log-header">
-              <span class="log-version">v3.3</span>
-              <span class="log-date">May 30, 2025</span>
-            </div>
-            <h3 class="log-title">Final Enhancements</h3>
-            <ul class="log-features">
-              <li>Added Apple Music favicon</li>
-              <li>Fixed scaling issues for all devices</li>
-              <li>Improved mobile menu visibility</li>
-              <li>Renamed app to "Harmony" with refined logo</li>
-              <li>Optimized title size and spacing</li>
-              <li>Enhanced responsive design</li>
-            </ul>
-          </div>
-          
-          <div class="log-card">
-            <div class="log-header">
-              <span class="log-version">v3.2</span>
-              <span class="log-date">May 29, 2025</span>
-            </div>
-            <h3 class="log-title">Display Fixes Update</h3>
-            <ul class="log-features">
-              <li>Fixed song name and thumbnail display issues</li>
-              <li>Improved text truncation for all devices</li>
-              <li>Enhanced responsive design for mobile screens</li>
-              <li>Optimized song title display in player and cards</li>
-              <li>Added proper ellipsis for long song titles</li>
-              <li>Fixed mobile layout issues with player controls</li>
             </ul>
           </div>
         </div>
