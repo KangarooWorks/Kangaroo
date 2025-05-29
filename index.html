@@ -400,7 +400,7 @@
       margin-top: -1px;
     }
 
-    /* Loading Spinner */
+    /* Loading Spinner - FIXED */
     .spinner-container {
       display: none;
       position: fixed;
@@ -408,7 +408,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.7);
       z-index: 1000;
       justify-content: center;
       align-items: center;
@@ -420,7 +420,7 @@
       border: 4px solid rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       border-top-color: var(--primary);
-      animation: spin 1s ease-in-out infinite;
+      animation: spin 1s linear infinite;
     }
 
     @keyframes spin {
@@ -567,19 +567,24 @@
     function onPlayerStateChange(event) {
       const spinner = document.getElementById('spinnerContainer');
       
+      // Hide spinner when video starts playing or is cued
+      if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.CUED) {
+        spinner.style.display = 'none';
+      }
+      
       if (event.data === YT.PlayerState.ENDED) {
         playNextTrack();
-      } else if (event.data === YT.PlayerState.PLAYING) {
-        spinner.style.display = 'none';
+      } 
+      else if (event.data === YT.PlayerState.PLAYING) {
         startProgressTimer();
         updatePlayPauseButton(true);
-      } else if (event.data === YT.PlayerState.PAUSED) {
+      } 
+      else if (event.data === YT.PlayerState.PAUSED) {
         clearInterval(progressInterval);
         updatePlayPauseButton(false);
-      } else if (event.data === YT.PlayerState.BUFFERING) {
+      } 
+      else if (event.data === YT.PlayerState.BUFFERING) {
         spinner.style.display = 'flex';
-      } else if (event.data === YT.PlayerState.CUED) {
-        spinner.style.display = 'none';
       }
     }
     
@@ -702,7 +707,10 @@
       
       currentTrackIndex = index;
       currentTrack = searchResults[index];
-      player.loadVideoById(currentTrack.id);
+      player.loadVideoById({
+        videoId: currentTrack.id,
+        suggestedQuality: 'default'
+      });
       
       // Update now playing info
       document.getElementById('nowPlayingImage').src = currentTrack.thumbnail;
