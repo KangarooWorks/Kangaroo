@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary: #ff0000; /* YouTube red */
+      --primary: #ff0000;
       --primary-dark: #cc0000;
       --dark: #0f0f0f;
       --darker: #1f1f1f;
@@ -33,7 +33,6 @@
       flex-direction: column;
     }
 
-    /* Header */
     header {
       display: flex;
       justify-content: space-between;
@@ -55,10 +54,6 @@
       gap: 0.5rem;
     }
 
-    .logo i {
-      font-size: 1.3rem;
-    }
-
     .search-container {
       position: relative;
       flex: 1;
@@ -74,26 +69,8 @@
       background-color: var(--darker);
       color: var(--light);
       font-size: 0.9rem;
-      transition: var(--transition);
     }
 
-    .search-input:focus {
-      outline: none;
-      border-color: var(--primary);
-      background-color: var(--darkest);
-      box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 0.8rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray);
-      pointer-events: none;
-    }
-
-    /* Main Content */
     .main-container {
       flex: 1;
       padding: 1rem;
@@ -102,7 +79,6 @@
       overflow-y: auto;
     }
 
-    /* Search Results */
     .search-results {
       margin-top: 1rem;
       display: none;
@@ -112,41 +88,18 @@
       display: block;
     }
 
-    .results-title {
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      color: var(--light);
-      font-weight: 500;
-    }
-
     .results-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 1rem;
     }
 
-    @media (min-width: 768px) {
-      .results-container {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1.5rem;
-      }
-    }
-
     .result-card {
       background-color: var(--darker);
       border-radius: 8px;
       padding: 0.8rem;
-      transition: var(--transition);
       cursor: pointer;
       position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .result-card:hover {
-      background-color: var(--gray-dark);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
 
     .result-image {
@@ -155,63 +108,8 @@
       border-radius: 5px;
       margin-bottom: 0.8rem;
       object-fit: cover;
-      transition: var(--transition);
     }
 
-    .result-card:hover .result-image {
-      transform: scale(1.03);
-    }
-
-    .result-title {
-      font-size: 0.9rem;
-      font-weight: 500;
-      margin-bottom: 0.3rem;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      line-height: 1.3;
-    }
-
-    .result-channel {
-      font-size: 0.75rem;
-      color: var(--gray);
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .play-button {
-      position: absolute;
-      bottom: 1.2rem;
-      right: 1.2rem;
-      width: 36px;
-      height: 36px;
-      background-color: var(--primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: var(--transition);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      z-index: 2;
-    }
-
-    .result-card:hover .play-button {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .play-button i {
-      color: var(--light);
-      font-size: 0.9rem;
-      margin-left: 2px;
-    }
-
-    /* Player Controls */
     .player-controls {
       position: fixed;
       bottom: 0;
@@ -224,14 +122,6 @@
       align-items: center;
       padding: 0 1rem;
       z-index: 100;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    @media (min-width: 768px) {
-      .player-controls {
-        height: 90px;
-        padding: 0 1.5rem;
-      }
     }
 
     .now-playing {
@@ -239,7 +129,6 @@
       align-items: center;
       gap: 0.8rem;
       width: 40%;
-      min-width: 0;
     }
 
     .now-playing-image {
@@ -247,30 +136,6 @@
       height: 50px;
       border-radius: 5px;
       object-fit: cover;
-      flex-shrink: 0;
-    }
-
-    .now-playing-info {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-
-    .now-playing-title {
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-bottom: 0.2rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .now-playing-artist {
-      font-size: 0.75rem;
-      color: var(--gray);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .player-center {
@@ -288,30 +153,6 @@
       margin-bottom: 0.5rem;
     }
 
-    @media (min-width: 768px) {
-      .player-buttons {
-        gap: 1.5rem;
-        margin-bottom: 0.8rem;
-      }
-    }
-
-    .player-button {
-      color: var(--gray);
-      font-size: 1rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    @media (min-width: 768px) {
-      .player-button {
-        font-size: 1.1rem;
-      }
-    }
-
-    .player-button:hover {
-      color: var(--light);
-    }
-
     .player-button.play-pause {
       background-color: var(--primary);
       color: var(--light);
@@ -321,20 +162,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.9rem;
-    }
-
-    @media (min-width: 768px) {
-      .player-button.play-pause {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-      }
-    }
-
-    .player-button.play-pause:hover {
-      transform: scale(1.05);
-      background-color: var(--primary-dark);
     }
 
     .player-progress {
@@ -344,25 +171,10 @@
       gap: 0.5rem;
     }
 
-    .progress-time {
-      font-size: 0.65rem;
-      color: var(--gray);
-      min-width: 35px;
-    }
-
-    @media (min-width: 768px) {
-      .progress-time {
-        font-size: 0.7rem;
-        min-width: 40px;
-      }
-    }
-
     .progress-bar {
       flex: 1;
       height: 3px;
       background-color: var(--gray-dark);
-      border-radius: 2px;
-      cursor: pointer;
       position: relative;
     }
 
@@ -373,34 +185,9 @@
       height: 100%;
       width: 0;
       background-color: var(--primary);
-      border-radius: 2px;
-      transition: width 0.1s linear;
     }
 
-    .progress-handle {
-      position: absolute;
-      top: 50%;
-      right: -6px;
-      width: 12px;
-      height: 12px;
-      background-color: var(--light);
-      border-radius: 50%;
-      transform: translateY(-50%);
-      opacity: 0;
-      transition: var(--transition);
-    }
-
-    .progress-bar:hover .progress-handle,
-    .progress-bar:active .progress-handle {
-      opacity: 1;
-    }
-
-    .progress-bar:hover .progress-fill {
-      height: 5px;
-      margin-top: -1px;
-    }
-
-    /* Loading Spinner - FIXED */
+    /* Loading Spinner - SIMPLIFIED */
     .spinner-container {
       display: none;
       position: fixed;
@@ -426,36 +213,6 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-
-    /* Empty State */
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 60vh;
-      text-align: center;
-      padding: 1rem;
-    }
-
-    .empty-state i {
-      font-size: 3rem;
-      color: var(--gray);
-      margin-bottom: 1rem;
-    }
-
-    .empty-state h2 {
-      font-size: 1.3rem;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      color: var(--light);
-    }
-
-    .empty-state p {
-      font-size: 0.9rem;
-      color: var(--gray);
-      max-width: 300px;
-    }
   </style>
 </head>
 <body>
@@ -467,19 +224,12 @@
     
     <div class="search-container">
       <i class="fas fa-search search-icon"></i>
-      <input type="text" class="search-input" placeholder="Search for songs..." id="searchInput" autocomplete="off">
+      <input type="text" class="search-input" placeholder="Search for songs..." id="searchInput">
     </div>
   </header>
   
   <div class="main-container">
-    <div class="empty-state" id="emptyState">
-      <i class="fas fa-music"></i>
-      <h2>Search for music</h2>
-      <p>Type in the search bar to find your favorite songs and play them instantly</p>
-    </div>
-    
     <div class="search-results" id="searchResults">
-      <h2 class="results-title">Search Results</h2>
       <div class="results-container" id="resultsContainer"></div>
     </div>
   </div>
@@ -490,7 +240,7 @@
   
   <div class="player-controls">
     <div class="now-playing">
-      <img src="https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Now Playing" class="now-playing-image" id="nowPlayingImage">
+      <img src="" alt="Now Playing" class="now-playing-image" id="nowPlayingImage">
       <div class="now-playing-info">
         <div class="now-playing-title" id="nowPlayingTitle">Not Playing</div>
         <div class="now-playing-artist" id="nowPlayingArtist">Search for a song</div>
@@ -508,33 +258,26 @@
         <span class="progress-time" id="currentTime">0:00</span>
         <div class="progress-bar" id="progressBar">
           <div class="progress-fill" id="progressFill"></div>
-          <div class="progress-handle"></div>
         </div>
         <span class="progress-time" id="duration">0:00</span>
       </div>
     </div>
   </div>
   
-  <!-- Hidden YouTube Player -->
   <div id="youtube-player"></div>
   
   <script>
-    // YouTube API setup
     const apiKey = "AIzaSyBmpBJ7bU38l7gDWiv2BCSyC7A5ItNYhWg";
     let player;
     let currentTrack = null;
-    let isPlaying = false;
-    let progressInterval;
     let searchResults = [];
     let currentTrackIndex = -1;
-    
-    // Initialize the app
+
     document.addEventListener('DOMContentLoaded', function() {
       initYouTubePlayer();
       setupEventListeners();
     });
-    
-    // Initialize YouTube Player
+
     function initYouTubePlayer() {
       const tag = document.createElement('script');
       tag.src = "https://www.youtube.com/iframe_api";
@@ -548,111 +291,70 @@
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
-          },
-          playerVars: {
-            autoplay: 1,
-            controls: 0,
-            disablekb: 1,
-            fs: 0,
-            rel: 0
           }
         });
       };
     }
-    
-    function onPlayerReady(event) {
-      console.log('YouTube Player is ready');
+
+    function onPlayerReady() {
+      console.log('Player ready');
     }
-    
+
     function onPlayerStateChange(event) {
       const spinner = document.getElementById('spinnerContainer');
       
-      // Hide spinner when video starts playing or is cued
-      if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.CUED) {
+      // Hide spinner in these cases
+      if (event.data === YT.PlayerState.PLAYING || 
+          event.data === YT.PlayerState.PAUSED ||
+          event.data === YT.PlayerState.ENDED) {
         spinner.style.display = 'none';
       }
       
-      if (event.data === YT.PlayerState.ENDED) {
-        playNextTrack();
-      } 
-      else if (event.data === YT.PlayerState.PLAYING) {
-        startProgressTimer();
-        updatePlayPauseButton(true);
-      } 
-      else if (event.data === YT.PlayerState.PAUSED) {
-        clearInterval(progressInterval);
-        updatePlayPauseButton(false);
-      } 
-      else if (event.data === YT.PlayerState.BUFFERING) {
+      // Show spinner only when buffering
+      if (event.data === YT.PlayerState.BUFFERING) {
         spinner.style.display = 'flex';
       }
     }
-    
-    // Setup event listeners
+
     function setupEventListeners() {
-      // Search functionality
       document.getElementById('searchInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          searchYouTube(this.value);
-        }
+        if (e.key === 'Enter') searchYouTube(this.value);
       });
       
-      // Play/Pause button
       document.getElementById('playBtn').addEventListener('click', togglePlayPause);
-      
-      // Next button
       document.getElementById('nextBtn').addEventListener('click', playNextTrack);
-      
-      // Previous button
       document.getElementById('prevBtn').addEventListener('click', playPreviousTrack);
       
-      // Progress bar click
       document.getElementById('progressBar').addEventListener('click', function(e) {
         const percent = e.offsetX / this.offsetWidth;
         seekTo(percent);
       });
-      
-      // Click anywhere to hide spinner when video is playing
-      document.addEventListener('click', function() {
-        if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
-          document.getElementById('spinnerContainer').style.display = 'none';
-        }
-      });
     }
-    
-    // Search YouTube for videos
+
     async function searchYouTube(query) {
       if (!query.trim()) return;
       
-      document.getElementById('emptyState').style.display = 'none';
       document.getElementById('spinnerContainer').style.display = 'flex';
-      document.getElementById('searchResults').classList.remove('active');
       
       try {
-        const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q=${encodeURIComponent(query + " song")}&type=video&videoCategoryId=10&key=${apiKey}`);
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${encodeURIComponent(query)}&type=video&key=${apiKey}`);
         const data = await response.json();
         
-        if (data.items && data.items.length > 0) {
-          searchResults = data.items.map(item => ({
-            id: item.id.videoId,
-            title: item.snippet.title.replace(/&#39;/g, "'").replace(/&quot;/g, '"'),
-            channel: item.snippet.channelTitle,
-            thumbnail: item.snippet.thumbnails.medium ? item.snippet.thumbnails.medium.url : item.snippet.thumbnails.default.url
-          }));
-          
-          displaySearchResults();
-        } else {
-          showNoResults();
-        }
+        searchResults = data.items.map(item => ({
+          id: item.id.videoId,
+          title: item.snippet.title,
+          channel: item.snippet.channelTitle,
+          thumbnail: item.snippet.thumbnails.medium.url
+        }));
+        
+        displaySearchResults();
       } catch (error) {
-        console.error('Error searching YouTube:', error);
-        showError();
+        console.error('Search error:', error);
       } finally {
         document.getElementById('spinnerContainer').style.display = 'none';
       }
     }
-    
-    // Display search results
+
     function displaySearchResults() {
       const container = document.getElementById('resultsContainer');
       container.innerHTML = '';
@@ -660,144 +362,60 @@
       searchResults.forEach((result, index) => {
         const card = document.createElement('div');
         card.className = 'result-card';
-        card.dataset.index = index;
-        
         card.innerHTML = `
-          <img src="${result.thumbnail}" alt="${result.title}" class="result-image">
+          <img src="${result.thumbnail}" class="result-image">
           <h3 class="result-title">${result.title}</h3>
           <p class="result-channel">${result.channel}</p>
-          <div class="play-button">
-            <i class="fas fa-play"></i>
-          </div>
         `;
         
-        card.addEventListener('click', () => {
-          playTrack(index);
-        });
-        
+        card.addEventListener('click', () => playTrack(index));
         container.appendChild(card);
       });
       
       document.getElementById('searchResults').classList.add('active');
     }
-    
-    function showNoResults() {
-      document.getElementById('emptyState').innerHTML = `
-        <i class="fas fa-search"></i>
-        <h2>No results found</h2>
-        <p>Try a different search term</p>
-      `;
-      document.getElementById('emptyState').style.display = 'flex';
-    }
-    
-    function showError() {
-      document.getElementById('emptyState').innerHTML = `
-        <i class="fas fa-exclamation-triangle"></i>
-        <h2>Error loading results</h2>
-        <p>Please try again later</p>
-      `;
-      document.getElementById('emptyState').style.display = 'flex';
-    }
-    
-    // Play a track
+
     function playTrack(index) {
       if (index < 0 || index >= searchResults.length) return;
       
-      document.getElementById('spinnerContainer').style.display = 'flex';
-      
       currentTrackIndex = index;
       currentTrack = searchResults[index];
-      player.loadVideoById({
-        videoId: currentTrack.id,
-        suggestedQuality: 'default'
-      });
       
-      // Update now playing info
       document.getElementById('nowPlayingImage').src = currentTrack.thumbnail;
       document.getElementById('nowPlayingTitle').textContent = currentTrack.title;
       document.getElementById('nowPlayingArtist').textContent = currentTrack.channel;
       
-      isPlaying = true;
-      updatePlayPauseButton(true);
+      // Show spinner only when loading new track
+      document.getElementById('spinnerContainer').style.display = 'flex';
+      player.loadVideoById(currentTrack.id);
     }
-    
-    // Toggle play/pause
+
     function togglePlayPause() {
-      if (!currentTrack) {
-        // If nothing is playing, play the first result if available
-        if (searchResults.length > 0) {
-          playTrack(0);
-        }
-        return;
-      }
+      if (!currentTrack) return;
       
-      if (isPlaying) {
+      if (player.getPlayerState() === YT.PlayerState.PLAYING) {
         player.pauseVideo();
       } else {
         player.playVideo();
       }
     }
-    
-    // Play next track
+
     function playNextTrack() {
       if (searchResults.length === 0) return;
-      
       const nextIndex = (currentTrackIndex + 1) % searchResults.length;
       playTrack(nextIndex);
     }
-    
-    // Play previous track
+
     function playPreviousTrack() {
       if (searchResults.length === 0) return;
-      
       const prevIndex = (currentTrackIndex - 1 + searchResults.length) % searchResults.length;
       playTrack(prevIndex);
     }
-    
-    // Update play/pause button
-    function updatePlayPauseButton(playing) {
-      isPlaying = playing;
-      const playBtn = document.getElementById('playBtn');
-      
-      if (playing) {
-        playBtn.classList.remove('fa-play');
-        playBtn.classList.add('fa-pause');
-      } else {
-        playBtn.classList.remove('fa-pause');
-        playBtn.classList.add('fa-play');
-      }
-    }
-    
-    // Start progress timer
-    function startProgressTimer() {
-      clearInterval(progressInterval);
-      
-      progressInterval = setInterval(() => {
-        if (!currentTrack || !player.getCurrentTime) return;
-        
-        const currentTime = player.getCurrentTime();
-        const duration = player.getDuration();
-        const percent = (currentTime / duration) * 100;
-        
-        document.getElementById('progressFill').style.width = `${percent}%`;
-        document.getElementById('currentTime').textContent = formatTime(currentTime);
-        document.getElementById('duration').textContent = formatTime(duration);
-      }, 1000);
-    }
-    
-    // Seek to position in track
+
     function seekTo(percent) {
       if (!player.seekTo) return;
-      
       const duration = player.getDuration();
       player.seekTo(duration * percent);
-    }
-    
-    // Format time (seconds to MM:SS)
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
   </script>
 </body>
