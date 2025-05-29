@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harmony Elite - Premium Music Player</title>
+  <title>Harmony - Music Player</title>
+  <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -79,19 +80,21 @@
     }
 
     .logo-container {
-      padding: 1.8rem 1.5rem 1.5rem;
+      padding: 1.5rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       background: linear-gradient(to right, rgba(255,0,0,0.2), transparent);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
+      font-size: 1.5rem;
+      font-weight: 600;
       color: var(--light);
       display: flex;
       align-items: center;
       gap: 0.8rem;
-      letter-spacing: 0.5px;
     }
 
     .logo span {
@@ -103,7 +106,7 @@
     }
 
     .logo i {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: var(--primary);
     }
 
@@ -184,7 +187,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.2rem 2rem;
+      padding: 1rem 1.5rem;
       background: rgba(15, 15, 15, 0.8);
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       position: sticky;
@@ -200,24 +203,36 @@
       color: var(--light);
       font-size: 1.5rem;
       cursor: pointer;
+      margin-right: 0.5rem;
+    }
+
+    .header-title {
+      display: none;
+      font-size: 1.3rem;
+      font-weight: 600;
       margin-right: 1rem;
+      background: linear-gradient(45deg, var(--primary), #ff6b6b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
     }
 
     .search-container {
       position: relative;
       flex: 1;
       max-width: 700px;
-      margin: 0 1.5rem;
+      margin: 0 1rem;
     }
 
     .search-input {
       width: 100%;
-      padding: 1rem 1.2rem 1rem 3.5rem;
+      padding: 0.9rem 1rem 0.9rem 3rem;
       border-radius: 30px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(30, 30, 30, 0.7);
       color: var(--light);
-      font-size: 1.1rem;
+      font-size: 1rem;
       transition: var(--transition);
       backdrop-filter: blur(5px);
       font-weight: 500;
@@ -232,17 +247,17 @@
 
     .search-icon {
       position: absolute;
-      left: 1.5rem;
+      left: 1.3rem;
       top: 50%;
       transform: translateY(-50%);
       color: var(--gray);
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
     /* Premium Tab Content */
     .tab-content {
       flex: 1;
-      padding: 2rem;
+      padding: 1.5rem;
       overflow-y: auto;
       display: none;
       position: relative;
@@ -254,8 +269,8 @@
     }
 
     .results-title {
-      font-size: 1.8rem;
-      margin-bottom: 1.8rem;
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
       color: var(--light);
       font-weight: 700;
       position: relative;
@@ -267,7 +282,7 @@
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 80px;
+      width: 60px;
       height: 4px;
       background: var(--primary);
       border-radius: 2px;
@@ -276,45 +291,45 @@
     .results-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 2rem;
+      gap: 1.5rem;
     }
 
     .result-card {
       background: rgba(30, 30, 30, 0.7);
       border-radius: 12px;
-      padding: 1.2rem;
+      padding: 1rem;
       transition: var(--transition);
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(5px);
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .result-card:hover {
       background: rgba(50, 50, 50, 0.8);
-      transform: translateY(-8px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
     }
 
     .result-image {
       width: 100%;
       aspect-ratio: 16/9;
       border-radius: 8px;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
       object-fit: cover;
       transition: var(--transition);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     .result-card:hover .result-image {
-      transform: scale(1.05);
+      transform: scale(1.03);
     }
 
     /* Fixed title display */
     .result-title {
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
       display: -webkit-box;
@@ -328,7 +343,7 @@
     }
 
     .result-channel {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--gray);
       display: -webkit-box;
       -webkit-line-clamp: 1;
@@ -353,8 +368,8 @@
     }
 
     .action-btn {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       background: rgba(0, 0, 0, 0.7);
       border-radius: 50%;
       display: flex;
@@ -378,10 +393,10 @@
 
     .play-button {
       position: absolute;
-      bottom: 1.8rem;
-      right: 1.8rem;
-      width: 45px;
-      height: 45px;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 40px;
+      height: 40px;
       background: var(--primary);
       border-radius: 50%;
       display: flex;
@@ -390,7 +405,7 @@
       opacity: 0;
       transform: translateY(10px);
       transition: var(--transition);
-      box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
       z-index: 2;
     }
 
@@ -401,7 +416,7 @@
 
     .play-button i {
       color: var(--light);
-      font-size: 1.1rem;
+      font-size: 1rem;
       margin-left: 2px;
     }
 
@@ -411,33 +426,33 @@
       bottom: 0;
       left: var(--sidebar-width);
       right: 0;
-      height: 100px;
+      height: 90px;
       background: rgba(20, 20, 20, 0.95);
       border-top: 1px solid rgba(255, 255, 255, 0.05);
       display: flex;
       align-items: center;
-      padding: 0 2rem;
+      padding: 0 1.5rem;
       z-index: 100;
-      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(10px);
     }
 
     .now-playing {
       display: flex;
       align-items: center;
-      gap: 1.2rem;
+      gap: 1rem;
       width: 30%;
       min-width: 0;
     }
 
     .now-playing-image {
-      width: 70px;
-      height: 70px;
-      border-radius: 10px;
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
       object-fit: cover;
       flex-shrink: 0;
       transition: var(--transition);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       background: #333; /* Fallback color */
     }
 
@@ -450,9 +465,9 @@
 
     /* Fixed song title display */
     .now-playing-title {
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.2rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -460,7 +475,7 @@
     }
 
     .now-playing-artist {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--gray);
       white-space: nowrap;
       overflow: hidden;
@@ -473,45 +488,45 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-width: 700px;
+      max-width: 600px;
     }
 
     .player-buttons {
       display: flex;
       align-items: center;
-      gap: 1.8rem;
-      margin-bottom: 1rem;
+      gap: 1.5rem;
+      margin-bottom: 0.8rem;
     }
 
     .player-button {
       color: var(--gray);
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       cursor: pointer;
       transition: var(--transition);
     }
 
     .player-button:hover {
       color: var(--light);
-      transform: scale(1.15);
+      transform: scale(1.1);
     }
 
     .player-button.play-pause {
       background: linear-gradient(135deg, var(--primary), #ff6b6b);
       color: var(--light);
-      width: 55px;
-      height: 55px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1rem;
       transition: all 0.2s ease, transform 0.1s ease;
-      box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
     }
 
     .player-button.play-pause:hover {
-      transform: scale(1.15);
-      box-shadow: 0 7px 20px rgba(255, 0, 0, 0.4);
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(255, 0, 0, 0.4);
     }
 
     .player-button.play-pause:active {
@@ -520,49 +535,49 @@
 
     .player-actions {
       display: flex;
-      gap: 1.5rem;
-      margin-left: 1.5rem;
+      gap: 1.2rem;
+      margin-left: 1.2rem;
     }
 
     .like-btn {
       color: var(--gray);
       transition: var(--transition);
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
 
     .like-btn:hover, .like-btn.liked {
       color: var(--accent);
-      transform: scale(1.15);
+      transform: scale(1.1);
     }
 
     .fav-btn {
       color: var(--gray);
       transition: var(--transition);
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
 
     .fav-btn:hover, .fav-btn.favorited {
       color: var(--primary);
-      transform: scale(1.15);
+      transform: scale(1.1);
     }
 
     .player-progress {
       width: 100%;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.8rem;
     }
 
     .progress-time {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--gray);
-      min-width: 45px;
+      min-width: 40px;
       font-weight: 500;
     }
 
     .progress-bar {
       flex: 1;
-      height: 6px;
+      height: 5px;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 3px;
       cursor: pointer;
@@ -584,19 +599,19 @@
     .progress-handle {
       position: absolute;
       top: 50%;
-      right: -8px;
-      width: 16px;
-      height: 16px;
+      right: -6px;
+      width: 12px;
+      height: 12px;
       background: var(--light);
       border-radius: 50%;
       transform: translateY(-50%);
       opacity: 0;
       transition: var(--transition);
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
     }
 
     .progress-bar:hover {
-      height: 8px;
+      height: 7px;
     }
 
     .progress-bar:hover .progress-handle,
@@ -619,13 +634,13 @@
     }
 
     .spinner {
-      width: 60px;
-      height: 60px;
-      border: 5px solid rgba(255, 255, 255, 0.1);
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       border-top-color: var(--primary);
       animation: spin 1s linear infinite;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
     }
 
     @keyframes spin {
@@ -637,16 +652,16 @@
       max-width: 900px;
       margin: 0 auto;
       overflow-y: auto;
-      max-height: calc(100vh - 200px);
+      max-height: calc(100vh - 180px);
     }
 
     .log-card {
       background: linear-gradient(135deg, rgba(30,30,30,0.8), rgba(15,15,15,0.9));
-      border-radius: 15px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      border-left: 5px solid var(--primary);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      border-left: 4px solid var(--primary);
       backdrop-filter: blur(5px);
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
@@ -655,42 +670,42 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .log-version {
       background: linear-gradient(45deg, var(--primary), #ff6b6b);
       color: white;
-      padding: 0.4rem 1rem;
+      padding: 0.3rem 0.8rem;
       border-radius: 20px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      box-shadow: 0 3px 10px rgba(255, 0, 0, 0.2);
+      box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2);
     }
 
     .log-date {
       color: var(--gray);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 500;
     }
 
     .log-title {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
       color: var(--light);
       font-weight: 700;
     }
 
     .log-features {
       list-style-type: none;
-      padding-left: 1.5rem;
+      padding-left: 1.2rem;
     }
 
     .log-features li {
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       position: relative;
-      padding-left: 2rem;
-      font-size: 1.1rem;
+      padding-left: 1.8rem;
+      font-size: 1rem;
       line-height: 1.5;
     }
 
@@ -699,8 +714,8 @@
       position: absolute;
       left: 0;
       top: 0.5rem;
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       background: var(--primary);
       border-radius: 50%;
     }
@@ -708,19 +723,19 @@
     /* Empty State */
     .empty-state {
       text-align: center;
-      padding: 4rem 2rem;
+      padding: 3rem 1.5rem;
       color: var(--gray);
       background: rgba(30, 30, 30, 0.5);
-      border-radius: 15px;
-      max-width: 600px;
-      margin: 2rem auto;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: 1.5rem auto;
       backdrop-filter: blur(5px);
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .empty-state i {
-      font-size: 5rem;
-      margin-bottom: 1.5rem;
+      font-size: 4rem;
+      margin-bottom: 1.2rem;
       opacity: 0.3;
       background: linear-gradient(45deg, var(--primary), var(--accent));
       -webkit-background-clip: text;
@@ -729,15 +744,15 @@
     }
 
     .empty-state h3 {
-      font-size: 1.8rem;
-      margin-bottom: 0.8rem;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
       color: var(--light);
       font-weight: 700;
     }
 
     .empty-state p {
-      font-size: 1.1rem;
-      max-width: 500px;
+      font-size: 1rem;
+      max-width: 400px;
       margin: 0 auto;
       line-height: 1.6;
     }
@@ -778,20 +793,25 @@
         display: block;
       }
       
+      .header-title {
+        display: block;
+      }
+      
       header {
-        padding: 1rem;
+        padding: 0.8rem 1rem;
       }
       
       .search-container {
-        margin: 0 1rem;
+        margin: 0 0.5rem;
       }
       
       .search-input {
-        padding: 0.9rem 1rem 0.9rem 3rem;
+        padding: 0.8rem 1rem 0.8rem 2.8rem;
+        font-size: 0.95rem;
       }
       
       .search-icon {
-        left: 1.2rem;
+        left: 1rem;
       }
       
       .now-playing {
@@ -799,41 +819,42 @@
       }
       
       .now-playing-image {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
       }
       
       .player-buttons {
-        gap: 1.2rem;
+        gap: 1rem;
       }
       
       .results-container {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1.2rem;
       }
       
       /* Improved text display for mobile */
       .result-title {
-        font-size: 1rem;
-        min-height: 2.8em;
+        font-size: 0.95rem;
+        min-height: 2.6em;
       }
     }
 
     @media (max-width: 768px) {
       .results-container {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
       }
       
       .player-controls {
-        height: 120px;
+        height: 110px;
         flex-direction: column;
-        padding: 1rem;
+        padding: 0.8rem;
         align-items: flex-start;
       }
       
       .now-playing {
         width: 100%;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
       }
       
       .player-center {
@@ -842,37 +863,41 @@
       
       .player-actions {
         position: absolute;
-        right: 1rem;
-        top: 1rem;
+        right: 0.8rem;
+        top: 0.8rem;
       }
       
       .log-card {
-        padding: 1.5rem;
+        padding: 1.2rem;
       }
       
       .log-title {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
       }
       
       .log-features li {
-        font-size: 1rem;
+        font-size: 0.95rem;
         padding-left: 1.5rem;
+      }
+      
+      .tab-content {
+        padding: 1.2rem;
       }
     }
 
     @media (max-width: 480px) {
       .results-container {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 0.8rem;
       }
       
       .player-controls {
-        height: 140px;
+        height: 120px;
       }
       
       .player-buttons {
-        gap: 1rem;
-        margin-bottom: 0.8rem;
+        gap: 0.8rem;
+        margin-bottom: 0.5rem;
       }
       
       .player-button {
@@ -880,8 +905,8 @@
       }
       
       .player-button.play-pause {
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
       }
       
       .progress-time {
@@ -889,16 +914,20 @@
       }
       
       .now-playing-info {
-        max-width: 180px;
+        max-width: 160px;
       }
       
       .tab-content {
-        padding: 1.5rem 1rem;
+        padding: 1rem;
       }
       
       .result-title {
-        font-size: 0.95rem;
-        min-height: 2.6em;
+        font-size: 0.9rem;
+        min-height: 2.4em;
+      }
+      
+      .results-title {
+        font-size: 1.4rem;
       }
     }
   </style>
@@ -908,9 +937,9 @@
     <!-- Premium Sidebar -->
     <div class="sidebar" id="sidebar">
       <div class="logo-container">
+        <i class="fas fa-music"></i>
         <div class="logo">
-          <i class="fas fa-music"></i>
-          <span>HARMONY ELITE</span>
+          <span>Harmony</span>
         </div>
       </div>
       
@@ -936,13 +965,13 @@
       </div>
       
       <!-- Now Playing Preview -->
-      <div class="now-playing-preview" style="padding: 1.5rem; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05);">
-        <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--light); font-weight: 500;">Now Playing</h3>
+      <div class="now-playing-preview" style="padding: 1.2rem; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05);">
+        <h3 style="font-size: 1rem; margin-bottom: 0.8rem; color: var(--light); font-weight: 500;">Now Playing</h3>
         <div class="now-playing">
-          <img src="" alt="Now Playing" class="now-playing-image" id="sidebarNowPlayingImage" style="width: 50px; height: 50px; background: #333;">
+          <img src="" alt="Now Playing" class="now-playing-image" id="sidebarNowPlayingImage" style="width: 45px; height: 45px; background: #333;">
           <div class="now-playing-info">
-            <div class="now-playing-title" id="sidebarNowPlayingTitle" style="font-size: 0.95rem;">Not Playing</div>
-            <div class="now-playing-artist" id="sidebarNowPlayingArtist" style="font-size: 0.8rem;">Search for a song</div>
+            <div class="now-playing-title" id="sidebarNowPlayingTitle" style="font-size: 0.9rem;">Not Playing</div>
+            <div class="now-playing-artist" id="sidebarNowPlayingArtist" style="font-size: 0.75rem;">Search for a song</div>
           </div>
         </div>
       </div>
@@ -954,6 +983,7 @@
         <button class="menu-toggle" id="menuToggle">
           <i class="fas fa-bars"></i>
         </button>
+        <div class="header-title">Harmony</div>
         
         <div class="search-container">
           <i class="fas fa-search search-icon"></i>
@@ -988,6 +1018,22 @@
           
           <div class="log-card">
             <div class="log-header">
+              <span class="log-version">v3.3</span>
+              <span class="log-date">May 30, 2025</span>
+            </div>
+            <h3 class="log-title">Final Enhancements</h3>
+            <ul class="log-features">
+              <li>Added Apple Music favicon</li>
+              <li>Fixed scaling issues for all devices</li>
+              <li>Improved mobile menu visibility</li>
+              <li>Renamed app to "Harmony" with refined logo</li>
+              <li>Optimized title size and spacing</li>
+              <li>Enhanced responsive design</li>
+            </ul>
+          </div>
+          
+          <div class="log-card">
+            <div class="log-header">
               <span class="log-version">v3.2</span>
               <span class="log-date">May 29, 2025</span>
             </div>
@@ -1015,37 +1061,6 @@
               <li>Enhanced responsive design for better mobile experience</li>
               <li>Optimized player controls for touch devices</li>
               <li>Improved spacing and typography throughout the app</li>
-            </ul>
-          </div>
-          
-          <div class="log-card">
-            <div class="log-header">
-              <span class="log-version">v3.0</span>
-              <span class="log-date">May 29, 2025</span>
-            </div>
-            <h3 class="log-title">Premium Experience Update</h3>
-            <ul class="log-features">
-              <li>Complete UI redesign with premium aesthetics and animations</li>
-              <li>Enhanced sidebar with now playing preview and full-height design</li>
-              <li>Added background visualizer with dynamic gradients</li>
-              <li>Improved player controls with glass-morphism effect</li>
-              <li>Added responsive design for all device sizes</li>
-              <li>Optimized performance and loading times</li>
-            </ul>
-          </div>
-          
-          <div class="log-card">
-            <div class="log-header">
-              <span class="log-version">v2.5</span>
-              <span class="log-date">May 29, 2025</span>
-            </div>
-            <h3 class="log-title">Feature Expansion</h3>
-            <ul class="log-features">
-              <li>Implemented enhanced favorites system with visual feedback</li>
-              <li>Added persistent play history with intelligent tracking</li>
-              <li>Integrated like functionality for tracks</li>
-              <li>Created premium update logs section</li>
-              <li>Added empty states for all tabs</li>
             </ul>
           </div>
         </div>
