@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harmony - Music Player</title>
+  <title>Harmony Pro - Music Player</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --primary: #ff0000;
       --primary-dark: #cc0000;
+      --accent: #1db954;
       --dark: #0f0f0f;
       --darker: #1f1f1f;
       --darkest: #000;
@@ -31,17 +32,30 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
-    header {
+    .app-container {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 1.5rem;
-      background-color: var(--dark);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 250px;
+      background-color: var(--darker);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--gray-dark);
+      overflow-y: auto;
+      transition: var(--transition);
+      z-index: 10;
+    }
+
+    .logo-container {
+      padding: 1.5rem;
       border-bottom: 1px solid var(--gray-dark);
     }
 
@@ -56,6 +70,70 @@
 
     .logo i {
       font-size: 1.3rem;
+    }
+
+    .nav-links {
+      padding: 1.5rem 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--gray);
+      text-decoration: none;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--light);
+    }
+
+    .nav-item i {
+      margin-right: 1rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .favorites-count, .history-count {
+      margin-left: auto;
+      background-color: var(--primary);
+      color: white;
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 10px;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background-color: var(--dark);
+      border-bottom: 1px solid var(--gray-dark);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 1.5rem;
+      cursor: pointer;
+      margin-right: 1rem;
     }
 
     .search-container {
@@ -92,20 +170,15 @@
       font-size: 1rem;
     }
 
-    .main-container {
+    /* Tab Content */
+    .tab-content {
       flex: 1;
       padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
       overflow-y: auto;
-    }
-
-    .search-results {
-      margin-top: 1rem;
       display: none;
     }
 
-    .search-results.active {
+    .tab-content.active {
       display: block;
     }
 
@@ -172,6 +245,43 @@
       overflow: hidden;
     }
 
+    .card-actions {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      display: flex;
+      gap: 0.5rem;
+      z-index: 2;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .result-card:hover .card-actions {
+      opacity: 1;
+    }
+
+    .action-btn {
+      width: 28px;
+      height: 28px;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--light);
+      font-size: 0.8rem;
+      transition: var(--transition);
+    }
+
+    .action-btn:hover {
+      background-color: var(--primary);
+      transform: scale(1.1);
+    }
+
+    .favorite-btn.favorited i {
+      color: var(--primary);
+    }
+
     .play-button {
       position: absolute;
       bottom: 1.5rem;
@@ -201,6 +311,7 @@
       margin-left: 2px;
     }
 
+    /* Player Controls */
     .player-controls {
       position: fixed;
       bottom: 0;
@@ -305,6 +416,30 @@
       transform: scale(0.95);
     }
 
+    .player-actions {
+      display: flex;
+      gap: 1rem;
+      margin-left: 1rem;
+    }
+
+    .like-btn {
+      color: var(--gray);
+      transition: var(--transition);
+    }
+
+    .like-btn:hover, .like-btn.liked {
+      color: var(--accent);
+    }
+
+    .fav-btn {
+      color: var(--gray);
+      transition: var(--transition);
+    }
+
+    .fav-btn:hover, .fav-btn.favorited {
+      color: var(--primary);
+    }
+
     .player-progress {
       width: 100%;
       display: flex;
@@ -361,6 +496,7 @@
       opacity: 1;
     }
 
+    /* Spinner */
     .spinner-container {
       display: none;
       position: fixed;
@@ -387,7 +523,102 @@
       to { transform: rotate(360deg); }
     }
 
+    /* Logs Tab */
+    .logs-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .log-card {
+      background-color: var(--darker);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-left: 4px solid var(--primary);
+    }
+
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .log-version {
+      background-color: var(--primary);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .log-date {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .log-title {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: var(--light);
+    }
+
+    .log-features {
+      list-style-type: none;
+      padding-left: 1rem;
+    }
+
+    .log-features li {
+      margin-bottom: 0.8rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .log-features li:before {
+      content: "•";
+      color: var(--primary);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray);
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--light);
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -250px;
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
       header {
         padding: 1rem;
       }
@@ -416,26 +647,131 @@
       .player-buttons {
         gap: 1rem;
       }
+      
+      .results-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <i class="fab fa-youtube"></i>
-      <span>Harmony</span>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="logo-container">
+        <div class="logo">
+          <i class="fab fa-youtube"></i>
+          <span>Harmony Pro</span>
+        </div>
+      </div>
+      
+      <div class="nav-links">
+        <div class="nav-item active" data-tab="home">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </div>
+        <div class="nav-item" data-tab="favorites">
+          <i class="fas fa-heart"></i>
+          <span>Favorites</span>
+          <span class="favorites-count" id="favoritesCount">0</span>
+        </div>
+        <div class="nav-item" data-tab="history">
+          <i class="fas fa-history"></i>
+          <span>History</span>
+          <span class="history-count" id="historyCount">0</span>
+        </div>
+        <div class="nav-item" data-tab="logs">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Update Logs</span>
+        </div>
+      </div>
     </div>
     
-    <div class="search-container">
-      <i class="fas fa-search search-icon"></i>
-      <input type="text" class="search-input" placeholder="Search for songs..." id="searchInput" autocomplete="off">
-    </div>
-  </header>
-  
-  <div class="main-container">
-    <div class="search-results" id="searchResults">
-      <h2 class="results-title">Search Results</h2>
-      <div class="results-container" id="resultsContainer"></div>
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <button class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-input" placeholder="Search for songs..." id="searchInput" autocomplete="off">
+        </div>
+      </header>
+      
+      <!-- Home Tab -->
+      <div class="tab-content active" id="homeTab">
+        <div class="search-results" id="searchResults">
+          <h2 class="results-title">Search Results</h2>
+          <div class="results-container" id="resultsContainer"></div>
+        </div>
+      </div>
+      
+      <!-- Favorites Tab -->
+      <div class="tab-content" id="favoritesTab">
+        <h2 class="results-title">Your Favorites</h2>
+        <div class="results-container" id="favoritesContainer"></div>
+      </div>
+      
+      <!-- History Tab -->
+      <div class="tab-content" id="historyTab">
+        <h2 class="results-title">Recently Played</h2>
+        <div class="results-container" id="historyContainer"></div>
+      </div>
+      
+      <!-- Logs Tab -->
+      <div class="tab-content" id="logsTab">
+        <div class="logs-container">
+          <h2 class="results-title">Update Logs</h2>
+          
+          <div class="log-card">
+            <div class="log-header">
+              <span class="log-version">v2.0</span>
+              <span class="log-date">June 10, 2023</span>
+            </div>
+            <h3 class="log-title">Major Feature Update</h3>
+            <ul class="log-features">
+              <li>Added Favorites system with persistent storage</li>
+              <li>Implemented play history tracking</li>
+              <li>Added like functionality for tracks</li>
+              <li>Created sidebar navigation with multiple tabs</li>
+              <li>Added Update Logs section with version history</li>
+              <li>Improved UI with modern animations and transitions</li>
+            </ul>
+          </div>
+          
+          <div class="log-card">
+            <div class="log-header">
+              <span class="log-version">v1.5</span>
+              <span class="log-date">May 25, 2023</span>
+            </div>
+            <h3 class="log-title">Player Enhancements</h3>
+            <ul class="log-features">
+              <li>Improved buffering experience with spinner indicator</li>
+              <li>Added progress bar with seek functionality</li>
+              <li>Implemented next/previous track controls</li>
+              <li>Enhanced responsive design for mobile devices</li>
+              <li>Added visual feedback for play/pause states</li>
+            </ul>
+          </div>
+          
+          <div class="log-card">
+            <div class="log-header">
+              <span class="log-version">v1.0</span>
+              <span class="log-date">May 1, 2023</span>
+            </div>
+            <h3 class="log-title">Initial Release</h3>
+            <ul class="log-features">
+              <li>YouTube music player integration</li>
+              <li>Search functionality with instant results</li>
+              <li>Modern dark UI theme</li>
+              <li>Now playing section with track information</li>
+              <li>Basic play/pause controls</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   
@@ -468,6 +804,11 @@
         <span class="progress-time" id="duration">0:00</span>
       </div>
     </div>
+    
+    <div class="player-actions">
+      <i class="fas fa-heart fav-btn" id="nowPlayingFavBtn" title="Add to Favorites"></i>
+      <i class="fas fa-thumbs-up like-btn" id="nowPlayingLikeBtn" title="Like"></i>
+    </div>
   </div>
   
   <div id="youtube-player"></div>
@@ -479,10 +820,17 @@
     let searchResults = [];
     let currentTrackIndex = -1;
     let progressInterval;
-
+    
+    // Initialize data stores
+    let favorites = JSON.parse(localStorage.getItem('harmonyFavorites')) || [];
+    let history = JSON.parse(localStorage.getItem('harmonyHistory')) || [];
+    let likedSongs = JSON.parse(localStorage.getItem('harmonyLikes')) || [];
+    
     document.addEventListener('DOMContentLoaded', function() {
       initYouTubePlayer();
       setupEventListeners();
+      updateCounters();
+      showTab('home');
     });
 
     function initYouTubePlayer() {
@@ -534,28 +882,55 @@
       if (event.data === YT.PlayerState.BUFFERING) {
         spinner.style.display = 'flex';
       }
+      
+      // Track when video ends
+      if (event.data === YT.PlayerState.ENDED) {
+        playNextTrack();
+      }
     }
 
     function setupEventListeners() {
+      // Search
       document.getElementById('searchInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') searchYouTube(this.value);
       });
       
+      // Player controls
       document.getElementById('playBtn').addEventListener('click', togglePlayPause);
       document.getElementById('nextBtn').addEventListener('click', playNextTrack);
       document.getElementById('prevBtn').addEventListener('click', playPreviousTrack);
       
+      // Progress bar
       document.getElementById('progressBar').addEventListener('click', function(e) {
         const percent = e.offsetX / this.offsetWidth;
         seekTo(percent);
       });
       
-      // Click anywhere to hide spinner if stuck
-      document.addEventListener('click', function() {
-        if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
-          document.getElementById('spinnerContainer').style.display = 'none';
-        }
+      // Sidebar toggle
+      document.getElementById('menuToggle').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('active');
       });
+      
+      // Navigation tabs
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const tab = this.dataset.tab;
+          showTab(tab);
+          
+          // Update active state
+          document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Close sidebar on mobile
+          if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').classList.remove('active');
+          }
+        });
+      });
+      
+      // Player actions
+      document.getElementById('nowPlayingFavBtn').addEventListener('click', toggleCurrentFavorite);
+      document.getElementById('nowPlayingLikeBtn').addEventListener('click', toggleCurrentLike);
     }
 
     async function searchYouTube(query) {
@@ -589,12 +964,30 @@
       const container = document.getElementById('resultsContainer');
       container.innerHTML = '';
       
+      if (searchResults.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-music"></i>
+            <h3>No results found</h3>
+            <p>Try a different search term</p>
+          </div>
+        `;
+        return;
+      }
+      
       searchResults.forEach((result, index) => {
+        const isFavorite = favorites.some(fav => fav.id === result.id);
+        
         const card = document.createElement('div');
         card.className = 'result-card';
         card.dataset.index = index;
         
         card.innerHTML = `
+          <div class="card-actions">
+            <div class="action-btn favorite-btn ${isFavorite ? 'favorited' : ''}" data-id="${result.id}">
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
           <img src="${result.thumbnail}" alt="${result.title}" class="result-image">
           <h3 class="result-title">${result.title}</h3>
           <p class="result-channel">${result.channel}</p>
@@ -603,11 +996,118 @@
           </div>
         `;
         
-        card.addEventListener('click', () => playTrack(index));
+        card.addEventListener('click', (e) => {
+          if (!e.target.closest('.card-actions')) {
+            playTrack(index);
+          }
+        });
+        
+        const favBtn = card.querySelector('.favorite-btn');
+        favBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleFavorite(result, this);
+        });
+        
         container.appendChild(card);
       });
       
       document.getElementById('searchResults').classList.add('active');
+    }
+    
+    function displayFavorites() {
+      const container = document.getElementById('favoritesContainer');
+      container.innerHTML = '';
+      
+      if (favorites.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-heart"></i>
+            <h3>No favorites yet</h3>
+            <p>Add songs to your favorites by clicking the heart icon</p>
+          </div>
+        `;
+        return;
+      }
+      
+      favorites.forEach((fav, index) => {
+        const card = document.createElement('div');
+        card.className = 'result-card';
+        card.dataset.id = fav.id;
+        
+        card.innerHTML = `
+          <div class="card-actions">
+            <div class="action-btn favorite-btn favorited" data-id="${fav.id}">
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+          <img src="${fav.thumbnail}" alt="${fav.title}" class="result-image">
+          <h3 class="result-title">${fav.title}</h3>
+          <p class="result-channel">${fav.channel}</p>
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        `;
+        
+        card.addEventListener('click', (e) => {
+          if (!e.target.closest('.card-actions')) {
+            playFavorite(fav.id);
+          }
+        });
+        
+        const favBtn = card.querySelector('.favorite-btn');
+        favBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleFavorite(fav, this);
+        });
+        
+        container.appendChild(card);
+      });
+    }
+    
+    function displayHistory() {
+      const container = document.getElementById('historyContainer');
+      container.innerHTML = '';
+      
+      if (history.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-history"></i>
+            <h3>No history yet</h3>
+            <p>Play some songs to see them here</p>
+          </div>
+        `;
+        return;
+      }
+      
+      // Display in reverse order (most recent first)
+      [...history].reverse().forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'result-card';
+        card.dataset.id = item.id;
+        
+        card.innerHTML = `
+          <img src="${item.thumbnail}" alt="${item.title}" class="result-image">
+          <h3 class="result-title">${item.title}</h3>
+          <p class="result-channel">${item.channel}</p>
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        `;
+        
+        card.addEventListener('click', () => {
+          playTrackById(item.id);
+        });
+        
+        container.appendChild(card);
+      });
+    }
+    
+    function playFavorite(id) {
+      const favIndex = favorites.findIndex(fav => fav.id === id);
+      if (favIndex !== -1) {
+        const track = favorites[favIndex];
+        playTrackById(track.id);
+      }
     }
 
     function playTrack(index) {
@@ -619,11 +1119,59 @@
       currentTrack = searchResults[index];
       
       // Update now playing info
+      updateNowPlaying();
+      
+      // Add to history
+      addToHistory(currentTrack);
+      
+      player.loadVideoById(currentTrack.id);
+    }
+    
+    function playTrackById(id) {
+      // Try to find in search results
+      const index = searchResults.findIndex(track => track.id === id);
+      if (index !== -1) {
+        playTrack(index);
+        return;
+      }
+      
+      // Try to find in favorites
+      const favIndex = favorites.findIndex(fav => fav.id === id);
+      if (favIndex !== -1) {
+        const track = favorites[favIndex];
+        playTrackById(track.id);
+        return;
+      }
+      
+      // If not found, load directly
+      document.getElementById('spinnerContainer').style.display = 'flex';
+      
+      currentTrackIndex = -1;
+      currentTrack = {
+        id: id,
+        title: 'Unknown Track',
+        channel: 'Unknown Artist',
+        thumbnail: ''
+      };
+      
+      updateNowPlaying();
+      player.loadVideoById(id);
+    }
+    
+    function updateNowPlaying() {
+      if (!currentTrack) return;
+      
       document.getElementById('nowPlayingImage').src = currentTrack.thumbnail;
       document.getElementById('nowPlayingTitle').textContent = currentTrack.title;
       document.getElementById('nowPlayingArtist').textContent = currentTrack.channel;
       
-      player.loadVideoById(currentTrack.id);
+      // Update favorite button state
+      const isFavorite = favorites.some(fav => fav.id === currentTrack.id);
+      document.getElementById('nowPlayingFavBtn').classList.toggle('favorited', isFavorite);
+      
+      // Update like button state
+      const isLiked = likedSongs.some(song => song.id === currentTrack.id);
+      document.getElementById('nowPlayingLikeBtn').classList.toggle('liked', isLiked);
     }
 
     function togglePlayPause() {
@@ -689,6 +1237,111 @@
       const mins = Math.floor(seconds / 60);
       const secs = Math.floor(seconds % 60);
       return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+    
+    // Favorite System
+    function toggleFavorite(track, button) {
+      const index = favorites.findIndex(fav => fav.id === track.id);
+      
+      if (index === -1) {
+        // Add to favorites
+        favorites.push(track);
+        if (button) button.classList.add('favorited');
+      } else {
+        // Remove from favorites
+        favorites.splice(index, 1);
+        if (button) button.classList.remove('favorited');
+      }
+      
+      // Update now playing if it's the current track
+      if (currentTrack && currentTrack.id === track.id) {
+        document.getElementById('nowPlayingFavBtn').classList.toggle('favorited', index === -1);
+      }
+      
+      // Update localStorage
+      localStorage.setItem('harmonyFavorites', JSON.stringify(favorites));
+      
+      // Update counters
+      updateCounters();
+      
+      // Update favorites tab if it's active
+      if (document.getElementById('favoritesTab').classList.contains('active')) {
+        displayFavorites();
+      }
+    }
+    
+    function toggleCurrentFavorite() {
+      if (!currentTrack) return;
+      
+      const btn = document.getElementById('nowPlayingFavBtn');
+      toggleFavorite(currentTrack, btn);
+    }
+    
+    // Like System
+    function toggleCurrentLike() {
+      if (!currentTrack) return;
+      
+      const btn = document.getElementById('nowPlayingLikeBtn');
+      const index = likedSongs.findIndex(song => song.id === currentTrack.id);
+      
+      if (index === -1) {
+        likedSongs.push(currentTrack);
+        btn.classList.add('liked');
+      } else {
+        likedSongs.splice(index, 1);
+        btn.classList.remove('liked');
+      }
+      
+      localStorage.setItem('harmonyLikes', JSON.stringify(likedSongs));
+    }
+    
+    // History System
+    function addToHistory(track) {
+      // Remove if already exists to prevent duplicates
+      const index = history.findIndex(item => item.id === track.id);
+      if (index !== -1) {
+        history.splice(index, 1);
+      }
+      
+      // Add to the beginning
+      history.unshift(track);
+      
+      // Keep only last 50 items
+      if (history.length > 50) {
+        history.pop();
+      }
+      
+      // Save to localStorage
+      localStorage.setItem('harmonyHistory', JSON.stringify(history));
+      
+      // Update counters
+      updateCounters();
+    }
+    
+    function updateCounters() {
+      document.getElementById('favoritesCount').textContent = favorites.length;
+      document.getElementById('historyCount').textContent = history.length;
+    }
+    
+    // Tab Navigation
+    function showTab(tabId) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show selected tab
+      const tab = document.getElementById(`${tabId}Tab`);
+      if (tab) {
+        tab.classList.add('active');
+        
+        // Load content if needed
+        if (tabId === 'favorites') {
+          displayFavorites();
+        } else if (tabId === 'history') {
+          displayHistory();
+        }
+      }
     }
   </script>
 </body>
