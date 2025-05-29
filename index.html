@@ -1,178 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Harmony</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- FontAwesome for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harmony - YouTube Music Player</title>
   <style>
-    :root {
-      --bg: #121212;
-      --fg: #f0f0f0;
-      --accent: #1db954;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
     body {
-      background-color: var(--bg);
-      color: var(--fg);
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: white;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
-    }
-    header {
-      background: #1e1e1e;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
       align-items: center;
     }
-    header h1 {
-      color: var(--accent);
-      font-size: 1.8rem;
+
+    header {
+      width: 100%;
+      padding: 20px;
+      background-color: #1e1e1e;
+      display: flex;
+      justify-content: center;
     }
-    nav button {
-      background: none;
+
+    #searchForm {
+      display: flex;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    #searchInput {
+      flex: 1;
+      padding: 10px;
+      font-size: 1em;
       border: none;
-      color: var(--fg);
-      font-size: 1rem;
-      margin-left: 1rem;
+      border-radius: 4px 0 0 4px;
+    }
+
+    #searchBtn {
+      padding: 10px 20px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
       cursor: pointer;
     }
-    nav button.active {
-      color: var(--accent);
-      border-bottom: 2px solid var(--accent);
+
+    #player {
+      margin-top: 30px;
+      width: 90%;
+      max-width: 720px;
+      aspect-ratio: 16 / 9;
     }
-    main {
-      flex: 1;
-      padding: 1rem;
+
+    #controls {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
     }
-    #searchBar {
-      width: 100%;
-      padding: 0.8rem;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      border: none;
-      border-radius: 5px;
-      outline: none;
+
+    .control-btn {
+      font-size: 1.5em;
+      cursor: pointer;
+      color: white;
     }
-    .video-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1rem;
-    }
-    .video-item {
-      background: #2a2a2a;
-      padding: 1rem;
-      border-radius: 10px;
-    }
-    iframe {
-      width: 100%;
-      border: none;
-      border-radius: 8px;
-    }
-    .settings, .log {
-      display: none;
-    }
-    footer {
-      background: #1e1e1e;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-    }
-    .hidden { display: none; }
-    label {
-      display: block;
-      margin: 1rem 0;
+
+    .control-btn:hover {
+      color: #e91e63;
     }
   </style>
+  <script src="https://kit.fontawesome.com/a2d9d5c54a.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
-    <h1><i class="fas fa-music"></i> Harmony</h1>
-    <nav>
-      <button onclick="showTab('home')" class="active"><i class="fas fa-home"></i> Home</button>
-      <button onclick="showTab('settings')"><i class="fas fa-cog"></i> Settings</button>
-      <button onclick="showTab('log')"><i class="fas fa-history"></i> Log</button>
-    </nav>
+    <form id="searchForm">
+      <input type="text" id="searchInput" placeholder="Search for a song..." />
+      <button id="searchBtn" type="submit"><i class="fas fa-search"></i></button>
+    </form>
   </header>
 
-  <main>
-    <!-- Home -->
-    <div id="homeTab">
-      <input type="text" id="searchBar" placeholder="Search for songs..." onkeyup="search(event)">
-      <div class="video-list" id="videoList"></div>
-    </div>
+  <div id="player"></div>
 
-    <!-- Settings -->
-    <div class="settings" id="settingsTab">
-      <h2>Settings</h2>
-      <label><input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()"> Enable Dark Mode</label>
-      <label><input type="checkbox"> Show Thumbnails</label>
-      <label><input type="checkbox"> Autoplay Next Song</label>
-    </div>
-
-    <!-- Log -->
-    <div class="log" id="logTab">
-      <h2>Update Log</h2>
-      <ul>
-        <li>v1.0.0 - Initial release with YouTube search, settings, and basic UI.</li>
-        <li>v1.1.0 - Added tabs and dark mode toggle.</li>
-      </ul>
-    </div>
-  </main>
-
-  <footer>
-    Harmony &copy; 2025 | Version 1.1.0
-  </footer>
+  <div id="controls">
+    <i class="fas fa-play control-btn" id="playBtn"></i>
+    <i class="fas fa-pause control-btn" id="pauseBtn"></i>
+    <i class="fas fa-sync-alt control-btn" id="loopBtn"></i>
+  </div>
 
   <script>
-    const apiKey = 'AIzaSyBmpBJ7bU38l7gDWiv2BCSyC7A5ItNYhWg';
+    let player;
+    let loop = false;
+    const apiKey = "AIzaSyBmpBJ7bU38l7gDWiv2BCSyC7A5ItNYhWg";
 
-    function showTab(tab) {
-      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('main > div').forEach(div => div.style.display = 'none');
-      document.querySelector(`#${tab}Tab`).style.display = 'block';
-      document.querySelector(`nav button[onclick="showTab('${tab}')"]`).classList.add('active');
-    }
+    // Load the IFrame Player API code
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
 
-    function toggleDarkMode() {
-      const root = document.documentElement;
-      if (document.getElementById('darkModeToggle').checked) {
-        root.style.setProperty('--bg', '#000000');
-        root.style.setProperty('--fg', '#ffffff');
-      } else {
-        root.style.setProperty('--bg', '#121212');
-        root.style.setProperty('--fg', '#f0f0f0');
-      }
-    }
-
-    async function search(event) {
-      if (event.key !== 'Enter') return;
-      const query = document.getElementById('searchBar').value;
-      if (!query) return;
-      const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${apiKey}&maxResults=8`);
-      const data = await res.json();
-      const list = document.getElementById('videoList');
-      list.innerHTML = '';
-      data.items.forEach(item => {
-        const videoId = item.id.videoId;
-        const title = item.snippet.title;
-        list.innerHTML += `
-          <div class="video-item">
-            <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
-            <p>${title}</p>
-          </div>`;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: '',
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
       });
     }
 
-    // Init default tab
-    showTab('home');
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.ENDED && loop) {
+        player.seekTo(0);
+        player.playVideo();
+      }
+    }
+
+    document.getElementById('searchForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const query = document.getElementById('searchInput').value;
+      const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${apiKey}&maxResults=1`;
+
+      const res = await fetch(searchUrl);
+      const data = await res.json();
+      if (data.items.length > 0) {
+        const videoId = data.items[0].id.videoId;
+        player.loadVideoById(videoId);
+      }
+    });
+
+    document.getElementById('playBtn').addEventListener('click', () => {
+      player.playVideo();
+    });
+
+    document.getElementById('pauseBtn').addEventListener('click', () => {
+      player.pauseVideo();
+    });
+
+    document.getElementById('loopBtn').addEventListener('click', () => {
+      loop = !loop;
+      document.getElementById('loopBtn').style.color = loop ? '#e91e63' : 'white';
+    });
   </script>
 </body>
 </html>
