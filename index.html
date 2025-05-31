@@ -709,6 +709,140 @@
       height: 10px;
       background: var(--primary);
       border-radius: 50%;
+      box-shadow: 0 0 5px rgba(255,0,0,0.5);
+    }
+
+    /* Enhanced Trademark Page Styles */
+    .trademark-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(30, 30, 30, 0.7);
+      border-radius: 12px;
+      border-left: 4px solid var(--primary);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .trademark-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .trademark-header h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(45deg, var(--primary), #ff6b6b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 8px rgba(255,0,0,0.2);
+    }
+
+    .trademark-header p {
+      color: var(--gray);
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .trademark-section {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: rgba(20, 20, 20, 0.5);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .trademark-section h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+      color: var(--light);
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+      display: inline-block;
+    }
+
+    .trademark-section p {
+      margin-bottom: 1.2rem;
+      line-height: 1.7;
+      color: var(--gray);
+      font-size: 1.05rem;
+    }
+
+    .trademark-section ul {
+      padding-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .trademark-section li {
+      margin-bottom: 0.8rem;
+      position: relative;
+      line-height: 1.6;
+      color: var(--gray);
+    }
+
+    .trademark-section li:before {
+      content: '•';
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 1.2rem;
+      position: absolute;
+      left: -1.2rem;
+      top: -0.1rem;
+    }
+
+    .license-highlight {
+      background: rgba(255,0,0,0.1);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--primary);
+      margin: 1.5rem 0;
+    }
+
+    .license-highlight p {
+      margin-bottom: 0.8rem;
+    }
+
+    .admin-note {
+      background: linear-gradient(135deg, rgba(255,0,0,0.1), rgba(30,30,30,0.3));
+      border-left: 3px solid var(--primary);
+      padding: 1.5rem;
+      margin: 2.5rem 0;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .admin-note:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03));
+      pointer-events: none;
+    }
+
+    .admin-note p {
+      color: var(--light);
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+      line-height: 1.7;
+    }
+
+    .legal-text {
+      font-size: 0.85rem;
+      color: var(--gray-dark);
+      margin-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.5rem;
+      line-height: 1.6;
+      text-align: center;
     }
 
     /* Empty State */
@@ -875,6 +1009,15 @@
         padding: 1.2rem;
         height: calc(100vh - 150px);
       }
+      
+      .trademark-container {
+        padding: 1.2rem;
+      }
+      
+      .legal-text {
+        padding: 1rem;
+        margin-top: 2rem;
+      }
     }
 
     @media (max-width: 480px) {
@@ -922,6 +1065,19 @@
       .results-title {
         font-size: 1.4rem;
       }
+      
+      .trademark-header h2 {
+        font-size: 1.5rem;
+      }
+      
+      .trademark-section {
+        padding: 1rem;
+      }
+      
+      .legal-text {
+        font-size: 0.75rem;
+        padding: 0.8rem 0;
+      }
     }
   </style>
 </head>
@@ -954,6 +1110,11 @@
         <div class="nav-item" data-tab="logs">
           <i class="fas fa-clipboard-list"></i>
           <span>Update Logs</span>
+        </div>
+        <!-- New Trademark Tab -->
+        <div class="nav-item" data-tab="trademark">
+          <i class="fas fa-copyright"></i>
+          <span>Trademark</span>
         </div>
       </div>
       
@@ -1011,6 +1172,21 @@
           
           <div class="log-card">
             <div class="log-header">
+              <span class="log-version">v3.6</span>
+              <span class="log-date">June 2, 2025</span>
+            </div>
+            <h3 class="log-title">Legal & Trademark Update</h3>
+            <ul class="log-features">
+              <li>Added comprehensive Trademark information section</li>
+              <li>Expanded license documentation with full MIT terms</li>
+              <li>Improved legal disclaimers and compliance notices</li>
+              <li>Enhanced credits and acknowledgments section</li>
+              <li>Updated UI for legal information display</li>
+            </ul>
+          </div>
+          
+          <div class="log-card">
+            <div class="log-header">
               <span class="log-version">v3.5</span>
               <span class="log-date">May 30, 2025</span>
             </div>
@@ -1028,17 +1204,119 @@
           <div class="log-card">
             <div class="log-header">
               <span class="log-version">v3.4</span>
-              <span class="log-date">May 31, 2025</span>
+              <span class="log-date">May 28, 2025</span>
             </div>
             <h3 class="log-title">Bug Fixes & Enhancements</h3>
             <ul class="log-features">
-              <li>Fixed like button functionality</li>
               <li>Fixed favorite button functionality</li>
               <li>Improved track information storage</li>
               <li>Enhanced player controls responsiveness</li>
               <li>Fixed history playback issues</li>
               <li>Optimized state management</li>
             </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- New Trademark Tab -->
+      <div class="tab-content" id="trademarkTab">
+        <div class="trademark-container">
+          <div class="trademark-header">
+            <h2>Harmony Music Player</h2>
+            <p>Legal Information, Credits & Acknowledgments</p>
+          </div>
+          
+          <div class="trademark-section">
+            <h3>Software License</h3>
+            <p>Harmony Music Player is released under the <strong>MIT License</strong>, a permissive free software license originating at the Massachusetts Institute of Technology. This license places minimal restrictions on software reuse and provides legal protection for both users and developers.</p>
+            
+            <div class="license-highlight">
+              <p><strong>Full MIT License Text:</strong></p>
+              <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+              <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+              <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+            </div>
+            
+            <p>This license allows for commercial use, modification, distribution, and private use of the software. The only condition is that the license and copyright notice must be included with any substantial portions of the code.</p>
+            
+            <p><strong>Harmony-Specific License Notes:</strong></p>
+            <ul>
+              <li>Harmony is provided as-is with no warranties or guarantees of functionality.</li>
+              <li>The Harmony development team is not responsible for any damages resulting from the use of this software.</li>
+              <li>Modifications to the Harmony source code must retain all original copyright notices.</li>
+              <li>Distributions of modified versions must clearly indicate they are not the original Harmony software.</li>
+              <li>The Harmony name and logo may not be used to endorse or promote products derived from this software without specific prior written permission.</li>
+            </ul>
+          </div>
+          
+          <div class="trademark-section">
+            <h3>Harmony Project Information</h3>
+            <p>Harmony is an open-source music player application designed to provide a seamless music streaming experience. The project was created with the following goals in mind:</p>
+            <ul>
+              <li>To create a beautiful, intuitive music player interface</li>
+              <li>To demonstrate modern web development techniques</li>
+              <li>To provide a learning resource for developers</li>
+              <li>To offer a free alternative to commercial music players</li>
+            </ul>
+            
+            <p><strong>Project Status:</strong></p>
+            <p>Harmony is currently maintained as a hobby project by a small team of developers. While we strive to keep the application functional, we cannot guarantee continuous updates or support.</p>
+            
+            <p><strong>Source Code Availability:</strong></p>
+            <p>The complete source code for Harmony is available on GitHub under the MIT license. Developers are encouraged to contribute improvements, report issues, or fork the project for their own use.</p>
+          </div>
+          
+          <div class="trademark-section">
+            <h3>Credits & Acknowledgments</h3>
+            <p>Harmony Music Player was made possible through the use of several third-party services and resources:</p>
+            <ul>
+              <li><strong>YouTube API Services:</strong> Special thanks to Google LLC for providing the YouTube Data API v3 that powers this application's music streaming capabilities. This product uses the YouTube API but is not endorsed or certified by YouTube. By using this application, you agree to be bound by YouTube's Terms of Service.</li>
+              <li><strong>Font Awesome:</strong> All icons used throughout the interface are provided by Font Awesome's free tier under the Font Awesome Free License.</li>
+              <li><strong>Unsplash:</strong> Background image provided by Matthew Moloney under the Unsplash License which grants free use for both commercial and non-commercial purposes.</li>
+              <li><strong>Community Contributors:</strong> We extend our gratitude to all users who provided valuable feedback, bug reports, and suggestions for improving Harmony.</li>
+            </ul>
+          </div>
+          
+          <div class="trademark-section">
+            <h3>Trademark Protection</h3>
+            <p>The name "Harmony", the Harmony logo, and all related names, logos, product and service names, designs, and slogans are trademarks of this project and may not be used without prior written permission.</p>
+            <p>Unauthorized use, including but not limited to reproduction, modification, distribution, or republication of the Harmony branding elements is strictly prohibited without express written consent from the project administrators.</p>
+            <p>This protection extends to any confusingly similar variations of the Harmony name or logo, as well as any use that might imply official endorsement or affiliation where none exists.</p>
+            
+            <p><strong>Permitted Uses:</strong></p>
+            <ul>
+              <li>Referencing Harmony in articles or reviews with proper attribution</li>
+              <li>Linking to the official Harmony website or repository</li>
+              <li>Using Harmony as intended by the software</li>
+            </ul>
+            
+            <p><strong>Prohibited Uses:</strong></p>
+            <ul>
+              <li>Using the Harmony name or logo for commercial products without permission</li>
+              <li>Creating derivative works that use the Harmony branding</li>
+              <li>Implying official partnership or endorsement by the Harmony team</li>
+            </ul>
+          </div>
+          
+          <div class="trademark-section">
+            <h3>Third-Party Compliance</h3>
+            <p>This application complies with all relevant third-party terms of service:</p>
+            <ul>
+              <li><strong>YouTube Terms of Service:</strong> Compliance with YouTube's API Services Terms of Service, including all usage limitations and requirements.</li>
+              <li><strong>Google Privacy Policy:</strong> Adherence to Google's privacy policies regarding data collection and usage.</li>
+              <li><strong>Font Awesome License:</strong> Proper attribution and compliance with Font Awesome's free license requirements.</li>
+              <li><strong>Unsplash License:</strong> Proper use of Unsplash images in accordance with their license terms.</li>
+            </ul>
+            
+            <p><strong>YouTube API Compliance:</strong></p>
+            <p>Harmony uses the YouTube API Services to stream music content. By using Harmony, you agree to be bound by the YouTube Terms of Service available at <a href="https://www.youtube.com/t/terms" style="color: var(--primary);">https://www.youtube.com/t/terms</a>.</p>
+            <p>Harmony's use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy" style="color: var(--primary);">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+          </div>
+          
+          <div class="admin-note">
+            <p><strong>From The Admin / Development Team:</strong> We sincerely thank our amazing community for supporting this passion project. Your enthusiasm and feedback drive us to continuously improve Harmony. Special recognition goes to Google for providing the YouTube API that makes this music experience possible. Harmony remains a non-commercial, educational project created by music lovers for music lovers worldwide. For inquiries regarding usage rights, contributions, or partnerships, please contact the development team through official channels.</p>
+          </div>
+          
           </div>
         </div>
       </div>
