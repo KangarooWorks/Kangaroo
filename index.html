@@ -8,7 +8,7 @@
   <title>Harmony</title>
   <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png">
   <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png">
-  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="manifest" id="app-manifest">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -358,7 +358,7 @@
       color: white;
       border: none;
       border-radius: 30px;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.2rem;
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
@@ -1633,7 +1633,7 @@
         
         <button class="install-btn" id="installBtn">
           <i class="fas fa-download"></i>
-          <span>Install</span>
+          <span>Install App</span>
         </button>
       </header>
       
@@ -1690,37 +1690,6 @@
               <li>Enhanced track switching reliability</li>
             </ul>
           </div>
-          
-          <div class="log-card">
-            <div class="log-header">
-              <span class="log-version">v4.0</span>
-              <span class="log-date">June 1, 2025</span>
-            </div>
-            <h3 class="log-title">Modern UI Overhaul</h3>
-            <ul class="log-features">
-              <li>Complete visual redesign with glass morphism effects</li>
-              <li>Added animated background with floating particles</li>
-              <li>Implemented waveform visualization for audio playback</li>
-              <li>Enhanced notification system for user feedback</li>
-              <li>Improved responsive design for all screen sizes</li>
-              <li>Added smooth transitions and micro-interactions</li>
-            </ul>
-          </div>
-          
-          <div class="log-card">
-            <div class="log-header">
-              <span class="log-version">v3.7</span>
-              <span class="log-date">May 30, 2025</span>
-            </div>
-            <h3 class="log-title">Legal & Trademark Update</h3>
-            <ul class="log-features">
-              <li>Added comprehensive Trademark information section</li>
-              <li>Expanded license documentation with full MIT terms</li>
-              <li>Improved legal disclaimers and compliance notices</li>
-              <li>Enhanced credits and acknowledgments section</li>
-              <li>Updated UI for legal information display</li>
-            </ul>
-          </div>
         </div>
       </div>
       
@@ -1735,15 +1704,6 @@
           <div class="trademark-section">
             <h3>Software License</h3>
             <p>Harmony Music Player is released under the <strong>MIT License</strong>, a permissive free software license originating at the Massachusetts Institute of Technology. This license places minimal restrictions on software reuse and provides legal protection for both users and developers.</p>
-            
-            <div class="license-highlight">
-              <p><strong>Full MIT License Text:</strong></p>
-              <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-              <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-              <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-            </div>
-            
-            <p>This license allows for commercial use, modification, distribution, and private use of the software. The only condition is that the license and copyright notice must be included with any substantial portions of the code.</p>
           </div>
           
           <div class="trademark-section">
@@ -1752,12 +1712,11 @@
             <ul>
               <li><strong>YouTube API Services:</strong> Special thanks to Google LLC for providing the YouTube Data API v3 that powers this application's music streaming capabilities.</li>
               <li><strong>Font Awesome:</strong> All icons used throughout the interface are provided by Font Awesome's free tier under the Font Awesome Free License.</li>
-              <li><strong>Community Contributors:</strong> We extend our gratitude to all users who provided valuable feedback, bug reports, and suggestions for improving Harmony.</li>
             </ul>
           </div>
           
           <div class="admin-note">
-            <p><strong>From The Admin / Development Team:</strong> We sincerely thank our amazing community for supporting this passion project. Your enthusiasm and feedback drive us to continuously improve Harmony. Special recognition goes to Google for providing the YouTube API that makes this music experience possible. Harmony remains a non-commercial, educational project created by music lovers for music lovers worldwide.</p>
+            <p><strong>From The Admin / Development Team:</strong> We sincerely thank our amazing community for supporting this passion project. Your enthusiasm and feedback drive us to continuously improve Harmony.</p>
           </div>
           
           <div class="legal-text">
@@ -1834,6 +1793,19 @@
     let deferredPrompt;
     let isAppInstalled = false;
     
+    // Service worker registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(registration => {
+            console.log('Service Worker registered: ', registration);
+          })
+          .catch(error => {
+            console.log('Service Worker registration failed: ', error);
+          });
+      });
+    }
+    
     document.addEventListener('DOMContentLoaded', function() {
       initYouTubePlayer();
       setupEventListeners();
@@ -1844,6 +1816,7 @@
       updateSidebarNowPlaying();
       window.addEventListener('scroll', handleHeaderScroll);
       checkPWAInstallation();
+      createManifest();
     });
 
     function initYouTubePlayer() {
@@ -1953,6 +1926,29 @@
         document.getElementById('installBtn').style.display = 'none';
         showNotification('App Installed', 'Harmony has been installed successfully!');
       });
+    }
+
+    function createManifest() {
+      const manifest = {
+        "name": "Harmony Music Player",
+        "short_name": "Harmony",
+        "start_url": ".",
+        "display": "standalone",
+        "background_color": "#0f0f0f",
+        "theme_color": "#ff4d4d",
+        "description": "A beautiful music player streaming from YouTube",
+        "icons": [
+          {
+            "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png",
+            "sizes": "512x512",
+            "type": "image/png"
+          }
+        ]
+      };
+      
+      const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+      const manifestURL = URL.createObjectURL(blob);
+      document.getElementById('app-manifest').href = manifestURL;
     }
 
     function checkPWAInstallation() {
@@ -2502,32 +2498,17 @@
     }
     
     function updateMediaSession(state) {
-      if (!('mediaSession' in navigator) return;
+      if (!('mediaSession' in navigator) || !currentTrack) return;
       
-      if (currentTrack) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: currentTrack.title,
-          artist: currentTrack.channel || 'Unknown Artist',
-          artwork: [
-            { src: currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`, sizes: '512x512', type: 'image/jpg' }
-          ]
-        });
-      }
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentTrack.title,
+        artist: currentTrack.channel || 'Unknown Artist',
+        artwork: [
+          { src: currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`, sizes: '512x512', type: 'image/jpg' }
+        ]
+      });
       
       navigator.mediaSession.playbackState = state;
-    }
-    
-    // Service Worker Registration for PWA
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(registration => {
-            console.log('Service Worker registered: ', registration);
-          })
-          .catch(error => {
-            console.log('Service Worker registration failed: ', error);
-          });
-      });
     }
   </script>
   
@@ -2579,30 +2560,6 @@
           });
       });
     }
-    
-    // Create manifest for PWA
-    const manifest = {
-      "name": "Harmony Music Player",
-      "short_name": "Harmony",
-      "start_url": ".",
-      "display": "standalone",
-      "background_color": "#0f0f0f",
-      "theme_color": "#ff4d4d",
-      "description": "A beautiful music player streaming from YouTube",
-      "icons": [
-        {
-          "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png",
-          "sizes": "512x512",
-          "type": "image/png"
-        }
-      ]
-    };
-    
-    // Create a link element for the manifest
-    const manifestElement = document.createElement('link');
-    manifestElement.rel = 'manifest';
-    manifestElement.href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/json' }));
-    document.head.appendChild(manifestElement);
   </script>
 </body>
 </html>
