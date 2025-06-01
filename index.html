@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta name="theme-color" content="#ff4d4d">
-  <meta name="description" content="Harmony Music Player - Stream your favorite music">
+  <meta name="theme-color" content="#0f0f0f">
   <title>Harmony</title>
   <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png">
-  <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png">
-  <link rel="manifest" id="app-manifest">
+  <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -280,6 +278,21 @@
       padding: 0.7rem 1.2rem;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
+    
+    .background-play-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--primary);
+      color: white;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      display: none;
+      z-index: 101;
+    }
 
     .menu-toggle {
       display: none;
@@ -350,46 +363,6 @@
 
     .search-input:focus + .search-icon {
       color: var(--primary);
-    }
-
-    /* Install Button - More Prominent */
-    .install-btn {
-      background: linear-gradient(45deg, var(--primary), #ff6b6b);
-      color: white;
-      border: none;
-      border-radius: 30px;
-      padding: 0.7rem 1.3rem;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
-      margin-left: 1rem;
-      z-index: 1;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .install-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2));
-    }
-
-    .install-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
-    }
-
-    .install-btn i {
-      font-size: 1.1rem;
     }
 
     /* Premium Tab Content with Floating Effect */
@@ -1384,10 +1357,6 @@
       .results-title {
         font-size: 1.5rem;
       }
-      
-      .install-btn {
-        display: none;
-      }
     }
 
     @media (max-width: 768px) {
@@ -1636,17 +1605,15 @@
         <button class="menu-toggle" id="menuToggle">
           <i class="fas fa-bars"></i>
         </button>
+        <div class="background-play-indicator" id="backgroundPlayIndicator">
+          <i class="fas fa-play-circle"></i> Playing in background
+        </div>
         <div class="header-title">Harmony</div>
         
         <div class="search-container">
           <i class="fas fa-search search-icon"></i>
           <input type="text" class="search-input" placeholder="Search for songs, artists, or albums..." id="searchInput" autocomplete="off">
         </div>
-        
-        <button class="install-btn" id="installBtn">
-          <i class="fas fa-download"></i>
-          <span>Install App</span>
-        </button>
       </header>
       
       <!-- Home Tab -->
@@ -1676,31 +1643,62 @@
           
           <div class="log-card">
             <div class="log-header">
-              <span class="log-version">v5.1</span>
-              <span class="log-date">June 15, 2025</span>
+              <span class="log-version">v4.1</span>
+              <span class="log-date">June 2, 2025</span>
             </div>
-            <h3 class="log-title">Background Playback Fix</h3>
+            <h3 class="log-title">Navigation Improvements</h3>
             <ul class="log-features">
-              <li>Fixed background playback issues on mobile devices</li>
-              <li>Enhanced Media Session API integration</li>
-              <li>Improved PWA installation experience</li>
-              <li>Added more prominent Install App button</li>
-              <li>Optimized audio playback in background mode</li>
+              <li>Fixed next/previous track navigation issues</li>
+              <li>Restored search completion notifications</li>
+              <li>Improved playlist management across tabs</li>
+              <li>Enhanced track switching reliability</li>
             </ul>
           </div>
           
           <div class="log-card">
             <div class="log-header">
-              <span class="log-version">v5.0</span>
-              <span class="log-date">June 10, 2025</span>
+              <span class="log-version">v4.0</span>
+              <span class="log-date">June 1, 2025</span>
             </div>
-            <h3 class="log-title">PWA & Background Playback</h3>
+            <h3 class="log-title">Modern UI Overhaul</h3>
             <ul class="log-features">
-              <li>Added Progressive Web App (PWA) support</li>
-              <li>Implemented background audio playback</li>
-              <li>Added install button for app installation</li>
-              <li>Enhanced media session controls</li>
-              <li>Improved offline capabilities</li>
+              <li>Complete visual redesign with glass morphism effects</li>
+              <li>Added animated background with floating particles</li>
+              <li>Implemented waveform visualization for audio playback</li>
+              <li>Enhanced notification system for user feedback</li>
+              <li>Improved responsive design for all screen sizes</li>
+              <li>Added smooth transitions and micro-interactions</li>
+            </ul>
+          </div>
+          
+          <div class="log-card">
+            <div class="log-header">
+              <span class="log-version">v3.7</span>
+              <span class="log-date">May 30, 2025</span>
+            </div>
+            <h3 class="log-title">Legal & Trademark Update</h3>
+            <ul class="log-features">
+              <li>Added comprehensive Trademark information section</li>
+              <li>Expanded license documentation with full MIT terms</li>
+              <li>Improved legal disclaimers and compliance notices</li>
+              <li>Enhanced credits and acknowledgments section</li>
+              <li>Updated UI for legal information display</li>
+            </ul>
+          </div>
+          
+          <div class="log-card">
+            <div class="log-header">
+              <span class="log-version">v3.5</span>
+              <span class="log-date">May 28, 2025</span>
+            </div>
+            <h3 class="log-title">Scrolling Fixes Update</h3>
+            <ul class="log-features">
+              <li>Fixed scrolling issues on mobile and desktop</li>
+              <li>Improved content container heights</li>
+              <li>Added proper padding to all scrollable areas</li>
+              <li>Optimized tab content overflow behavior</li>
+              <li>Fixed player controls positioning</li>
+              <li>Enhanced overall scrolling experience</li>
             </ul>
           </div>
         </div>
@@ -1717,23 +1715,93 @@
           <div class="trademark-section">
             <h3>Software License</h3>
             <p>Harmony Music Player is released under the <strong>MIT License</strong>, a permissive free software license originating at the Massachusetts Institute of Technology. This license places minimal restrictions on software reuse and provides legal protection for both users and developers.</p>
+            
+            <div class="license-highlight">
+              <p><strong>Full MIT License Text:</strong></p>
+              <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+              <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+              <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+            </div>
+            
+            <p>This license allows for commercial use, modification, distribution, and private use of the software. The only condition is that the license and copyright notice must be included with any substantial portions of the code.</p>
+            
+            <p><strong>Harmony-Specific License Notes:</strong></p>
+            <ul>
+              <li>Harmony is provided as-is with no warranties or guarantees of functionality.</li>
+              <li>The Harmony development team is not responsible for any damages resulting from the use of this software.</li>
+              <li>Modifications to the Harmony source code must retain all original copyright notices.</li>
+              <li>Distributions of modified versions must clearly indicate they are not the original Harmony software.</li>
+              <li>The Harmony name and logo may not be used to endorse or promote products derived from this software without specific prior written permission.</li>
+            </ul>
+          </div>
+          
+          <div class="trademark-section">
+            <h3>Harmony Project Information</h3>
+            <p>Harmony is an open-source music player application designed to provide a seamless music streaming experience. The project was created with the following goals in mind:</p>
+            <ul>
+              <li>To create a beautiful, intuitive music player interface</li>
+              <li>To demonstrate modern web development techniques</li>
+              <li>To provide a learning resource for developers</li>
+              <li>To offer a free alternative to commercial music players</li>
+            </ul>
+            
+            <p><strong>Project Status:</strong></p>
+            <p>Harmony is currently maintained as a hobby project by a small team of developers. While we strive to keep the application functional, we cannot guarantee continuous updates or support.</p>
+            
+            <p><strong>Source Code Availability:</strong></p>
+            <p>The complete source code for Harmony is available on GitHub under the MIT license. Developers are encouraged to contribute improvements, report issues, or fork the project for their own use.</p>
           </div>
           
           <div class="trademark-section">
             <h3>Credits & Acknowledgments</h3>
             <p>Harmony Music Player was made possible through the use of several third-party services and resources:</p>
             <ul>
-              <li><strong>YouTube API Services:</strong> Special thanks to Google LLC for providing the YouTube Data API v3 that powers this application's music streaming capabilities.</li>
+              <li><strong>YouTube API Services:</strong> Special thanks to Google LLC for providing the YouTube Data API v3 that powers this application's music streaming capabilities. This product uses the YouTube API but is not endorsed or certified by YouTube. By using this application, you agree to be bound by YouTube's Terms of Service.</li>
               <li><strong>Font Awesome:</strong> All icons used throughout the interface are provided by Font Awesome's free tier under the Font Awesome Free License.</li>
+              <li><strong>Community Contributors:</strong> We extend our gratitude to all users who provided valuable feedback, bug reports, and suggestions for improving Harmony.</li>
             </ul>
           </div>
           
+          <div class="trademark-section">
+            <h3>Trademark Protection</h3>
+            <p>The name "Harmony", the Harmony logo, and all related names, logos, product and service names, designs, and slogans are trademarks of this project and may not be used without prior written permission.</p>
+            <p>Unauthorized use, including but not limited to reproduction, modification, distribution, or republication of the Harmony branding elements is strictly prohibited without express written consent from the project administrators.</p>
+            <p>This protection extends to any confusingly similar variations of the Harmony name or logo, as well as any use that might imply official endorsement or affiliation where none exists.</p>
+            
+            <p><strong>Permitted Uses:</strong></p>
+            <ul>
+              <li>Referencing Harmony in articles or reviews with proper attribution</li>
+              <li>Linking to the official Harmony website or repository</li>
+              <li>Using Harmony as intended by the software</li>
+            </ul>
+            
+            <p><strong>Prohibited Uses:</strong></p>
+            <ul>
+              <li>Using the Harmony name or logo for commercial products without permission</li>
+              <li>Creating derivative works that use the Harmony branding</li>
+              <li>Implying official partnership or endorsement by the Harmony team</li>
+            </ul>
+          </div>
+          
+          <div class="trademark-section">
+            <h3>Third-Party Compliance</h3>
+            <p>This application complies with all relevant third-party terms of service:</p>
+            <ul>
+              <li><strong>YouTube Terms of Service:</strong> Compliance with YouTube's API Services Terms of Service, including all usage limitations and requirements.</li>
+              <li><strong>Google Privacy Policy:</strong> Adherence to Google's privacy policies regarding data collection and usage.</li>
+              <li><strong>Font Awesome License:</strong> Proper attribution and compliance with Font Awesome's free license requirements.</li>
+            </ul>
+            
+            <p><strong>YouTube API Compliance:</strong></p>
+            <p>Harmony uses the YouTube API Services to stream music content. By using Harmony, you agree to be bound by the YouTube Terms of Service available at <a href="https://www.youtube.com/t/terms" style="color: var(--primary); text-decoration: none;">https://www.youtube.com/t/terms</a>.</p>
+            <p>Harmony's use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy" style="color: var(--primary); text-decoration: none;">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+          </div>
+          
           <div class="admin-note">
-            <p><strong>From The Admin / Development Team:</strong> We sincerely thank our amazing community for supporting this passion project. Your enthusiasm and feedback drive us to continuously improve Harmony.</p>
+            <p><strong>From The Admin / Development Team:</strong> We sincerely thank our amazing community for supporting this passion project. Your enthusiasm and feedback drive us to continuously improve Harmony. Special recognition goes to Google for providing the YouTube API that makes this music experience possible. Harmony remains a non-commercial, educational project created by music lovers for music lovers worldwide.</p>
           </div>
           
           <div class="legal-text">
-            Harmony Music Player v5.1 &copy; 2025 All Rights Reserved
           </div>
         </div>
       </div>
@@ -1803,21 +1871,6 @@
     let currentPlaylist = [];
     let progressInterval;
     let waveformInterval;
-    let deferredPrompt;
-    let isAppInstalled = false;
-    
-    // Service worker registration
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(registration => {
-            console.log('Service Worker registered: ', registration);
-          })
-          .catch(error => {
-            console.log('Service Worker registration failed: ', error);
-          });
-      });
-    }
     
     document.addEventListener('DOMContentLoaded', function() {
       initYouTubePlayer();
@@ -1828,8 +1881,9 @@
       initWaveform();
       updateSidebarNowPlaying();
       window.addEventListener('scroll', handleHeaderScroll);
-      checkPWAInstallation();
-      createManifest();
+      registerServiceWorker();
+      setupBackgroundPlayback();
+      setupMediaSession();
     });
 
     function initYouTubePlayer() {
@@ -1850,6 +1904,8 @@
             autoplay: 1,
             controls: 0,
             playsinline: 1,
+            rel: 0,
+            modestbranding: 1,
             enablejsapi: 1
           }
         });
@@ -1858,7 +1914,6 @@
 
     function onPlayerReady() {
       console.log('Player ready');
-      setupMediaSession();
     }
 
     function onPlayerStateChange(event) {
@@ -1873,12 +1928,11 @@
           startProgressTimer();
           updatePlayPauseButton(true);
           startWaveform();
-          updateMediaSession('playing');
+          updateMediaSession();
         } else if (event.data === YT.PlayerState.PAUSED) {
           clearInterval(progressInterval);
           clearInterval(waveformInterval);
           updatePlayPauseButton(false);
-          updateMediaSession('paused');
         }
       }
       
@@ -1924,65 +1978,6 @@
       });
       
       document.getElementById('nowPlayingFavBtn').addEventListener('click', toggleCurrentFavorite);
-      document.getElementById('installBtn').addEventListener('click', installApp);
-      
-      // PWA installation prompt
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        document.getElementById('installBtn').style.display = 'flex';
-      });
-      
-      // Track if app is installed
-      window.addEventListener('appinstalled', () => {
-        isAppInstalled = true;
-        document.getElementById('installBtn').style.display = 'none';
-        showNotification('App Installed', 'Harmony has been installed successfully!');
-      });
-    }
-
-    function createManifest() {
-      const manifest = {
-        "name": "Harmony Music Player",
-        "short_name": "Harmony",
-        "start_url": ".",
-        "display": "standalone",
-        "background_color": "#0f0f0f",
-        "theme_color": "#ff4d4d",
-        "description": "A beautiful music player streaming from YouTube",
-        "icons": [
-          {
-            "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png",
-            "sizes": "512x512",
-            "type": "image/png"
-          }
-        ]
-      };
-      
-      const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-      const manifestURL = URL.createObjectURL(blob);
-      document.getElementById('app-manifest').href = manifestURL;
-    }
-
-    function checkPWAInstallation() {
-      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-        isAppInstalled = true;
-        document.getElementById('installBtn').style.display = 'none';
-      }
-    }
-
-    function installApp() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the install prompt');
-          } else {
-            console.log('User dismissed the install prompt');
-          }
-          deferredPrompt = null;
-        });
-      }
     }
 
     function handleHeaderScroll() {
@@ -2207,7 +2202,7 @@
       addToHistory(currentTrack);
       player.loadVideoById(currentTrack.id);
       showNotification('Now Playing', currentTrack.title);
-      updateMediaSession('playing');
+      updateMediaSession();
     }
     
     function updateNowPlaying() {
@@ -2255,11 +2250,9 @@
       if (player.getPlayerState() === YT.PlayerState.PLAYING) {
         player.pauseVideo();
         showNotification('Paused', currentTrack.title);
-        updateMediaSession('paused');
       } else {
         player.playVideo();
         showNotification('Now Playing', currentTrack.title);
-        updateMediaSession('playing');
       }
     }
 
@@ -2475,128 +2468,85 @@
       }, 3000);
     }
     
-    // Media Session API for background controls
+    // PWA Service Worker Registration
+    function registerServiceWorker() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(error => {
+            console.log('Service Worker registration failed:', error);
+          });
+      }
+    }
+    
+    // Background Playback Handling
+    function setupBackgroundPlayback() {
+      document.addEventListener('visibilitychange', function() {
+        const indicator = document.getElementById('backgroundPlayIndicator');
+        if (document.visibilityState === 'hidden') {
+          // App is in background
+          if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
+            indicator.style.display = 'flex';
+          }
+        } else {
+          // App is in foreground
+          indicator.style.display = 'none';
+        }
+      });
+    }
+    
+    // Media Session API for lock screen controls
     function setupMediaSession() {
       if ('mediaSession' in navigator) {
-        navigator.mediaSession.setActionHandler('play', () => {
-          player.playVideo();
-          updatePlayPauseButton(true);
-          updateMediaSession('playing');
+        navigator.mediaSession.setActionHandler('play', function() {
+          if (player) player.playVideo();
         });
         
-        navigator.mediaSession.setActionHandler('pause', () => {
-          player.pauseVideo();
-          updatePlayPauseButton(false);
-          updateMediaSession('paused');
+        navigator.mediaSession.setActionHandler('pause', function() {
+          if (player) player.pauseVideo();
         });
         
-        navigator.mediaSession.setActionHandler('previoustrack', () => {
+        navigator.mediaSession.setActionHandler('previoustrack', function() {
           playPreviousTrack();
         });
         
-        navigator.mediaSession.setActionHandler('nexttrack', () => {
+        navigator.mediaSession.setActionHandler('nexttrack', function() {
           playNextTrack();
         });
-        
-        navigator.mediaSession.setActionHandler('seekbackward', () => {
-          const currentTime = player.getCurrentTime();
-          player.seekTo(currentTime - 10, true);
-        });
-        
-        navigator.mediaSession.setActionHandler('seekforward', () => {
-          const currentTime = player.getCurrentTime();
-          player.seekTo(currentTime + 10, true);
-        });
       }
     }
     
-    function updateMediaSession(state) {
-      if (!('mediaSession' in navigator) || !currentTrack) return;
-      
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: currentTrack.title,
-        artist: currentTrack.channel || 'Unknown Artist',
-        artwork: [
-          { src: currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`, sizes: '512x512', type: 'image/jpg' }
-        ]
-      });
-      
-      navigator.mediaSession.playbackState = state;
-    }
-    
-    // Background playback fix for mobile
-    function setupBackgroundPlayback() {
-      // Add event listeners to maintain playback when app is in background
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden') {
-          // When app goes to background
-          if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-            // Keep playing in background
-            console.log('App in background - continuing playback');
-          }
-        }
-      });
-      
-      // iOS specific fix for background playback
-      if (navigator.userAgent.match(/(iPhone|iPod|iPad)/i)) {
-        const audio = document.createElement('audio');
-        audio.loop = true;
-        audio.src = 'data:audio/mp3;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
-        audio.play().catch(e => console.log('Background audio init:', e));
+    function updateMediaSession() {
+      if ('mediaSession' in navigator && currentTrack) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: currentTrack.title,
+          artist: currentTrack.channel || 'Unknown Artist',
+          artwork: [
+            { src: currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`, sizes: '96x96', type: 'image/jpg' },
+            { src: currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`, sizes: '128x128', type: 'image/jpg' },
+            { src: currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`, sizes: '192x192', type: 'image/jpg' },
+            { src: currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`, sizes: '256x256', type: 'image/jpg' },
+            { src: currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`, sizes: '384x384', type: 'image/jpg' },
+            { src: currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`, sizes: '512x512', type: 'image/jpg' }
+          ]
+        });
+        
+        navigator.mediaSession.playbackState = player.getPlayerState() === YT.PlayerState.PLAYING ? 'playing' : 'paused';
       }
     }
-    
-    // Initialize background playback fixes
-    setupBackgroundPlayback();
   </script>
-  
   <script>
-    // Inline service worker for PWA functionality
-    const serviceWorkerContent = `
-    self.addEventListener('install', (event) => {
-      event.waitUntil(
-        caches.open('harmony-cache-v1').then((cache) => {
-          return cache.addAll([
-            '/',
-            'index.html',
-            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-            'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap',
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png'
-          ]);
-        })
-      );
-    });
-
-    self.addEventListener('fetch', (event) => {
-      event.respondWith(
-        caches.match(event.request).then((response) => {
-          return response || fetch(event.request);
-        })
-      );
-    });
-
-    self.addEventListener('message', (event) => {
-      if (event.data === 'skipWaiting') {
-        self.skipWaiting();
-      }
-    });
-    `;
-    
-    // Create a blob URL for the service worker
-    const serviceWorkerBlob = new Blob([serviceWorkerContent], { type: 'application/javascript' });
-    const serviceWorkerUrl = URL.createObjectURL(serviceWorkerBlob);
-    
-    // Register the service worker
+    // Service worker content (inlined for demo purposes)
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register(serviceWorkerUrl)
-          .then(registration => {
-            console.log('Service Worker registered: ', registration);
-          })
-          .catch(error => {
-            console.log('Service Worker registration failed: ', error);
-          });
-      });
+      navigator.serviceWorker.register(new URL('', import.meta.url), { scope: './' })
+        .then(function(registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        })
+        .catch(function(err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
     }
   </script>
 </body>
