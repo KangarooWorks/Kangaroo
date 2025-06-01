@@ -4,9 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Harmony</title>
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#0f0f0f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Harmony">
+  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkhhcm1vbnkgTXVzaWMgUGxheWVyIiwKICAic2hvcnRfbmFtZSI6ICJIYXJtb255IiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwZjBmMGYiLAogICJ0aGVtZV9jb2xvciI6ICIjZmY0ZDRkIiwKICAiZGVzY3JpcHRpb24iOiAiQSBiZWF1dGlmdWwgbXVzaWMgcGxheWVyIGZvciB5b3VyIGZhdm9yaXRlIHNvbmdzIiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL3VwbG9hZC53aWtpbWVkaWEub3JnL3dpa2lwZWRpYS9jb21tb25zL3RodW1iLzUvNWYvQXBwbGVfTXVzaWNfaWNvbi5zdmcvNzJweC1BcHBsZV9NdXNpY19pY29uLnN2Zy5wbmciLAogICAgICAic2l6ZXMiOiAiNzJ4NzIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vdXBsb2FkLndpa2ltZWRpYS5vcmcvd2lraXBlZGlhL2NvbW1vbnMvdGh1bWIvNS81Zi9BcHBsZV9NdXNpY19pY29uLnN2Zy85NnB4LUFwcGxlX011c2ljX2ljb24uc3ZnLnBuZyIsCiAgICAgICJzaXplcyI6ICI5Njk2IiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL3VwbG9hZC53aWtpbWVkaWEub3JnL3dpa2lwZWRpYS9jb21tb25zL3RodW1iLzUvNWYvQXBwbGVfTXVzaWNfaWNvbi5zdmcvMTI4cHgtQXBwbGVfTXVzaWNfaWNvbi5zdmcucG5nIiwKICAgICAgInNpemVzIjogIjEyODEyOCIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly91cGxvYWQud2lraW1lZGlhLm9yZy93aWtpcGVkaWEvY29tbW9ucy90aHVtYi81LzVmL0FwcGxlX011c2ljX2ljb24uc3ZnLzE0NHB4LUFwcGxlX011c2ljX2ljb24uc3ZnLnBuZyIsCiAgICAgICJzaXplcyI6ICIxNDQxNDQiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vdXBsb2FkLndpa2ltZWRpYS5vcmcvd2lraXBlZGlhL2NvbW1vbnMvdGh1bWIvNS81Zi9BcHBsZV9NdXNpY19pY29uLnN2Zy8xNTJweC1BcHBsZV9NdXNpY19pY29uLnN2Zy5wbmciLAogICAgICAic2l6ZXMiOiAiMTUyMTUyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL3VwbG9hZC53aWtpbWVkaWEub3JnL3dpa2lwZWRpYS9jb21tb25zL3RodW1iLzUvNWYvQXBwbGVfTXVzaWNfaWNvbi5zdmcvMTkycHgtQXBwbGVfTXVzaWNfaWNvbi5zdmcucG5nIiwKICAgICAgInNpemVzIjogIjE5MjE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly91cGxvYWQud2lraW1lZGlhLm9yZy93aWtpcGVkaWEvY29tbW9ucy90aHVtYi81LzVmL0FwcGxlX011c2ljX2ljb24uc3ZnLzM4NHB4LUFwcGxlX011c2ljX2ljb24uc3ZnLnBuZyIsCiAgICAgICJzaXplcyI6ICIzODQzODQiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vdXBsb2FkLndpa2ltZWRpYS5vcmcvd2lraXBlZGlhL2NvbW1vbnMvdGh1bWIvNS81Zi9BcHBsZV9NdXNpY19pY29uLnN2Zy81MTJweC1BcHBsZV9NdXNpY19pY29uLnN2Zy5wbmciLAogICAgICAic2l6ZXMiOiAiNTEyNTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
+  <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png">
+  
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png">
+  
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --primary: #ff4d4d;
@@ -1251,6 +1265,41 @@
       color: var(--gray);
     }
 
+    /* PWA Install Button */
+    .install-btn {
+      position: fixed;
+      bottom: calc(var(--player-height) + 20px);
+      left: 20px;
+      background: var(--primary);
+      color: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(255, 0, 0, 0.4);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .install-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+    }
+    
+    .install-btn i {
+      font-size: 1.2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .install-btn {
+        display: flex;
+      }
+    }
+
     /* Responsive Design */
     @media (max-width: 1200px) {
       .sidebar {
@@ -1467,7 +1516,6 @@
         bottom: calc(var(--player-height) + 5px);
         right: 5px;
         max-width: 220px;
-        padding: 0.8rem 1rem;
       }
     }
 
@@ -1787,6 +1835,12 @@
       </div>
     </div>
   </div>
+  
+  <!-- PWA Install Button -->
+  <button class="install-btn" id="installBtn">
+    <i class="fas fa-download"></i>
+    Install App
+  </button>
   
   <div class="spinner-container" id="spinnerContainer">
     <div class="spinner"></div>
@@ -2437,6 +2491,167 @@
       setTimeout(() => {
         notification.classList.remove('show');
       }, 3000);
+    }
+    
+    // PWA Installation Prompt
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault();
+      // Stash the event so it can be triggered later
+      deferredPrompt = e;
+      // Show the install button
+      installBtn.style.display = 'flex';
+      
+      installBtn.addEventListener('click', () => {
+        // Show the install prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          } else {
+            console.log('User dismissed the install prompt');
+          }
+          // Clear the saved prompt since it can't be used again
+          deferredPrompt = null;
+          // Hide the install button
+          installBtn.style.display = 'none';
+        });
+      });
+    });
+    
+    window.addEventListener('appinstalled', () => {
+      // Hide the install button
+      installBtn.style.display = 'none';
+      // Clear the deferredPrompt so it can be garbage collected
+      deferredPrompt = null;
+      // Show success notification
+      showNotification('Installed', 'Harmony has been installed successfully!');
+    });
+    
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+  
+  <!-- Inline Service Worker Script -->
+  <script id="sw-script">
+    // This will be used to register the service worker
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        const CACHE_NAME = 'harmony-music-v3';
+        const urlsToCache = [
+          '/',
+          '/index.html',
+          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+          'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap',
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png'
+        ];
+
+        self.addEventListener('install', event => {
+          event.waitUntil(
+            caches.open(CACHE_NAME)
+              .then(cache => {
+                console.log('Opened cache');
+                return cache.addAll(urlsToCache)
+                  .then(() => self.skipWaiting());
+              })
+          );
+        });
+
+        self.addEventListener('activate', event => {
+          const cacheWhitelist = [CACHE_NAME];
+          event.waitUntil(
+            caches.keys().then(cacheNames => {
+              return Promise.all(
+                cacheNames.map(cacheName => {
+                  if (cacheWhitelist.indexOf(cacheName) === -1) {
+                    return caches.delete(cacheName);
+                  }
+                })
+              ).then(() => self.clients.claim());
+          });
+        });
+
+        self.addEventListener('fetch', event => {
+          if (event.request.url.includes('youtube.com') || 
+              event.request.url.includes('googleapis.com') || 
+              event.request.url.includes('googlevideo.com')) {
+            return fetch(event.request);
+          }
+
+          event.respondWith(
+            caches.match(event.request)
+              .then(response => {
+                if (response) {
+                  return response;
+                }
+                
+                return fetch(event.request).then(
+                  response => {
+                    if (!response || response.status !== 200 || response.type !== 'basic') {
+                      return response;
+                    }
+                    
+                    const responseToCache = response.clone();
+                    
+                    caches.open(CACHE_NAME)
+                      .then(cache => {
+                        cache.put(event.request, responseToCache);
+                      });
+                      
+                    return response;
+                  }
+                ).catch(() => {
+                  return caches.match('/offline.html');
+                });
+              }
+          );
+        });
+
+        self.addEventListener('sync', event => {
+          if (event.tag === 'syncFavorites') {
+            event.waitUntil(syncFavorites());
+          }
+        });
+
+        self.addEventListener('push', event => {
+          const options = {
+            body: event.data.text(),
+            icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/192px-Apple_Music_icon.svg.png',
+            badge: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/192px-Apple_Music_icon.svg.png'
+          };
+          
+          event.waitUntil(
+            self.registration.showNotification('Harmony Music', options)
+          );
+        });
+      `;
+      
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      const swUrl = URL.createObjectURL(blob);
+      
+      navigator.serviceWorker.register(swUrl)
+        .then(registration => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          URL.revokeObjectURL(swUrl);
+        })
+        .catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+          URL.revokeObjectURL(swUrl);
+        });
     }
   </script>
 </body>
