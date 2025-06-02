@@ -1,2485 +1,4895 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+
   <meta name="theme-color" content="#ff4d4d">
+
   <meta name="description" content="Harmony Music Player - Stream your favorite music">
+
   <meta name="apple-mobile-web-app-capable" content="yes">
+
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  
+
   <title>Harmony</title>
+
   
+
+  <!-- PWA Manifest -->
+
+  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkhhcm1vbnkiLAogICJzaG9ydF9uYW1lIjogIkhhcm1vbnkiLAogICJkZXNjcmlwdGlvbiI6ICJBIGJlYXV0aWZ1bCBtdXNpYyBwbGF5ZXIiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBmMGYwZiIsCiAgInRoZW1lX2NvbG9yIjogIiNmZjRmNGQiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL3VwbG9hZC53aWtpbWVkaWEub3JnL3dpa2lwZWRpYS9jb21tb25zL3RodW1iLzUvNWYvQXBwbGVfTXVzaWNfaWNvbi5zdmcvMTkycHgtQXBwbGVfTXVzaWNfaWNvbi5zdmcucG5nIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vdXBsb2FkLndpa2ltZWRpYS5vcmcvd2lraXBlZGlhL2NvbW1vbnMvdGh1bWIvNS81Zi9BcHBsZV9NdXNpY19pY29uLnN2Zy81MTJweC1BcHBsZV9NdXNpY19pY29uLnN2Zy5wbmciLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
+
+  
+
+  <!-- Favicon and Touch Icons -->
+
+  <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/2048px-Apple_Music_icon.svg.png">
+
+  <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Apple_Music_icon.svg/192px-Apple_Music_icon.svg.png">
+
+  
+
   <!-- Font Awesome -->
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   
+
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   
+
   <style>
+
     :root {
+
       --primary: #ff4d4d;
+
       --primary-dark: #cc0000;
+
       --primary-light: rgba(255, 77, 77, 0.1);
+
       --accent: #1db954;
-      --accent-blue: #4d94ff;
-      --dark: #0a0a15;
-      --darker: #121220;
-      --darkest: #070710;
+
+      --dark: #0f0f0f;
+
+      --darker: #1a1a1a;
+
+      --darkest: #000;
+
       --light: #ffffff;
+
       --light-dim: rgba(255, 255, 255, 0.9);
+
       --gray: #aaaaaa;
+
       --gray-dark: #606060;
+
       --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      --sidebar-width: 320px;
+
+      --sidebar-width: 300px;
+
       --player-height: 100px;
-      --glass-bg: rgba(15, 15, 30, 0.85);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      --neon-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
+
+      --glass-bg: rgba(15, 15, 15, 0.85);
+
+      --glass-border: rgba(255, 255, 255, 0.08);
+
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
     }
+
+
 
     * {
+
       margin: 0;
+
       padding: 0;
+
       box-sizing: border-box;
+
     }
+
+
 
     html {
+
       font-size: 16px;
+
       height: 100%;
-      background: radial-gradient(ellipse at top, var(--darkest) 0%, var(--darker) 100%);
+
+      background: linear-gradient(135deg, var(--darkest) 0%, var(--darker) 100%);
+
     }
+
+
 
     body {
+
       font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+
+      background: linear-gradient(135deg, var(--darkest) 0%, var(--darker) 100%);
+
       color: var(--light);
+
       min-height: 100vh;
+
       display: flex;
+
       flex-direction: column;
+
       overflow-x: hidden;
+
       -webkit-text-size-adjust: 100%;
+
       text-size-adjust: 100%;
+
       font-size: 1rem;
+
       line-height: 1.5;
+
       padding-bottom: var(--player-height);
-      background: radial-gradient(ellipse at top, var(--darkest) 0%, var(--darker) 100%);
+
     }
+
+
 
     /* Custom Scrollbar */
+
     ::-webkit-scrollbar {
+
       width: 8px;
+
       height: 8px;
+
     }
+
+
 
     ::-webkit-scrollbar-track {
-      background: rgba(30, 30, 45, 0.3);
+
+      background: rgba(30, 30, 30, 0.3);
+
       border-radius: 5px;
+
     }
+
+
 
     ::-webkit-scrollbar-thumb {
+
       background: var(--primary);
+
       border-radius: 5px;
+
       transition: var(--transition);
+
     }
+
+
 
     ::-webkit-scrollbar-thumb:hover {
+
       background: #ff6b6b;
+
     }
+
+
 
     .app-container {
+
       display: flex;
+
       flex: 1;
+
       min-height: 100vh;
+
       position: relative;
+
       overflow: hidden;
+
     }
 
-    /* Futuristic Sidebar with Glass Morphism */
+
+
+    /* Premium Sidebar with Glass Morphism */
+
     .sidebar {
+
       width: var(--sidebar-width);
+
       background: var(--glass-bg);
+
       height: 100vh;
+
       display: flex;
+
       flex-direction: column;
+
       border-right: 1px solid var(--glass-border);
+
       overflow-y: auto;
+
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
       z-index: 100;
+
       position: fixed;
+
       box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      overflow-x: hidden;
+
+      backdrop-filter: blur(12px);
+
+      -webkit-backdrop-filter: blur(12px);
+
     }
+
+
 
     .logo-container {
-      padding: 1.5rem;
+
+      padding: 1.2rem;
+
       border-bottom: 1px solid var(--glass-border);
+
       background: linear-gradient(to right, rgba(255,0,0,0.2), transparent);
+
       display: flex;
+
       align-items: center;
+
       gap: 1rem;
+
       position: relative;
+
       overflow: hidden;
+
     }
+
+
 
     .logo-container::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05));
+
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03));
+
       pointer-events: none;
+
     }
+
+
 
     .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
+
+      font-size: 1.4rem;
+
+      font-weight: 600;
+
       color: var(--light);
+
       display: flex;
+
       align-items: center;
+
       gap: 0.8rem;
+
       position: relative;
+
       z-index: 1;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 1px;
+
     }
+
+
 
     .logo span {
-      background: linear-gradient(45deg, var(--primary), var(--accent-blue));
+
+      background: linear-gradient(45deg, var(--primary), #ff6b6b);
+
       -webkit-background-clip: text;
+
       -webkit-text-fill-color: transparent;
+
       background-clip: text;
+
       text-fill-color: transparent;
-      text-shadow: var(--neon-shadow);
+
     }
+
+
 
     .logo i {
-      font-size: 1.8rem;
+
+      font-size: 1.4rem;
+
       color: var(--primary);
-      text-shadow: var(--neon-shadow);
+
     }
+
+
 
     .nav-links {
+
       padding: 1.5rem 0;
+
     }
+
+
 
     .nav-item {
+
       display: flex;
+
       align-items: center;
-      padding: 1.1rem 1.8rem;
+
+      padding: 0.9rem 1.6rem;
+
       cursor: pointer;
+
       transition: var(--transition);
+
       color: var(--gray);
+
       text-decoration: none;
+
       position: relative;
+
       overflow: hidden;
-      font-size: 1.05rem;
+
+      font-size: 1rem;
+
       font-weight: 500;
-      margin: 0.3rem 0;
-      border-radius: 0 30px 30px 0;
+
+      margin: 0.2rem 0;
+
     }
+
+
 
     .nav-item:hover, .nav-item.active {
+
       background: linear-gradient(to right, rgba(255,0,0,0.15), transparent);
+
       color: var(--light);
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+
     }
+
+
 
     .nav-item:hover::before, .nav-item.active::before {
+
       content: '';
+
       position: absolute;
+
       left: 0;
+
       top: 0;
+
       height: 100%;
+
       width: 4px;
+
       background: var(--primary);
+
       border-radius: 0 4px 4px 0;
-      box-shadow: var(--neon-shadow);
+
     }
+
+
 
     .nav-item i {
+
       margin-right: 1.2rem;
+
       width: 24px;
+
       text-align: center;
-      font-size: 1.2rem;
-      transition: var(--transition);
+
+      font-size: 1.1rem;
+
     }
 
-    .nav-item:hover i, .nav-item.active i {
-      transform: scale(1.2);
-      color: var(--primary);
-      text-shadow: var(--neon-shadow);
-    }
+
 
     .favorites-count, .history-count {
+
       margin-left: auto;
+
       background: linear-gradient(45deg, var(--primary), #ff6b6b);
+
       color: white;
-      font-size: 0.8rem;
+
+      font-size: 0.75rem;
+
       padding: 0.2rem 0.6rem;
+
       border-radius: 12px;
+
       font-weight: 600;
+
       min-width: 28px;
+
       text-align: center;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+
     }
+
+
 
     /* Main Content with Animated Background */
+
     .main-content {
+
       flex: 1;
+
       display: flex;
+
       flex-direction: column;
+
       margin-left: var(--sidebar-width);
+
       position: relative;
+
       min-height: 100vh;
+
       overflow: hidden;
+
       width: calc(100% - var(--sidebar-width));
+
     }
+
+
 
     .background-animation {
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       right: 0;
+
       bottom: 0;
+
       z-index: 0;
+
       overflow: hidden;
-      background: radial-gradient(circle at 20% 30%, rgba(77, 94, 255, 0.1) 0%, transparent 40%), 
-                  radial-gradient(circle at 80% 70%, rgba(255, 77, 77, 0.1) 0%, transparent 40%);
+
     }
+
+
 
     .particle {
+
       position: absolute;
+
       border-radius: 50%;
+
       background: radial-gradient(circle, var(--primary-light), transparent 70%);
+
       opacity: 0;
+
       animation: float 15s infinite linear;
+
     }
+
+
 
     @keyframes float {
+
       0% {
+
         transform: translateY(0) translateX(0);
+
         opacity: 0;
+
       }
+
       10% {
+
         opacity: 0.3;
+
       }
+
       90% {
+
         opacity: 0.3;
+
       }
+
       100% {
+
         transform: translateY(-100vh) translateX(100px);
+
         opacity: 0;
+
       }
+
     }
+
+
 
     .content-overlay {
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       right: 0;
+
       bottom: 0;
-      background: radial-gradient(ellipse at top, rgba(10, 10, 20, 0.95) 0%, rgba(15, 15, 25, 0.9) 100%);
+
+      background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(15, 15, 15, 0.9) 100%);
+
       z-index: 1;
+
     }
+
+
 
     header {
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
-      padding: 1.1rem 1.5rem;
+
+      padding: 0.9rem 1.2rem;
+
       background: var(--glass-bg);
+
       border-bottom: 1px solid var(--glass-border);
+
       position: sticky;
+
       top: 0;
+
       z-index: 100;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+      backdrop-filter: blur(12px);
+
+      -webkit-backdrop-filter: blur(12px);
+
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
       transition: var(--transition);
+
     }
+
+
 
     .header-scrolled {
-      padding: 0.9rem 1.5rem;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+
+      padding: 0.7rem 1.2rem;
+
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
     }
+
+
 
     .menu-toggle {
+
       display: none;
+
       background: none;
+
       border: none;
+
       color: var(--light);
-      font-size: 1.5rem;
+
+      font-size: 1.4rem;
+
       cursor: pointer;
-      margin-right: 0.8rem;
+
+      margin-right: 0.5rem;
+
       transition: var(--transition);
+
       z-index: 101;
-      background: rgba(255, 255, 255, 0.1);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+
     }
+
+
 
     .menu-toggle:hover {
+
       color: var(--primary);
+
       transform: scale(1.1);
-      box-shadow: var(--neon-shadow);
+
     }
+
+
 
     .header-title {
+
       display: none;
-      font-size: 1.3rem;
-      font-weight: 700;
+
+      font-size: 1.2rem;
+
+      font-weight: 600;
+
       margin-right: 1rem;
-      background: linear-gradient(45deg, var(--primary), var(--accent-blue));
+
+      background: linear-gradient(45deg, var(--primary), #ff6b6b);
+
       -webkit-background-clip: text;
+
       -webkit-text-fill-color: transparent;
+
       background-clip: text;
+
       text-fill-color: transparent;
-      text-shadow: var(--neon-shadow);
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 1px;
+
     }
+
+
 
     .search-container {
+
       position: relative;
+
       flex: 1;
+
       max-width: 700px;
-      margin: 0 1.5rem;
+
+      margin: 0 1rem;
+
     }
+
+
 
     .search-input {
+
       width: 100%;
-      padding: 0.9rem 1.2rem 0.9rem 3.2rem;
+
+      padding: 0.8rem 1rem 0.8rem 2.8rem;
+
       border-radius: 30px;
+
       border: 1px solid var(--glass-border);
-      background: rgba(25, 25, 40, 0.7);
+
+      background: rgba(30, 30, 30, 0.7);
+
       color: var(--light);
-      font-size: 1rem;
+
+      font-size: 0.95rem;
+
       transition: var(--transition);
-      backdrop-filter: blur(8px);
+
+      backdrop-filter: blur(5px);
+
       font-weight: 500;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
     }
+
+
 
     .search-input:focus {
+
       outline: none;
+
       border-color: var(--primary);
-      background: rgba(15, 15, 25, 0.9);
-      box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3), var(--neon-shadow);
+
+      background: rgba(15, 15, 15, 0.9);
+
+      box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3);
+
     }
+
+
 
     .search-icon {
+
       position: absolute;
-      left: 1.5rem;
+
+      left: 1.2rem;
+
       top: 50%;
+
       transform: translateY(-50%);
+
       color: var(--gray);
-      font-size: 1.1rem;
+
+      font-size: 1rem;
+
       transition: var(--transition);
+
     }
+
+
 
     .search-input:focus + .search-icon {
+
       color: var(--primary);
-      text-shadow: var(--neon-shadow);
+
     }
+
+
 
     /* Premium Tab Content with Floating Effect */
+
     .tab-content {
+
       flex: 1;
-      padding: 1.8rem;
+
+      padding: 1.5rem;
+
       overflow-y: auto;
+
       display: none;
+
       position: relative;
+
       z-index: 2;
+
       height: calc(100vh - var(--player-height));
+
       opacity: 0;
+
       transform: translateY(20px);
+
       transition: opacity 0.5s ease, transform 0.5s ease;
+
     }
+
+
 
     .tab-content.active {
+
       display: block;
+
       opacity: 1;
+
       transform: translateY(0);
+
     }
+
+
 
     .results-title {
-      font-size: 1.8rem;
-      margin-bottom: 1.8rem;
+
+      font-size: 1.6rem;
+
+      margin-bottom: 1.5rem;
+
       color: var(--light);
+
       font-weight: 700;
+
       position: relative;
-      padding-bottom: 0.8rem;
+
+      padding-bottom: 0.7rem;
+
       display: inline-block;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 0.5px;
+
     }
+
+
 
     .results-title::after {
+
       content: '';
+
       position: absolute;
+
       bottom: 0;
+
       left: 0;
-      width: 80px;
+
+      width: 60px;
+
       height: 4px;
+
       background: var(--primary);
+
       border-radius: 2px;
+
       transition: width 0.3s ease;
-      box-shadow: var(--neon-shadow);
+
     }
+
+
 
     .results-title:hover::after {
+
       width: 100%;
+
     }
+
+
 
     .results-container {
+
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.8rem;
-      padding-bottom: 1.8rem;
+
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+
+      gap: 1.5rem;
+
+      padding-bottom: 1.5rem;
+
     }
+
+
 
     .result-card {
-      background: linear-gradient(135deg, rgba(30,30,45,0.8), rgba(20,20,35,0.9));
-      border-radius: 16px;
-      padding: 1.3rem;
+
+      background: rgba(30, 30, 30, 0.7);
+
+      border-radius: 12px;
+
+      padding: 1.1rem;
+
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
       cursor: pointer;
+
       position: relative;
+
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
+
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+
+      backdrop-filter: blur(5px);
+
       border: 1px solid var(--glass-border);
+
       transform: translateY(0);
+
     }
+
+
 
     .result-card:hover {
-      background: linear-gradient(135deg, rgba(40,40,60,0.9), rgba(25,25,45,0.95));
+
+      background: rgba(50, 50, 50, 0.8);
+
       transform: translateY(-8px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), var(--neon-shadow);
+
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+
     }
+
+
 
     .result-card::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05));
+
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03));
+
       pointer-events: none;
+
     }
+
+
 
     .result-image {
+
       width: 100%;
+
       aspect-ratio: 1/1;
-      border-radius: 12px;
-      margin-bottom: 1.2rem;
+
+      border-radius: 8px;
+
+      margin-bottom: 1rem;
+
       object-fit: cover;
+
       transition: var(--transition);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+
     }
+
+
 
     .result-card:hover .result-image {
+
       transform: scale(1.05);
+
     }
+
+
 
     .result-title {
-      font-size: 1.1rem;
+
+      font-size: 1rem;
+
       font-weight: 600;
-      margin-bottom: 0.5rem;
+
+      margin-bottom: 0.4rem;
+
       display: -webkit-box;
+
       -webkit-line-clamp: 2;
+
       -webkit-box-orient: vertical;
+
       overflow: hidden;
+
       line-height: 1.4;
+
       min-height: 2.8em;
+
       max-height: 3.2em;
+
       text-overflow: ellipsis;
+
       color: var(--light-dim);
+
     }
+
+
 
     .result-channel {
-      font-size: 0.9rem;
+
+      font-size: 0.85rem;
+
       color: var(--gray);
+
       display: -webkit-box;
+
       -webkit-line-clamp: 1;
+
       -webkit-box-orient: vertical;
+
       overflow: hidden;
+
       text-overflow: ellipsis;
+
     }
+
+
 
     .card-actions {
+
       position: absolute;
-      top: 1rem;
-      right: 1rem;
+
+      top: 0.7rem;
+
+      right: 0.7rem;
+
       display: flex;
-      gap: 0.8rem;
+
+      gap: 0.7rem;
+
       z-index: 2;
+
       opacity: 0;
+
       transform: translateY(-10px);
+
       transition: all 0.3s ease;
+
     }
+
+
 
     .result-card:hover .card-actions {
+
       opacity: 1;
+
       transform: translateY(0);
+
     }
+
+
 
     .action-btn {
-      width: 34px;
-      height: 34px;
+
+      width: 30px;
+
+      height: 30px;
+
       background: rgba(0, 0, 0, 0.7);
+
       border-radius: 50%;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       color: var(--light);
-      font-size: 0.9rem;
+
+      font-size: 0.85rem;
+
       transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+
       backdrop-filter: blur(5px);
+
       border: 1px solid var(--glass-border);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
     }
+
+
 
     .action-btn:hover {
+
       background: var(--primary);
+
       transform: scale(1.15);
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+
+      box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+
     }
+
+
 
     .favorite-btn.favorited i {
+
       color: var(--primary);
-      text-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+
+      text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+
     }
+
+
 
     /* Play Button on Hover */
+
     .play-button {
+
       position: absolute;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      width: 44px;
-      height: 44px;
+
+      bottom: 1.3rem;
+
+      right: 1.3rem;
+
+      width: 40px;
+
+      height: 40px;
+
       background: var(--primary);
+
       border-radius: 50%;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       opacity: 0;
+
       transform: translateY(10px);
+
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+
+      box-shadow: 0 4px 16px rgba(255, 0, 0, 0.4);
+
       z-index: 2;
+
     }
+
+
 
     .play-button::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
+
       border-radius: 50%;
+
       background: var(--primary);
+
       animation: pulse 2s infinite;
+
       z-index: -1;
+
       opacity: 0.5;
+
     }
+
+
 
     @keyframes pulse {
+
       0% {
+
         transform: scale(0.8);
+
         opacity: 0.5;
+
       }
+
       70% {
+
         transform: scale(1.2);
+
         opacity: 0;
+
       }
+
       100% {
+
         transform: scale(0.8);
+
         opacity: 0;
+
       }
+
     }
+
+
 
     .result-card:hover .play-button {
+
       opacity: 1;
+
       transform: translateY(0);
+
     }
+
+
 
     .play-button i {
+
       color: var(--light);
-      font-size: 1.1rem;
+
+      font-size: 1rem;
+
       margin-left: 2px;
+
     }
+
+
 
     /* Premium Player Controls with Waveform */
+
     .player-controls {
+
       position: fixed;
+
       bottom: 0;
+
       left: var(--sidebar-width);
+
       right: 0;
+
       height: var(--player-height);
+
       background: var(--glass-bg);
+
       border-top: 1px solid var(--glass-border);
+
       display: flex;
+
       align-items: center;
-      padding: 0 1.5rem;
+
+      padding: 0 1.2rem;
+
       z-index: 100;
+
       box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+
+      backdrop-filter: blur(12px);
+
+      -webkit-backdrop-filter: blur(12px);
+
       transition: var(--transition);
+
     }
+
+
 
     .player-controls::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05));
+
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03));
+
       pointer-events: none;
+
     }
 
-    /* Waveform Visualization */
-    .waveform {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      opacity: 0.15;
-    }
 
-    .waveform-bar {
-      position: absolute;
-      bottom: 0;
-      width: 4px;
-      background: var(--primary);
-      border-radius: 3px;
-      transition: height 0.1s ease;
-      box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
-    }
 
     .now-playing {
+
       display: flex;
+
       align-items: center;
-      gap: 1.2rem;
+
+      gap: 1rem;
+
       width: 30%;
+
       min-width: 0;
+
       position: relative;
+
       z-index: 1;
+
     }
+
+
 
     .now-playing-image {
-      width: 70px;
-      height: 70px;
-      border-radius: 12px;
+
+      width: 60px;
+
+      height: 60px;
+
+      border-radius: 8px;
+
       object-fit: cover;
+
       flex-shrink: 0;
+
       transition: var(--transition);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
       background: #333;
+
       position: relative;
+
       overflow: hidden;
+
     }
+
+
 
     .now-playing-image::after {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.07));
+
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05));
+
     }
+
+
 
     .now-playing-info {
+
       display: flex;
+
       flex-direction: column;
+
       min-width: 0;
+
       overflow: hidden;
+
     }
+
+
 
     .now-playing-title {
-      font-size: 1.1rem;
+
+      font-size: 1rem;
+
       font-weight: 600;
-      margin-bottom: 0.3rem;
+
+      margin-bottom: 0.2rem;
+
       white-space: nowrap;
+
       overflow: hidden;
+
       text-overflow: ellipsis;
+
       max-width: 100%;
+
       color: var(--light-dim);
+
     }
+
+
 
     .now-playing-artist {
-      font-size: 0.9rem;
+
+      font-size: 0.85rem;
+
       color: var(--gray);
+
       white-space: nowrap;
+
       overflow: hidden;
+
       text-overflow: ellipsis;
+
       max-width: 100%;
+
     }
+
+
 
     .player-center {
+
       flex: 1;
+
       display: flex;
+
       flex-direction: column;
+
       align-items: center;
-      max-width: 650px;
+
+      max-width: 600px;
+
       position: relative;
+
       z-index: 1;
+
     }
+
+
 
     .player-buttons {
+
       display: flex;
+
       align-items: center;
-      gap: 1.8rem;
-      margin-bottom: 0.9rem;
+
+      gap: 1.5rem;
+
+      margin-bottom: 0.7rem;
+
     }
+
+
 
     .player-button {
+
       color: var(--gray);
-      font-size: 1.3rem;
+
+      font-size: 1.2rem;
+
       cursor: pointer;
+
       transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+
       position: relative;
+
     }
+
+
 
     .player-button:hover {
+
       color: var(--light);
+
       transform: scale(1.1);
-      text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+
     }
+
+
 
     .player-button.play-pause {
+
       position: relative;
+
       background: linear-gradient(135deg, var(--primary), #ff6b6b);
+
       color: var(--light);
-      width: 52px;
-      height: 52px;
+
+      width: 45px;
+
+      height: 45px;
+
       border-radius: 50%;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+
+      box-shadow: 0 4px 16px rgba(255, 0, 0, 0.4);
+
       overflow: hidden;
+
     }
+
+
 
     .player-button.play-pause::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.15));
+
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1));
+
     }
+
+
 
     .player-button.play-pause:hover {
+
       transform: scale(1.1);
-      box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
+
+      box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+
     }
+
+
 
     .player-button.play-pause:active {
+
       transform: scale(0.95);
+
     }
+
+
 
     .player-button.play-pause i {
+
       position: absolute;
+
       top: 50%;
+
       left: 50%;
+
       transform: translate(-50%, -50%);
+
       transition: opacity 0.2s ease;
+
     }
+
+
 
     .player-actions {
+
       display: flex;
-      gap: 1.5rem;
-      margin-left: 1.5rem;
+
+      gap: 1.2rem;
+
+      margin-left: 1.2rem;
+
       position: relative;
+
       z-index: 1;
+
     }
+
+
 
     .fav-btn {
+
       color: var(--gray);
+
       transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-      font-size: 1.3rem;
+
+      font-size: 1.2rem;
+
       cursor: pointer;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
+
     }
+
+
 
     .fav-btn:hover, .fav-btn.favorited {
+
       color: var(--primary);
+
       transform: scale(1.1);
-      text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-      background: rgba(255, 0, 0, 0.1);
+
+      text-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+
     }
+
+
 
     .player-progress {
+
       width: 100%;
+
       display: flex;
+
       align-items: center;
-      gap: 0.9rem;
+
+      gap: 0.7rem;
+
     }
+
+
 
     .progress-time {
-      font-size: 0.9rem;
+
+      font-size: 0.85rem;
+
       color: var(--gray);
-      min-width: 45px;
+
+      min-width: 40px;
+
       font-weight: 500;
+
     }
+
+
 
     .progress-bar {
+
       flex: 1;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 4px;
+
+      height: 4px;
+
+      background: rgba(255, 255, 255, 0.1);
+
+      border-radius: 3px;
+
       cursor: pointer;
+
       position: relative;
+
       transition: height 0.2s ease;
+
       overflow: hidden;
+
     }
+
+
 
     .progress-fill {
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       height: 100%;
+
       width: 0;
+
       background: linear-gradient(90deg, var(--primary), #ff6b6b);
-      border-radius: 4px;
+
+      border-radius: 3px;
+
       transition: width 0.1s linear;
-      box-shadow: var(--neon-shadow);
+
     }
+
+
 
     .progress-handle {
+
       position: absolute;
+
       top: 50%;
-      right: -7px;
-      width: 14px;
-      height: 14px;
+
+      right: -6px;
+
+      width: 12px;
+
+      height: 12px;
+
       background: var(--light);
+
       border-radius: 50%;
+
       transform: translateY(-50%);
+
       opacity: 0;
+
       transition: var(--transition);
-      box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+
+      box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+
     }
+
+
 
     .progress-bar:hover {
-      height: 7px;
+
+      height: 6px;
+
     }
+
+
 
     .progress-bar:hover .progress-handle,
+
     .progress-bar:active .progress-handle {
+
       opacity: 1;
+
     }
+
+
+
+    /* Waveform Visualization */
+
+    .waveform {
+
+      position: absolute;
+
+      bottom: 0;
+
+      left: 0;
+
+      width: 100%;
+
+      height: 100%;
+
+      z-index: 0;
+
+      opacity: 0.1;
+
+    }
+
+
+
+    .waveform-bar {
+
+      position: absolute;
+
+      bottom: 0;
+
+      width: 3px;
+
+      background: var(--primary);
+
+      border-radius: 3px;
+
+      transition: height 0.1s ease;
+
+    }
+
+
 
     /* Premium Spinner with Gradient */
+
     .spinner-container {
+
       display: none;
+
       position: fixed;
+
       top: 0;
+
       left: 0;
+
       right: 0;
+
       bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
+
+      background: rgba(0, 0, 0, 0.8);
+
       z-index: 1000;
+
       justify-content: center;
+
       align-items: center;
+
     }
+
+
 
     .spinner {
-      width: 70px;
-      height: 70px;
-      border: 6px solid rgba(255, 255, 255, 0.1);
+
+      width: 60px;
+
+      height: 60px;
+
+      border: 5px solid rgba(255, 255, 255, 0.1);
+
       border-radius: 50%;
+
       border-top-color: var(--primary);
+
       animation: spin 1s linear infinite;
-      box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+
       position: relative;
+
     }
+
+
 
     .spinner::before {
+
       content: '';
+
       position: absolute;
-      top: -6px;
-      left: -6px;
-      right: -6px;
-      bottom: -6px;
-      border: 6px solid transparent;
+
+      top: -5px;
+
+      left: -5px;
+
+      right: -5px;
+
+      bottom: -5px;
+
+      border: 5px solid transparent;
+
       border-radius: 50%;
-      border-top-color: rgba(255, 0, 0, 0.6);
+
+      border-top-color: rgba(255, 0, 0, 0.5);
+
       animation: spin 1.5s linear infinite;
+
     }
+
+
 
     .spinner::after {
+
       content: '';
+
       position: absolute;
-      top: -10px;
-      left: -10px;
-      right: -10px;
-      bottom: -10px;
-      border: 6px solid transparent;
+
+      top: -8px;
+
+      left: -8px;
+
+      right: -8px;
+
+      bottom: -8px;
+
+      border: 5px solid transparent;
+
       border-radius: 50%;
-      border-top-color: rgba(255, 0, 0, 0.3);
+
+      border-top-color: rgba(255, 0, 0, 0.2);
+
       animation: spin 2s linear infinite;
+
     }
+
+
 
     @keyframes spin {
+
       to { transform: rotate(360deg); }
+
     }
+
+
 
     /* Premium Logs Tab with Floating Cards */
+
     .logs-container {
+
       max-width: 900px;
+
       margin: 0 auto;
+
       overflow-y: auto;
+
       max-height: calc(100vh - 180px);
+
       padding-bottom: 2rem;
+
     }
+
+
 
     .log-card {
-      background: linear-gradient(135deg, rgba(30,30,45,0.8), rgba(15,15,25,0.9));
-      border-radius: 20px;
-      padding: 1.8rem;
-      margin-bottom: 1.8rem;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-      border-left: 5px solid var(--primary);
-      backdrop-filter: blur(8px);
+
+      background: linear-gradient(135deg, rgba(30,30,30,0.8), rgba(15,15,15,0.9));
+
+      border-radius: 16px;
+
+      padding: 1.5rem;
+
+      margin-bottom: 1.5rem;
+
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+      border-left: 4px solid var(--primary);
+
+      backdrop-filter: blur(5px);
+
       border: 1px solid var(--glass-border);
+
       transition: var(--transition);
+
       transform: translateY(0);
+
     }
+
+
 
     .log-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), var(--neon-shadow);
+
+      transform: translateY(-5px);
+
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+
     }
+
+
 
     .log-card::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05));
+
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03));
+
       pointer-events: none;
+
     }
+
+
 
     .log-header {
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
-      margin-bottom: 1.2rem;
+
+      margin-bottom: 1rem;
+
     }
+
+
 
     .log-version {
+
       background: linear-gradient(45deg, var(--primary), #ff6b6b);
+
       color: white;
-      padding: 0.4rem 1rem;
-      border-radius: 25px;
-      font-size: 1rem;
-      font-weight: 700;
-      box-shadow: 0 6px 18px rgba(255, 0, 0, 0.4);
+
+      padding: 0.3rem 0.8rem;
+
+      border-radius: 20px;
+
+      font-size: 0.9rem;
+
+      font-weight: 600;
+
+      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+
     }
+
+
 
     .log-date {
+
       color: var(--gray);
-      font-size: 1rem;
-      font-weight: 600;
+
+      font-size: 0.9rem;
+
+      font-weight: 500;
+
     }
+
+
 
     .log-title {
-      font-size: 1.6rem;
-      margin-bottom: 1.2rem;
+
+      font-size: 1.4rem;
+
+      margin-bottom: 1rem;
+
       color: var(--light);
+
       font-weight: 700;
+
     }
+
+
 
     .log-features {
+
       list-style-type: none;
-      padding-left: 1.3rem;
+
+      padding-left: 1.1rem;
+
     }
+
+
 
     .log-features li {
-      margin-bottom: 1.1rem;
+
+      margin-bottom: 0.9rem;
+
       position: relative;
-      padding-left: 2rem;
-      font-size: 1.1rem;
+
+      padding-left: 1.8rem;
+
+      font-size: 1rem;
+
       line-height: 1.6;
+
     }
+
+
 
     .log-features li:before {
+
       content: '';
+
       position: absolute;
+
       left: 0;
-      top: 0.6rem;
-      width: 10px;
-      height: 10px;
+
+      top: 0.5rem;
+
+      width: 8px;
+
+      height: 8px;
+
       background: var(--primary);
+
       border-radius: 50%;
-      box-shadow: 0 0 12px rgba(255,0,0,0.8);
+
+      box-shadow: 0 0 8px rgba(255,0,0,0.6);
+
     }
+
+
 
     /* Enhanced Trademark Page Styles */
+
     .trademark-container {
-      max-width: 850px;
+
+      max-width: 800px;
+
       margin: 0 auto;
-      padding: 2.5rem;
-      background: linear-gradient(135deg, rgba(30,30,45,0.85), rgba(20,20,35,0.9));
-      border-radius: 20px;
-      border-left: 5px solid var(--primary);
-      backdrop-filter: blur(8px);
+
+      padding: 2rem;
+
+      background: rgba(30, 30, 30, 0.8);
+
+      border-radius: 16px;
+
+      border-left: 4px solid var(--primary);
+
+      backdrop-filter: blur(5px);
+
       border: 1px solid var(--glass-border);
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+
       transition: var(--transition);
+
     }
+
+
 
     .trademark-container:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.6), var(--neon-shadow);
+
+      transform: translateY(-5px);
+
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+
     }
+
+
 
     .trademark-container::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05));
+
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03));
+
       pointer-events: none;
+
     }
+
+
 
     .trademark-header {
+
       text-align: center;
-      margin-bottom: 2.5rem;
-      padding-bottom: 1.5rem;
+
+      margin-bottom: 2rem;
+
+      padding-bottom: 1.2rem;
+
       border-bottom: 1px solid var(--glass-border);
+
     }
+
+
 
     .trademark-header h2 {
-      font-size: 2.2rem;
-      margin-bottom: 0.9rem;
-      background: linear-gradient(45deg, var(--primary), var(--accent-blue));
+
+      font-size: 2rem;
+
+      margin-bottom: 0.7rem;
+
+      background: linear-gradient(45deg, var(--primary), #ff6b6b);
+
       -webkit-background-clip: text;
+
       background-clip: text;
+
       color: transparent;
-      text-shadow: 0 6px 18px rgba(255,0,0,0.4);
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 1px;
+
+      text-shadow: 0 4px 12px rgba(255,0,0,0.3);
+
     }
+
+
 
     .trademark-header p {
+
       color: var(--gray);
-      font-size: 1.1rem;
+
+      font-size: 1rem;
+
       letter-spacing: 0.5px;
+
     }
+
+
 
     .trademark-section {
-      margin-bottom: 2.5rem;
-      padding: 1.8rem;
-      background: rgba(25, 25, 40, 0.6);
-      border-radius: 16px;
+
+      margin-bottom: 2rem;
+
+      padding: 1.5rem;
+
+      background: rgba(20, 20, 20, 0.5);
+
+      border-radius: 12px;
+
       border: 1px solid var(--glass-border);
+
       position: relative;
+
       overflow: hidden;
+
     }
+
+
 
     .trademark-section::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05));
+
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03));
+
       pointer-events: none;
+
     }
+
+
 
     .trademark-section h3 {
-      font-size: 1.6rem;
-      margin-bottom: 1.5rem;
+
+      font-size: 1.4rem;
+
+      margin-bottom: 1.2rem;
+
       color: var(--light);
-      padding-bottom: 0.9rem;
-      border-bottom: 3px solid var(--primary);
+
+      padding-bottom: 0.7rem;
+
+      border-bottom: 2px solid var(--primary);
+
       display: inline-block;
+
     }
+
+
 
     .trademark-section p {
-      margin-bottom: 1.2rem;
+
+      margin-bottom: 1rem;
+
       line-height: 1.7;
+
       color: var(--gray);
-      font-size: 1.05rem;
+
+      font-size: 1rem;
+
     }
+
+
 
     .trademark-section ul {
-      padding-left: 2rem;
-      margin-bottom: 1.8rem;
+
+      padding-left: 1.8rem;
+
+      margin-bottom: 1.5rem;
+
     }
+
+
 
     .trademark-section li {
-      margin-bottom: 1.1rem;
+
+      margin-bottom: 0.9rem;
+
       position: relative;
+
       line-height: 1.6;
+
       color: var(--gray);
+
     }
+
+
 
     .trademark-section li:before {
+
       content: '•';
+
       color: var(--primary);
+
       font-weight: bold;
-      font-size: 1.6rem;
+
+      font-size: 1.4rem;
+
       position: absolute;
-      left: -1.5rem;
-      top: -0.3rem;
+
+      left: -1.2rem;
+
+      top: -0.2rem;
+
     }
+
+
 
     .license-highlight {
-      background: rgba(255,0,0,0.15);
-      padding: 1.8rem;
-      border-radius: 16px;
-      border-left: 5px solid var(--primary);
-      margin: 1.8rem 0;
+
+      background: rgba(255,0,0,0.1);
+
+      padding: 1.5rem;
+
+      border-radius: 12px;
+
+      border-left: 4px solid var(--primary);
+
+      margin: 1.5rem 0;
+
       position: relative;
+
       overflow: hidden;
+
     }
+
+
 
     .license-highlight::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05));
+
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03));
+
       pointer-events: none;
+
     }
+
+
 
     .license-highlight p {
-      margin-bottom: 1.1rem;
+
+      margin-bottom: 0.9rem;
+
     }
+
+
 
     .admin-note {
-      background: linear-gradient(135deg, rgba(255,0,0,0.15), rgba(30,30,45,0.35));
-      border-left: 5px solid var(--primary);
-      padding: 1.8rem;
-      margin: 3rem 0;
-      border-radius: 16px;
+
+      background: linear-gradient(135deg, rgba(255,0,0,0.1), rgba(30,30,30,0.3));
+
+      border-left: 4px solid var(--primary);
+
+      padding: 1.5rem;
+
+      margin: 2.5rem 0;
+
+      border-radius: 12px;
+
       position: relative;
+
       overflow: hidden;
+
     }
+
+
 
     .admin-note::before {
+
       content: '';
+
       position: absolute;
+
       top: 0;
+
       left: 0;
+
       width: 100%;
+
       height: 100%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.07));
+
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05));
+
       pointer-events: none;
+
     }
+
+
 
     .admin-note p {
+
       color: var(--light-dim);
+
       font-style: italic;
+
       position: relative;
+
       z-index: 1;
+
       line-height: 1.7;
-      font-size: 1.1rem;
+
+      font-size: 1rem;
+
     }
+
+
 
     .legal-text {
-      font-size: 0.9rem;
+
+      font-size: 0.85rem;
+
       color: var(--gray-dark);
-      margin-top: 3.5rem;
+
+      margin-top: 3rem;
+
       border-top: 1px solid var(--glass-border);
-      padding-top: 1.8rem;
+
+      padding-top: 1.5rem;
+
       line-height: 1.6;
+
       text-align: center;
+
     }
+
+
 
     /* Empty State with Animation */
+
     .empty-state {
+
       text-align: center;
-      padding: 3.5rem 2rem;
+
+      padding: 3rem 1.8rem;
+
       color: var(--gray);
-      background: linear-gradient(135deg, rgba(30,30,45,0.7), rgba(20,20,35,0.8));
-      border-radius: 20px;
-      max-width: 550px;
-      margin: 2rem auto;
-      backdrop-filter: blur(8px);
+
+      background: rgba(30, 30, 30, 0.6);
+
+      border-radius: 16px;
+
+      max-width: 500px;
+
+      margin: 1.5rem auto;
+
+      backdrop-filter: blur(5px);
+
       border: 1px solid var(--glass-border);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
       transform: translateY(0);
+
       transition: var(--transition);
+
     }
+
+
 
     .empty-state:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), var(--neon-shadow);
+
+      transform: translateY(-5px);
+
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+
     }
+
+
 
     .empty-state i {
-      font-size: 5rem;
-      margin-bottom: 1.5rem;
+
+      font-size: 4rem;
+
+      margin-bottom: 1.2rem;
+
       opacity: 0.3;
-      background: linear-gradient(45deg, var(--primary), var(--accent-blue));
+
+      background: linear-gradient(45deg, var(--primary), var(--accent));
+
       -webkit-background-clip: text;
+
       background-clip: text;
+
       color: transparent;
+
       animation: pulse 2s infinite;
+
     }
+
+
 
     .empty-state h3 {
-      font-size: 1.8rem;
-      margin-bottom: 0.9rem;
+
+      font-size: 1.5rem;
+
+      margin-bottom: 0.7rem;
+
       color: var(--light-dim);
+
       font-weight: 700;
+
     }
+
+
 
     .empty-state p {
-      font-size: 1.1rem;
-      max-width: 450px;
+
+      font-size: 1rem;
+
+      max-width: 400px;
+
       margin: 0 auto;
+
       line-height: 1.7;
+
     }
+
+
 
     /* Notification System */
+
     .notification {
+
       position: fixed;
-      bottom: calc(var(--player-height) + 25px);
-      right: 25px;
-      background: rgba(30, 30, 45, 0.95);
+
+      bottom: calc(var(--player-height) + 20px);
+
+      right: 20px;
+
+      background: rgba(30, 30, 30, 0.95);
+
       color: var(--light);
-      padding: 1.2rem 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+      padding: 1rem 1.2rem;
+
+      border-radius: 8px;
+
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+
       border-left: 4px solid var(--primary);
+
       z-index: 1000;
+
       transform: translateX(150%);
+
       transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      backdrop-filter: blur(8px);
-      max-width: 350px;
+
+      backdrop-filter: blur(5px);
+
+      max-width: 300px;
+
       display: flex;
+
       align-items: center;
-      gap: 1.2rem;
+
+      gap: 1rem;
+
     }
+
+
 
     .notification.show {
+
       transform: translateX(0);
+
     }
+
+
 
     .notification i {
-      font-size: 1.6rem;
+
+      font-size: 1.4rem;
+
       color: var(--primary);
+
     }
+
+
 
     .notification-content {
+
       flex: 1;
+
     }
+
+
 
     .notification-title {
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-      font-size: 1.1rem;
+
+      font-weight: 600;
+
+      margin-bottom: 0.3rem;
+
+      font-size: 1rem;
+
     }
+
+
 
     .notification-message {
-      font-size: 0.95rem;
+
+      font-size: 0.85rem;
+
       color: var(--gray);
+
     }
+
+
 
     /* Responsive Design */
+
     @media (max-width: 1200px) {
+
       .sidebar {
+
         left: 0;
+
       }
+
       
+
       .main-content {
+
         margin-left: var(--sidebar-width);
+
       }
+
       
+
       .player-controls {
+
         left: var(--sidebar-width);
+
       }
+
     }
+
+
 
     @media (max-width: 992px) {
+
       .sidebar {
+
         transform: translateX(-100%);
-        width: 300px;
-      }
-      
-      .sidebar.active {
-        transform: translateX(0);
-      }
-      
-      .main-content {
-        margin-left: 0;
-        width: 100%;
-      }
-      
-      .player-controls {
-        left: 0;
-      }
-      
-      .menu-toggle {
-        display: flex;
-      }
-      
-      .header-title {
-        display: block;
-      }
-      
-      header {
-        padding: 0.9rem 1.2rem;
-      }
-      
-      .search-container {
-        margin: 0 0.8rem;
-      }
-      
-      .search-input {
-        padding: 0.8rem 1rem 0.8rem 2.8rem;
-        font-size: 0.95rem;
-      }
-      
-      .search-icon {
-        left: 1.2rem;
-      }
-      
-      .now-playing {
-        width: 60%;
-      }
-      
-      .now-playing-image {
-        width: 60px;
-        height: 60px;
-      }
-      
-      .player-buttons {
-        gap: 1.2rem;
-      }
-      
-      .results-container {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1.5rem;
-      }
-      
-      .result-title {
-        font-size: 1rem;
-        min-height: 2.6em;
+
+        width: 280px;
+
       }
 
-      .tab-content {
-        padding: 1.5rem;
-      }
       
-      .results-title {
-        font-size: 1.6rem;
+
+      .sidebar.active {
+
+        transform: translateX(0);
+
       }
+
+      
+
+      .main-content {
+
+        margin-left: 0;
+
+        width: 100%;
+
+      }
+
+      
+
+      .player-controls {
+
+        left: 0;
+
+      }
+
+      
+
+      .menu-toggle {
+
+        display: block;
+
+      }
+
+      
+
+      .header-title {
+
+        display: block;
+
+      }
+
+      
+
+      header {
+
+        padding: 0.7rem 1rem;
+
+      }
+
+      
+
+      .search-container {
+
+        margin: 0 0.5rem;
+
+      }
+
+      
+
+      .search-input {
+
+        padding: 0.7rem 1rem 0.7rem 2.5rem;
+
+        font-size: 0.9rem;
+
+      }
+
+      
+
+      .search-icon {
+
+        left: 1rem;
+
+      }
+
+      
+
+      .now-playing {
+
+        width: 60%;
+
+      }
+
+      
+
+      .now-playing-image {
+
+        width: 50px;
+
+        height: 50px;
+
+      }
+
+      
+
+      .player-buttons {
+
+        gap: 1rem;
+
+      }
+
+      
+
+      .results-container {
+
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+
+        gap: 1.2rem;
+
+      }
+
+      
+
+      .result-title {
+
+        font-size: 0.95rem;
+
+        min-height: 2.6em;
+
+      }
+
+
+
+      .tab-content {
+
+        padding: 1.2rem;
+
+      }
+
+      
+
+      .results-title {
+
+        font-size: 1.5rem;
+
+      }
+
     }
+
+
 
     @media (max-width: 768px) {
+
       .results-container {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 1.2rem;
-      }
-      
-      .player-controls {
-        height: 120px;
-        flex-direction: column;
-        padding: 0.8rem;
-        align-items: flex-start;
-      }
-      
-      .now-playing {
-        width: 100%;
-        margin-bottom: 0.5rem;
-      }
-      
-      .player-center {
-        width: 100%;
-      }
-      
-      .player-actions {
-        position: absolute;
-        right: 0.8rem;
-        top: 0.8rem;
-      }
-      
-      .log-card {
-        padding: 1.5rem;
-      }
-      
-      .log-title {
-        font-size: 1.4rem;
-      }
-      
-      .log-features li {
-        font-size: 1rem;
-        padding-left: 1.8rem;
-      }
-      
-      .tab-content {
-        padding: 1.2rem;
-        height: calc(100vh - 120px);
-      }
-      
-      .trademark-container {
-        padding: 1.5rem;
-      }
-      
-      .legal-text {
-        padding: 1rem;
-        margin-top: 2.5rem;
+
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+
+        gap: 1rem;
+
       }
 
-      .notification {
-        bottom: calc(var(--player-height) + 15px);
-        right: 15px;
-        max-width: 280px;
+      
+
+      .player-controls {
+
+        height: 110px;
+
+        flex-direction: column;
+
+        padding: 0.7rem;
+
+        align-items: flex-start;
+
       }
+
+      
+
+      .now-playing {
+
+        width: 100%;
+
+        margin-bottom: 0.4rem;
+
+      }
+
+      
+
+      .player-center {
+
+        width: 100%;
+
+      }
+
+      
+
+      .player-actions {
+
+        position: absolute;
+
+        right: 0.7rem;
+
+        top: 0.7rem;
+
+      }
+
+      
+
+      .log-card {
+
+        padding: 1.2rem;
+
+      }
+
+      
+
+      .log-title {
+
+        font-size: 1.2rem;
+
+      }
+
+      
+
+      .log-features li {
+
+        font-size: 0.95rem;
+
+        padding-left: 1.6rem;
+
+      }
+
+      
+
+      .tab-content {
+
+        padding: 1rem;
+
+        height: calc(100vh - 110px);
+
+      }
+
+      
+
+      .trademark-container {
+
+        padding: 1.2rem;
+
+      }
+
+      
+
+      .legal-text {
+
+        padding: 0.9rem;
+
+        margin-top: 2rem;
+
+      }
+
+
+
+      .notification {
+
+        bottom: calc(var(--player-height) + 10px);
+
+        right: 10px;
+
+        max-width: 250px;
+
+      }
+
     }
+
+
 
     @media (max-width: 576px) {
+
       .results-container {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 1rem;
-      }
-      
-      .player-controls {
-        height: 130px;
-      }
-      
-      .player-buttons {
-        gap: 1rem;
-        margin-bottom: 0.5rem;
-      }
-      
-      .player-button {
-        font-size: 1.2rem;
-      }
-      
-      .player-button.play-pause {
-        width: 46px;
-        height: 46px;
-      }
-      
-      .progress-time {
-        font-size: 0.85rem;
-      }
-      
-      .now-playing-info {
-        max-width: 180px;
-      }
-      
-      .tab-content {
-        padding: 1rem;
-        height: calc(100vh - 130px);
-      }
-      
-      .result-title {
-        font-size: 0.95rem;
-        min-height: 2.4em;
-      }
-      
-      .results-title {
-        font-size: 1.5rem;
-      }
-      
-      .trademark-header h2 {
-        font-size: 1.8rem;
-      }
-      
-      .trademark-section {
-        padding: 1.2rem;
-      }
-      
-      .legal-text {
-        font-size: 0.85rem;
-        padding: 0.8rem 0;
+
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+
+        gap: 0.9rem;
+
       }
 
-      .notification {
-        bottom: calc(var(--player-height) + 10px);
-        right: 10px;
-        max-width: 250px;
-        padding: 1rem 1.2rem;
+      
+
+      .player-controls {
+
+        height: 120px;
+
       }
+
+      
+
+      .player-buttons {
+
+        gap: 0.9rem;
+
+        margin-bottom: 0.4rem;
+
+      }
+
+      
+
+      .player-button {
+
+        font-size: 1.1rem;
+
+      }
+
+      
+
+      .player-button.play-pause {
+
+        width: 42px;
+
+        height: 42px;
+
+      }
+
+      
+
+      .progress-time {
+
+        font-size: 0.8rem;
+
+      }
+
+      
+
+      .now-playing-info {
+
+        max-width: 160px;
+
+      }
+
+      
+
+      .tab-content {
+
+        padding: 0.9rem;
+
+        height: calc(100vh - 120px);
+
+      }
+
+      
+
+      .result-title {
+
+        font-size: 0.9rem;
+
+        min-height: 2.4em;
+
+      }
+
+      
+
+      .results-title {
+
+        font-size: 1.4rem;
+
+      }
+
+      
+
+      .trademark-header h2 {
+
+        font-size: 1.6rem;
+
+      }
+
+      
+
+      .trademark-section {
+
+        padding: 1rem;
+
+      }
+
+      
+
+      .legal-text {
+
+        font-size: 0.8rem;
+
+        padding: 0.7rem 0;
+
+      }
+
+
+
+      .notification {
+
+        bottom: calc(var(--player-height) + 5px);
+
+        right: 5px;
+
+        max-width: 220px;
+
+        padding: 0.8rem 1rem;
+
+      }
+
     }
+
+
 
     @media (max-width: 480px) {
+
       .results-container {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 0.9rem;
+
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+
+        gap: 0.8rem;
+
       }
+
       
+
       .player-controls {
-        height: 140px;
+
+        height: 130px;
+
       }
+
       
+
       .now-playing-image {
-        width: 50px;
-        height: 50px;
+
+        width: 45px;
+
+        height: 45px;
+
       }
+
       
+
       .player-button.play-pause {
-        width: 42px;
-        height: 42px;
+
+        width: 40px;
+
+        height: 40px;
+
       }
+
       
+
       .result-title {
-        font-size: 0.9rem;
+
+        font-size: 0.85rem;
+
       }
+
+
 
       .notification {
-        width: calc(100% - 30px);
+
+        width: calc(100% - 20px);
+
         max-width: none;
-        right: 15px;
-        bottom: calc(var(--player-height) + 15px);
+
+        right: 10px;
+
+        bottom: calc(var(--player-height) + 10px);
+
       }
+
       
+
       .results-title {
-        font-size: 1.4rem;
+
+        font-size: 1.3rem;
+
       }
+
       
+
       .tab-content {
-        padding: 0.9rem;
+
+        padding: 0.8rem;
+
       }
+
       
+
       /* Mobile size fixes */
+
       .nav-item {
-        padding: 1rem 1.5rem;
-        font-size: 1rem;
+
+        padding: 0.8rem 1.2rem;
+
+        font-size: 0.95rem;
+
       }
+
       
+
       .nav-item i {
-        margin-right: 1rem;
-        font-size: 1.1rem;
+
+        margin-right: 0.8rem;
+
+        font-size: 1rem;
+
       }
+
       
+
       .favorites-count, .history-count {
-        font-size: 0.75rem;
+
+        font-size: 0.7rem;
+
         padding: 0.15rem 0.5rem;
+
       }
+
       
+
       .results-container {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        gap: 1rem;
-      }
-      
-      .result-card {
-        padding: 1.1rem;
-      }
-      
-      .result-title {
-        font-size: 0.88rem;
-      }
-      
-      .result-channel {
-        font-size: 0.85rem;
-      }
-      
-      .player-center {
-        width: 100%;
-        padding: 0 0.6rem;
-      }
-      
-      .player-progress {
-        gap: 0.5rem;
-      }
-      
-      .progress-time {
-        min-width: 38px;
-        font-size: 0.8rem;
-      }
-    }
-    
-    @media (max-width: 360px) {
-      .results-container {
+
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 0.8rem;
+
+        gap: 1rem;
+
       }
+
       
-      .player-controls {
-        height: 150px;
+
+      .result-card {
+
+        padding: 0.9rem;
+
       }
+
       
-      .player-buttons {
-        gap: 0.8rem;
+
+      .result-title {
+
+        font-size: 0.82rem;
+
       }
+
       
-      .player-button {
-        font-size: 1.1rem;
+
+      .result-channel {
+
+        font-size: 0.8rem;
+
       }
+
       
-      .player-button.play-pause {
-        width: 40px;
-        height: 40px;
+
+      .player-center {
+
+        width: 100%;
+
+        padding: 0 0.5rem;
+
       }
+
       
+
+      .player-progress {
+
+        gap: 0.4rem;
+
+      }
+
+      
+
       .progress-time {
+
         min-width: 35px;
+
+        font-size: 0.75rem;
+
       }
+
     }
+
+    
+
+    @media (max-width: 360px) {
+
+      .results-container {
+
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+
+        gap: 0.8rem;
+
+      }
+
+      
+
+      .player-controls {
+
+        height: 140px;
+
+      }
+
+      
+
+      .player-buttons {
+
+        gap: 0.7rem;
+
+      }
+
+      
+
+      .player-button {
+
+        font-size: 1rem;
+
+      }
+
+      
+
+      .player-button.play-pause {
+
+        width: 38px;
+
+        height: 38px;
+
+      }
+
+      
+
+      .progress-time {
+
+        min-width: 30px;
+
+      }
+
+    }
+
   </style>
+
 </head>
+
 <body>
+
   <div class="app-container">
+
     <!-- Premium Sidebar -->
+
     <div class="sidebar" id="sidebar">
+
       <div class="logo-container">
-        <i class="fas fa-wave-square"></i>
+
+        <i class="fas fa-music"></i>
+
         <div class="logo">
-          <span>HARMONY</span>
+
+          <span>Harmony</span>
+
         </div>
+
       </div>
+
       
+
       <div class="nav-links">
+
         <div class="nav-item active" data-tab="home">
+
           <i class="fas fa-home"></i>
+
           <span>Home</span>
+
         </div>
+
         <div class="nav-item" data-tab="favorites">
+
           <i class="fas fa-heart"></i>
+
           <span>Favorites</span>
+
           <span class="favorites-count" id="favoritesCount">0</span>
+
         </div>
+
         <div class="nav-item" data-tab="history">
+
           <i class="fas fa-history"></i>
+
           <span>History</span>
+
           <span class="history-count" id="historyCount">0</span>
+
         </div>
+
         <div class="nav-item" data-tab="logs">
+
           <i class="fas fa-clipboard-list"></i>
+
           <span>Update Logs</span>
+
         </div>
+
         <div class="nav-item" data-tab="trademark">
+
           <i class="fas fa-copyright"></i>
+
           <span>Trademark</span>
+
         </div>
+
       </div>
+
       
+
       <!-- Now Playing Preview -->
-      <div class="now-playing-preview" style="padding: 1.5rem; margin-top: auto; border-top: 1px solid var(--glass-border);">
-        <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--light-dim); font-weight: 500; letter-spacing: 0.5px;">NOW PLAYING</h3>
+
+      <div class="now-playing-preview" style="padding: 1.2rem; margin-top: auto; border-top: 1px solid var(--glass-border);">
+
+        <h3 style="font-size: 1rem; margin-bottom: 0.8rem; color: var(--light-dim); font-weight: 500;">Now Playing</h3>
+
         <div class="now-playing">
-          <img src="" alt="Now Playing" class="now-playing-image" id="sidebarNowPlayingImage" style="background: #333;">
+
+          <img src="" alt="Now Playing" class="now-playing-image" id="sidebarNowPlayingImage" style="width: 45px; height: 45px; background: #333;">
+
           <div class="now-playing-info">
-            <div class="now-playing-title" id="sidebarNowPlayingTitle" style="font-size: 1rem;">Not Playing</div>
-            <div class="now-playing-artist" id="sidebarNowPlayingArtist" style="font-size: 0.9rem;">Search for a song</div>
+
+            <div class="now-playing-title" id="sidebarNowPlayingTitle" style="font-size: 0.9rem;">Not Playing</div>
+
+            <div class="now-playing-artist" id="sidebarNowPlayingArtist" style="font-size: 0.8rem;">Search for a song</div>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
     
+
     <!-- Main Content with Animated Background -->
+
     <div class="main-content">
+
       <div class="background-animation" id="backgroundAnimation"></div>
+
       <div class="content-overlay"></div>
+
       
+
       <header id="mainHeader">
+
         <button class="menu-toggle" id="menuToggle">
+
           <i class="fas fa-bars"></i>
+
         </button>
-        <div class="header-title">HARMONY</div>
+
+        <div class="header-title">Harmony</div>
+
         
+
         <div class="search-container">
+
           <i class="fas fa-search search-icon"></i>
+
           <input type="text" class="search-input" placeholder="Search for songs, artists, or albums..." id="searchInput" autocomplete="off">
+
         </div>
+
       </header>
+
       
+
       <!-- Home Tab -->
+
       <div class="tab-content active" id="homeTab">
+
         <div class="search-results" id="searchResults">
+
           <h2 class="results-title">Search Results</h2>
+
           <div class="results-container" id="resultsContainer"></div>
+
         </div>
+
       </div>
+
       
+
       <!-- Favorites Tab -->
+
       <div class="tab-content" id="favoritesTab">
+
         <h2 class="results-title">Your Favorites</h2>
+
         <div class="results-container" id="favoritesContainer"></div>
+
       </div>
+
       
+
       <!-- History Tab -->
+
       <div class="tab-content" id="historyTab">
+
         <h2 class="results-title">Recently Played</h2>
+
         <div class="results-container" id="historyContainer"></div>
+
       </div>
+
       
+
       <!-- Logs Tab -->
+
       <div class="tab-content" id="logsTab">
+
         <div class="logs-container">
+
           <h2 class="results-title">Update Logs</h2>
+
           
+
           <div class="log-card">
+
             <div class="log-header">
-              <span class="log-version">v4.3</span>
-              <span class="log-date">June 4, 2025</span>
-            </div>
-            <h3 class="log-title">Futuristic Redesign & Bug Fixes</h3>
-            <ul class="log-features">
-              <li>Complete UI overhaul with futuristic glass morphism design</li>
-              <li>Fixed mobile playback issues and app refresh problems</li>
-              <li>Enhanced audio loading with better error handling</li>
-              <li>Improved player controls with responsive touch targets</li>
-              <li>Added waveform visualization for immersive experience</li>
-            </ul>
-          </div>
-          
-          <div class="log-card">
-            <div class="log-header">
+
               <span class="log-version">v4.2</span>
+
               <span class="log-date">June 3, 2025</span>
+
             </div>
+
             <h3 class="log-title">Mobile Optimization Update</h3>
+
             <ul class="log-features">
+
               <li>Improved mobile layout and sizing</li>
+
               <li>Enhanced touch targets for better usability</li>
+
               <li>Fixed player controls positioning on small screens</li>
+
               <li>Optimized font sizes for readability</li>
+
             </ul>
+
           </div>
-        </div>
-      </div>
-      
-      <!-- Trademark Tab -->
-      <div class="tab-content" id="trademarkTab">
-        <div class="trademark-container">
-          <div class="trademark-header">
-            <h2>Harmony Music Player</h2>
-            <p>Legal Information, Credits & Acknowledgments</p>
-          </div>
+
           
-          <div class="trademark-section">
-            <h3>Software License</h3>
-            <p>Harmony Music Player is released under the <strong>MIT License</strong>, a permissive free software license originating at the Massachusetts Institute of Technology. This license places minimal restrictions on software reuse and provides legal protection for both users and developers.</p>
-            
-            <div class="license-highlight">
-              <p><strong>Full MIT License Text:</strong></p>
-              <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-              <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-              <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+          <div class="log-card">
+
+            <div class="log-header">
+
+              <span class="log-version">v4.1</span>
+
+              <span class="log-date">June 2, 2025</span>
+
             </div>
-          </div>
-          
-          <div class="trademark-section">
-            <h3>Credits & Acknowledgments</h3>
-            <p>Harmony Music Player was made possible through the use of several third-party services and resources:</p>
-            <ul>
-              <li><strong>YouTube API Services:</strong> Special thanks to Google LLC for providing the YouTube Data API v3 that powers this application's music streaming capabilities.</li>
-              <li><strong>Font Awesome:</strong> All icons used throughout the interface are provided by Font Awesome's free tier.</li>
-              <li><strong>Community Contributors:</strong> We extend our gratitude to all users who provided valuable feedback, bug reports, and suggestions for improving Harmony.</li>
+
+            <h3 class="log-title">Navigation Improvements</h3>
+
+            <ul class="log-features">
+
+              <li>Fixed next/previous track navigation issues</li>
+
+              <li>Restored search completion notifications</li>
+
+              <li>Improved playlist management across tabs</li>
+
+              <li>Enhanced track switching reliability</li>
+
             </ul>
+
           </div>
+
           
-          <div class="admin-note">
-            <p><strong>From The Admin / Development Team:</strong> We sincerely thank our amazing community for supporting this passion project. Your enthusiasm and feedback drive us to continuously improve Harmony. Special recognition goes to Google for providing the YouTube API that makes this music experience possible. Harmony remains a non-commercial, educational project created by music lovers for music lovers worldwide.</p>
+
+          <div class="log-card">
+
+            <div class="log-header">
+
+              <span class="log-version">v4.0</span>
+
+              <span class="log-date">June 1, 2025</span>
+
+            </div>
+
+            <h3 class="log-title">Modern UI Overhaul</h3>
+
+            <ul class="log-features">
+
+              <li>Complete visual redesign with glass morphism effects</li>
+
+              <li>Added animated background with floating particles</li>
+
+              <li>Implemented waveform visualization for audio playback</li>
+
+              <li>Enhanced notification system for user feedback</li>
+
+              <li>Improved responsive design for all screen sizes</li>
+
+              <li>Added smooth transitions and micro-interactions</li>
+
+            </ul>
+
           </div>
+
         </div>
+
       </div>
-    </div>
-  </div>
-  
-  <div class="spinner-container" id="spinnerContainer">
-    <div class="spinner"></div>
-  </div>
-  
-  <div class="player-controls">
-    <!-- Waveform Visualization -->
-    <div class="waveform" id="waveform"></div>
-    
-    <div class="now-playing">
-      <img src="" alt="Now Playing" class="now-playing-image" id="nowPlayingImage">
-      <div class="now-playing-info">
-        <div class="now-playing-title" id="nowPlayingTitle">Not Playing</div>
-        <div class="now-playing-artist" id="nowPlayingArtist">Search for a song</div>
-      </div>
-    </div>
-    
-    <div class="player-center">
-      <div class="player-buttons">
-        <i class="fas fa-step-backward player-button" id="prevBtn"></i>
-        <div class="player-button play-pause" id="playBtn">
-          <i class="fas fa-play" id="playIcon"></i>
-          <i class="fas fa-pause" id="pauseIcon" style="display: none;"></i>
-        </div>
-        <i class="fas fa-step-forward player-button" id="nextBtn"></i>
-      </div>
+
       
-      <div class="player-progress">
-        <span class="progress-time" id="currentTime">0:00</span>
-        <div class="progress-bar" id="progressBar">
-          <div class="progress-fill" id="progressFill"></div>
-          <div class="progress-handle"></div>
+
+      <!-- Trademark Tab -->
+
+      <div class="tab-content" id="trademarkTab">
+
+        <div class="trademark-container">
+
+          <div class="trademark-header">
+
+            <h2>Harmony Music Player</h2>
+
+            <p>Legal Information, Credits & Acknowledgments</p>
+
+          </div>
+
+          
+
+          <div class="trademark-section">
+
+            <h3>Software License</h3>
+
+            <p>Harmony Music Player is released under the <strong>MIT License</strong>, a permissive free software license originating at the Massachusetts Institute of Technology. This license places minimal restrictions on software reuse and provides legal protection for both users and developers.</p>
+
+            
+
+            <div class="license-highlight">
+
+              <p><strong>Full MIT License Text:</strong></p>
+
+              <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+              <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+              <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+            </div>
+
+          </div>
+
+          
+
+          <div class="trademark-section">
+
+            <h3>Credits & Acknowledgments</h3>
+
+            <p>Harmony Music Player was made possible through the use of several third-party services and resources:</p>
+
+            <ul>
+
+              <li><strong>YouTube API Services:</strong> Special thanks to Google LLC for providing the YouTube Data API v3 that powers this application's music streaming capabilities.</li>
+
+              <li><strong>Font Awesome:</strong> All icons used throughout the interface are provided by Font Awesome's free tier.</li>
+
+              <li><strong>Community Contributors:</strong> We extend our gratitude to all users who provided valuable feedback, bug reports, and suggestions for improving Harmony.</li>
+
+            </ul>
+
+          </div>
+
+          
+
+          <div class="admin-note">
+
+            <p><strong>From The Admin / Development Team:</strong> We sincerely thank our amazing community for supporting this passion project. Your enthusiasm and feedback drive us to continuously improve Harmony. Special recognition goes to Google for providing the YouTube API that makes this music experience possible. Harmony remains a non-commercial, educational project created by music lovers for music lovers worldwide.</p>
+
+          </div>
+
         </div>
-        <span class="progress-time" id="duration">0:00</span>
+
       </div>
+
     </div>
+
+  </div>
+
+  
+
+  <div class="spinner-container" id="spinnerContainer">
+
+    <div class="spinner"></div>
+
+  </div>
+
+  
+
+  <div class="player-controls">
+
+    <!-- Waveform Visualization -->
+
+    <div class="waveform" id="waveform"></div>
+
     
+
+    <div class="now-playing">
+
+      <img src="" alt="Now Playing" class="now-playing-image" id="nowPlayingImage">
+
+      <div class="now-playing-info">
+
+        <div class="now-playing-title" id="nowPlayingTitle">Not Playing</div>
+
+        <div class="now-playing-artist" id="nowPlayingArtist">Search for a song</div>
+
+      </div>
+
+    </div>
+
+    
+
+    <div class="player-center">
+
+      <div class="player-buttons">
+
+        <i class="fas fa-step-backward player-button" id="prevBtn"></i>
+
+        <div class="player-button play-pause" id="playBtn">
+
+          <i class="fas fa-play" id="playIcon"></i>
+
+          <i class="fas fa-pause" id="pauseIcon" style="display: none;"></i>
+
+        </div>
+
+        <i class="fas fa-step-forward player-button" id="nextBtn"></i>
+
+      </div>
+
+      
+
+      <div class="player-progress">
+
+        <span class="progress-time" id="currentTime">0:00</span>
+
+        <div class="progress-bar" id="progressBar">
+
+          <div class="progress-fill" id="progressFill"></div>
+
+          <div class="progress-handle"></div>
+
+        </div>
+
+        <span class="progress-time" id="duration">0:00</span>
+
+      </div>
+
+    </div>
+
+    
+
     <div class="player-actions">
+
       <i class="fas fa-heart fav-btn" id="nowPlayingFavBtn" title="Add to Favorites"></i>
+
     </div>
+
   </div>
+
   
+
   <!-- Notification System -->
+
   <div class="notification" id="notification">
+
     <i class="fas fa-check-circle"></i>
+
     <div class="notification-content">
+
       <div class="notification-title" id="notificationTitle">Success</div>
+
       <div class="notification-message" id="notificationMessage">Operation completed successfully</div>
+
     </div>
+
   </div>
+
   
+
   <div id="youtube-player"></div>
+
   
+
   <script>
+
     const apiKey = "AIzaSyBmpBJ7bU38l7gDWiv2BCSyC7A5ItNYhWg";
+
     let player;
+
     let currentTrack = null;
+
     let searchResults = [];
+
     let favorites = JSON.parse(localStorage.getItem('harmonyFavorites')) || [];
+
     let history = JSON.parse(localStorage.getItem('harmonyHistory')) || [];
+
     let currentTrackIndex = -1;
+
     let currentPlaylist = [];
+
     let progressInterval;
+
     let waveformInterval;
+
     
+
     document.addEventListener('DOMContentLoaded', function() {
+
       initYouTubePlayer();
+
       setupEventListeners();
+
       updateCounters();
+
       showTab('home');
+
       createParticles();
+
       initWaveform();
+
       updateSidebarNowPlaying();
+
       window.addEventListener('scroll', handleHeaderScroll);
+
     });
 
+
+
     function initYouTubePlayer() {
+
       const tag = document.createElement('script');
+
       tag.src = "https://www.youtube.com/iframe_api";
+
       const firstScriptTag = document.getElementsByTagName('script')[0];
+
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
       
+
       window.onYouTubeIframeAPIReady = function() {
+
         player = new YT.Player('youtube-player', {
+
           height: '0',
+
           width: '0',
+
           events: {
+
             'onReady': onPlayerReady,
+
             'onStateChange': onPlayerStateChange
+
           },
+
           playerVars: {
-            autoplay: 0,
-            controls: 0,
-            modestbranding: 1
+
+            autoplay: 1,
+
+            controls: 0
+
           }
+
         });
+
       };
+
     }
+
+
 
     function onPlayerReady() {
+
       console.log('Player ready');
+
     }
+
+
 
     function onPlayerStateChange(event) {
+
       const spinner = document.getElementById('spinnerContainer');
+
       
+
       if (event.data === YT.PlayerState.PLAYING || 
+
           event.data === YT.PlayerState.PAUSED ||
+
           event.data === YT.PlayerState.ENDED) {
+
         spinner.style.display = 'none';
+
         
+
         if (event.data === YT.PlayerState.PLAYING) {
+
           startProgressTimer();
+
           updatePlayPauseButton(true);
+
           startWaveform();
+
         } else if (event.data === YT.PlayerState.PAUSED) {
+
           clearInterval(progressInterval);
+
           clearInterval(waveformInterval);
+
           updatePlayPauseButton(false);
+
         }
+
       }
+
       
+
       if (event.data === YT.PlayerState.BUFFERING) {
+
         spinner.style.display = 'flex';
+
       }
+
       
+
       if (event.data === YT.PlayerState.ENDED) {
+
         playNextTrack();
+
       }
+
     }
+
+
 
     function setupEventListeners() {
+
       document.getElementById('searchInput').addEventListener('keypress', function(e) {
+
         if (e.key === 'Enter') searchYouTube(this.value);
+
       });
+
       
+
       document.getElementById('playBtn').addEventListener('click', togglePlayPause);
+
       document.getElementById('nextBtn').addEventListener('click', playNextTrack);
+
       document.getElementById('prevBtn').addEventListener('click', playPreviousTrack);
+
       
+
       document.getElementById('progressBar').addEventListener('click', function(e) {
+
         const percent = e.offsetX / this.offsetWidth;
+
         seekTo(percent);
+
       });
+
       
+
       document.getElementById('menuToggle').addEventListener('click', function() {
+
         document.getElementById('sidebar').classList.toggle('active');
+
       });
+
       
+
       document.querySelectorAll('.nav-item').forEach(item => {
+
         item.addEventListener('click', function() {
+
           const tab = this.dataset.tab;
+
           showTab(tab);
+
           
+
           document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+
           this.classList.add('active');
+
           
+
           if (window.innerWidth <= 992) {
+
             document.getElementById('sidebar').classList.remove('active');
+
           }
+
         });
+
       });
+
       
+
       document.getElementById('nowPlayingFavBtn').addEventListener('click', toggleCurrentFavorite);
+
     }
+
+
 
     function handleHeaderScroll() {
+
       const header = document.getElementById('mainHeader');
+
       if (window.scrollY > 10) {
+
         header.classList.add('header-scrolled');
+
       } else {
+
         header.classList.remove('header-scrolled');
+
       }
+
     }
+
+
 
     async function searchYouTube(query) {
+
       if (!query.trim()) return;
+
       
+
       document.getElementById('spinnerContainer').style.display = 'flex';
+
       document.getElementById('searchResults').classList.remove('active');
+
       
+
       try {
+
         const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q=${encodeURIComponent(query + " song")}&type=video&key=${apiKey}`);
+
         const data = await response.json();
+
         
+
         if (data.items && data.items.length > 0) {
+
           searchResults = data.items.map(item => ({
+
             id: item.id.videoId,
+
             title: item.snippet.title.replace(/&#39;/g, "'").replace(/&quot;/g, '"'),
+
             channel: item.snippet.channelTitle,
+
             thumbnail: item.snippet.thumbnails.medium ? item.snippet.thumbnails.medium.url : item.snippet.thumbnails.default.url
+
           }));
+
           
+
           displaySearchResults();
+
           showNotification('Search Complete', `Found ${searchResults.length} results`);
+
         } else {
+
           const container = document.getElementById('resultsContainer');
+
           container.innerHTML = `
+
             <div class="empty-state">
+
               <i class="fas fa-music"></i>
+
               <h3>No results found</h3>
+
               <p>Try a different search term</p>
+
             </div>
+
           `;
+
           document.getElementById('searchResults').classList.add('active');
+
           showNotification('No Results', 'Try a different search term');
+
         }
+
       } catch (error) {
+
         console.error('Search error:', error);
+
         const container = document.getElementById('resultsContainer');
+
         container.innerHTML = `
+
           <div class="empty-state">
+
             <i class="fas fa-exclamation-circle"></i>
+
             <h3>Search Error</h3>
+
             <p>Failed to fetch results. Please try again later.</p>
+
           </div>
+
         `;
+
         document.getElementById('searchResults').classList.add('active');
+
         showNotification('Search Error', 'Failed to fetch results');
+
       } finally {
+
         document.getElementById('spinnerContainer').style.display = 'none';
+
       }
+
     }
+
+
 
     function displaySearchResults() {
+
       const container = document.getElementById('resultsContainer');
+
       container.innerHTML = '';
+
       
+
       if (searchResults.length === 0) {
+
         container.innerHTML = `
+
           <div class="empty-state">
+
             <i class="fas fa-music"></i>
+
             <h3>No results found</h3>
+
             <p>Try a different search term</p>
+
           </div>
+
         `;
+
         document.getElementById('searchResults').classList.add('active');
+
         return;
+
       }
+
       
+
       searchResults.forEach((result, index) => {
+
         const isFavorite = favorites.some(fav => fav.id === result.id);
+
         
+
         const card = document.createElement('div');
+
         card.className = 'result-card';
+
         card.dataset.index = index;
+
         
+
         card.innerHTML = `
+
           <div class="card-actions">
+
             <div class="action-btn favorite-btn ${isFavorite ? 'favorited' : ''}" data-id="${result.id}" title="${isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}">
+
               <i class="fas fa-heart"></i>
+
             </div>
+
           </div>
+
           <img src="${result.thumbnail}" alt="${result.title}" class="result-image" onerror="this.src='https://i.ytimg.com/vi/${result.id}/hqdefault.jpg'">
+
           <h3 class="result-title">${result.title}</h3>
+
           <p class="result-channel">${result.channel}</p>
+
           <div class="play-button">
+
             <i class="fas fa-play"></i>
+
           </div>
+
         `;
+
         
+
         card.addEventListener('click', (e) => {
+
           if (!e.target.closest('.card-actions')) {
+
             currentPlaylist = searchResults;
+
             currentTrackIndex = index;
+
             playTrack();
+
           }
+
         });
+
         
+
         const favBtn = card.querySelector('.favorite-btn');
+
         favBtn.addEventListener('click', function(e) {
+
           e.stopPropagation();
+
           toggleFavorite(result, this);
+
         });
+
         
+
         container.appendChild(card);
+
       });
+
       
+
       document.getElementById('searchResults').classList.add('active');
+
     }
+
     
+
     function displayFavorites() {
+
       const container = document.getElementById('favoritesContainer');
+
       container.innerHTML = '';
+
       
+
       if (favorites.length === 0) {
+
         container.innerHTML = `
+
           <div class="empty-state">
+
             <i class="fas fa-heart"></i>
+
             <h3>No favorites yet</h3>
+
             <p>Add songs to your favorites by clicking the heart icon</p>
+
           </div>
+
         `;
+
         return;
+
       }
+
       
+
       favorites.forEach((fav, index) => {
+
         const card = document.createElement('div');
+
         card.className = 'result-card';
+
         card.dataset.id = fav.id;
+
         
+
         card.innerHTML = `
+
           <div class="card-actions">
+
             <div class="action-btn favorite-btn favorited" data-id="${fav.id}" title="Remove from Favorites">
+
               <i class="fas fa-heart"></i>
+
             </div>
+
           </div>
+
           <img src="${fav.thumbnail}" alt="${fav.title}" class="result-image" onerror="this.src='https://i.ytimg.com/vi/${fav.id}/hqdefault.jpg'">
+
           <h3 class="result-title">${fav.title}</h3>
+
           <p class="result-channel">${fav.channel}</p>
+
           <div class="play-button">
+
             <i class="fas fa-play"></i>
+
           </div>
+
         `;
+
         
+
         card.addEventListener('click', (e) => {
+
           if (!e.target.closest('.card-actions')) {
+
             currentPlaylist = favorites;
+
             currentTrackIndex = index;
+
             playTrack();
+
           }
+
         });
+
         
+
         const favBtn = card.querySelector('.favorite-btn');
+
         favBtn.addEventListener('click', function(e) {
+
           e.stopPropagation();
+
           toggleFavorite(fav, this);
+
         });
+
         
+
         container.appendChild(card);
+
       });
+
     }
+
     
+
     function displayHistory() {
+
       const container = document.getElementById('historyContainer');
+
       container.innerHTML = '';
+
       
+
       if (history.length === 0) {
+
         container.innerHTML = `
+
           <div class="empty-state">
+
             <i class="fas fa-history"></i>
+
             <h3>No history yet</h3>
+
             <p>Play some songs to see them here</p>
+
           </div>
+
         `;
+
         return;
+
       }
+
       
+
       // Display most recent first
+
       [...history].reverse().forEach((item, index) => {
+
         const card = document.createElement('div');
+
         card.className = 'result-card';
+
         card.dataset.id = item.id;
+
         
+
         card.innerHTML = `
+
           <img src="${item.thumbnail}" alt="${item.title}" class="result-image" onerror="this.src='https://i.ytimg.com/vi/${item.id}/hqdefault.jpg'">
+
           <h3 class="result-title">${item.title}</h3>
+
           <p class="result-channel">${item.channel}</p>
+
           <div class="play-button">
+
             <i class="fas fa-play"></i>
+
           </div>
+
         `;
+
         
+
         card.addEventListener('click', () => {
+
           // Find the item in the history array (not reversed)
+
           const historyIndex = history.findIndex(i => i.id === item.id);
+
           if (historyIndex !== -1) {
+
             currentPlaylist = history;
+
             currentTrackIndex = historyIndex;
+
             playTrack();
+
           }
+
         });
+
         
+
         container.appendChild(card);
+
       });
+
     }
+
     
+
     function playTrack() {
+
       if (currentPlaylist.length === 0 || currentTrackIndex < 0 || currentTrackIndex >= currentPlaylist.length) {
+
         return;
+
       }
+
       
+
       document.getElementById('spinnerContainer').style.display = 'flex';
+
       currentTrack = currentPlaylist[currentTrackIndex];
+
       updateNowPlaying();
+
       addToHistory(currentTrack);
-      
-      // Mobile playback fix: Ensure player is loaded before playing
-      if (player && player.loadVideoById) {
-        player.loadVideoById(currentTrack.id);
-        setTimeout(() => {
-          if (player.playVideo) {
-            player.playVideo();
-          }
-        }, 500);
-      }
-      
+
+      player.loadVideoById(currentTrack.id);
+
       showNotification('Now Playing', currentTrack.title);
+
     }
+
     
+
     function updateNowPlaying() {
+
       if (!currentTrack) return;
+
       
+
       const nowPlayingImage = document.getElementById('nowPlayingImage');
+
       nowPlayingImage.src = currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`;
+
       nowPlayingImage.onerror = function() {
+
         this.src = 'https://i.ytimg.com/vi/' + currentTrack.id + '/hqdefault.jpg';
+
       };
+
       
+
       document.getElementById('nowPlayingTitle').textContent = currentTrack.title;
+
       document.getElementById('nowPlayingArtist').textContent = currentTrack.channel || 'Unknown Artist';
+
       
+
       const isFavorite = favorites.some(fav => fav.id === currentTrack.id);
+
       document.getElementById('nowPlayingFavBtn').classList.toggle('favorited', isFavorite);
+
       document.getElementById('nowPlayingFavBtn').title = isFavorite ? 'Remove from Favorites' : 'Add to Favorites';
+
       
+
       updateSidebarNowPlaying();
+
     }
+
     
+
     function updateSidebarNowPlaying() {
+
       if (!currentTrack) return;
+
       
+
       const sidebarImage = document.getElementById('sidebarNowPlayingImage');
+
       sidebarImage.src = currentTrack.thumbnail || `https://i.ytimg.com/vi/${currentTrack.id}/hqdefault.jpg`;
+
       sidebarImage.onerror = function() {
+
         this.src = 'https://i.ytimg.com/vi/' + currentTrack.id + '/hqdefault.jpg';
+
       };
+
       
+
       document.getElementById('sidebarNowPlayingTitle').textContent = currentTrack.title;
+
       document.getElementById('sidebarNowPlayingArtist').textContent = currentTrack.channel || 'Unknown Artist';
+
     }
+
+
 
     function togglePlayPause() {
+
       if (!currentTrack) {
+
         if (searchResults.length > 0) {
+
           currentPlaylist = searchResults;
+
           currentTrackIndex = 0;
+
           playTrack();
+
         }
+
         return;
+
       }
+
       
+
       if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+
         player.pauseVideo();
+
         showNotification('Paused', currentTrack.title);
+
       } else {
+
         player.playVideo();
+
         showNotification('Now Playing', currentTrack.title);
+
       }
+
     }
+
+
 
     function updatePlayPauseButton(playing) {
+
       const playIcon = document.getElementById('playIcon');
+
       const pauseIcon = document.getElementById('pauseIcon');
+
       
+
       if (playing) {
+
         playIcon.style.display = 'none';
+
         pauseIcon.style.display = 'block';
+
       } else {
+
         playIcon.style.display = 'block';
+
         pauseIcon.style.display = 'none';
+
       }
+
     }
+
+
 
     function playNextTrack() {
+
       if (currentPlaylist.length === 0) return;
+
       
+
       currentTrackIndex = (currentTrackIndex + 1) % currentPlaylist.length;
+
       playTrack();
+
     }
+
+
 
     function playPreviousTrack() {
+
       if (currentPlaylist.length === 0) return;
+
       
+
       currentTrackIndex = (currentTrackIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+
       playTrack();
+
     }
+
+
 
     function startProgressTimer() {
+
       clearInterval(progressInterval);
+
       
+
       progressInterval = setInterval(() => {
+
         if (!currentTrack || !player.getCurrentTime) return;
+
         
+
         const currentTime = player.getCurrentTime();
+
         const duration = player.getDuration();
+
         const percent = (currentTime / duration) * 100;
+
         
+
         document.getElementById('progressFill').style.width = `${percent}%`;
+
         document.getElementById('currentTime').textContent = formatTime(currentTime);
+
         document.getElementById('duration').textContent = formatTime(duration);
+
       }, 1000);
+
     }
+
+
 
     function seekTo(percent) {
+
       if (!player.seekTo) return;
+
       const duration = player.getDuration();
+
       player.seekTo(duration * percent);
+
     }
 
+
+
     function formatTime(seconds) {
+
       const mins = Math.floor(seconds / 60);
+
       const secs = Math.floor(seconds % 60);
+
       return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
     }
+
     
+
     // Favorite System
+
     function toggleFavorite(track, button) {
+
       const index = favorites.findIndex(fav => fav.id === track.id);
+
       let message;
+
       
+
       if (index === -1) {
+
         favorites.push(track);
+
         if (button) {
+
           button.classList.add('favorited');
+
           button.title = 'Remove from Favorites';
+
         }
+
         message = 'Added to Favorites';
+
       } else {
+
         favorites.splice(index, 1);
+
         if (button) {
+
           button.classList.remove('favorited');
+
           button.title = 'Add to Favorites';
+
         }
+
         message = 'Removed from Favorites';
+
       }
+
       
+
       if (currentTrack && currentTrack.id === track.id) {
+
         document.getElementById('nowPlayingFavBtn').classList.toggle('favorited', index === -1);
+
         document.getElementById('nowPlayingFavBtn').title = index === -1 ? 'Add to Favorites' : 'Remove from Favorites';
+
       }
+
       
+
       localStorage.setItem('harmonyFavorites', JSON.stringify(favorites));
+
       updateCounters();
+
       
+
       if (document.getElementById('favoritesTab').classList.contains('active')) {
+
         displayFavorites();
+
       }
+
       
+
       showNotification(message, track.title);
+
     }
+
     
+
     function toggleCurrentFavorite() {
+
       if (!currentTrack) return;
+
       const btn = document.getElementById('nowPlayingFavBtn');
+
       toggleFavorite(currentTrack, btn);
+
     }
+
     
+
     // History System
+
     function addToHistory(track) {
+
       const historyTrack = {
+
         id: track.id,
+
         title: track.title,
+
         channel: track.channel,
+
         thumbnail: track.thumbnail || `https://i.ytimg.com/vi/${track.id}/hqdefault.jpg`
+
       };
+
       
+
       const index = history.findIndex(item => item.id === track.id);
+
       if (index !== -1) {
+
         history.splice(index, 1);
+
       }
+
       
+
       history.unshift(historyTrack);
+
       
+
       if (history.length > 50) {
+
         history.pop();
+
       }
+
       
+
       localStorage.setItem('harmonyHistory', JSON.stringify(history));
+
       updateCounters();
+
     }
+
     
+
     function updateCounters() {
+
       document.getElementById('favoritesCount').textContent = favorites.length;
+
       document.getElementById('historyCount').textContent = history.length;
+
     }
+
     
+
     // Tab Navigation
+
     function showTab(tabId) {
+
       document.querySelectorAll('.tab-content').forEach(tab => {
+
         tab.classList.remove('active');
+
       });
+
       
+
       const tab = document.getElementById(`${tabId}Tab`);
+
       if (tab) {
+
         tab.classList.add('active');
+
         
+
         if (tabId === 'favorites') {
+
           displayFavorites();
+
         } else if (tabId === 'history') {
+
           displayHistory();
+
         }
+
       }
+
     }
+
     
+
     // Background Animation
+
     function createParticles() {
+
       const container = document.getElementById('backgroundAnimation');
-      const particleCount = Math.floor(window.innerWidth / 8);
+
+      const particleCount = Math.floor(window.innerWidth / 10);
+
       
+
       for (let i = 0; i < particleCount; i++) {
+
         const particle = document.createElement('div');
+
         particle.className = 'particle';
+
         
+
         const size = Math.random() * 200 + 100;
+
         particle.style.width = `${size}px`;
+
         particle.style.height = `${size}px`;
+
         particle.style.left = `${Math.random() * 100}%`;
+
         particle.style.top = `${Math.random() * 100 + 100}%`;
+
         
+
         const duration = Math.random() * 20 + 10;
+
         particle.style.animationDuration = `${duration}s`;
+
         particle.style.animationDelay = `${Math.random() * 10}s`;
+
         
+
         container.appendChild(particle);
+
       }
+
     }
+
     
+
     // Waveform Visualization
+
     function initWaveform() {
+
       const waveform = document.getElementById('waveform');
+
       waveform.innerHTML = '';
+
       
-      const barCount = 60;
+
+      const barCount = 50;
+
       const width = waveform.offsetWidth;
+
       const barWidth = width / barCount;
+
       
+
       for (let i = 0; i < barCount; i++) {
+
         const bar = document.createElement('div');
+
         bar.className = 'waveform-bar';
+
         bar.style.left = `${i * barWidth}px`;
+
         bar.style.width = `${barWidth - 2}px`;
+
         bar.style.height = '0px';
+
         waveform.appendChild(bar);
+
       }
+
     }
+
     
+
     function startWaveform() {
+
       clearInterval(waveformInterval);
+
       
+
       waveformInterval = setInterval(() => {
+
         const bars = document.querySelectorAll('.waveform-bar');
+
         bars.forEach(bar => {
-          const height = Math.random() * 80 + 10;
+
+          const height = Math.random() * 70 + 10;
+
           bar.style.height = `${height}%`;
+
           bar.style.transitionDuration = `${Math.random() * 0.2 + 0.1}s`;
+
         });
+
       }, 100);
+
     }
+
     
+
     // Notification System
+
     function showNotification(title, message) {
+
       const notification = document.getElementById('notification');
+
       document.getElementById('notificationTitle').textContent = title;
+
       document.getElementById('notificationMessage').textContent = message;
+
       
+
       notification.classList.add('show');
+
       
+
       setTimeout(() => {
+
         notification.classList.remove('show');
+
       }, 3000);
+
     }
+
   </script>
+
   
+
   <!-- Service Worker Script -->
+
   <script>
+
     if ('serviceWorker' in navigator) {
+
       navigator.serviceWorker.register('service-worker.js')
+
         .then(registration => {
+
           console.log('Service Worker registered with scope:', registration.scope);
+
         })
+
         .catch(error => {
+
           console.error('Service Worker registration failed:', error);
+
         });
+
     }
+
   </script>
+
 </body>
+
 </html>
